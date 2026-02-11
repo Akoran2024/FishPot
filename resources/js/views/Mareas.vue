@@ -20,7 +20,7 @@
           <div v-if="todayTides" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 text-center">
             <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
               <p class="text-blue-600 font-bold uppercase text-xs tracking-wider mb-1">Puerto de Referencia</p>
-              <p class="text-3xl font-black text-blue-900">Cádiz</p>
+              <p class="text-3xl font-black text-blue-900">Lanzarote</p>
               <p class="text-sm text-blue-500 mt-1">Instituto Hidrográfico de la Marina</p>
             </div>
             <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100">
