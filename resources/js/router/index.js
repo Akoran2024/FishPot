@@ -15,7 +15,6 @@ const routes = [
   { path: '/tienda', name: 'tienda', component: Tienda },
   { path: '/carrito', name: 'carrito', component: Carrito },
   { path: '/login', name: 'login', component: Login },
-  { path: '/clientes', name: 'clientes', component: Clientes, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({

@@ -8,6 +8,7 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
+        './resources/js/**/*.js',
     ],
 
     theme: {
@@ -16,27 +17,34 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                // High contrast palette for accessibility
                 primary: {
-                    50: '#eef2ff',
-                    100: '#e0e7ff',
-                    200: '#c7d2fe',
-                    300: '#a5b4fc',
-                    400: '#818cf8',
-                    500: '#6366f1',
-                    600: '#4f46e5',
-                    700: '#4338ca', // Good contrast on white
-                    800: '#3730a3',
-                    900: '#312e81',
-                    950: '#1e1b4b',
+                    50: '#f0f9ff',
+                    100: '#e0f2fe',
+                    200: '#bae6fd',
+                    300: '#7dd3fc',
+                    400: '#38bdf8',
+                    500: '#0ea5e9',
+                    600: '#0284c7',
+                    700: '#0369a1',
+                    800: '#075985',
+                    900: '#0c4a6e',
+                    950: '#082f49',
                 },
-                accessible: {
-                    text: '#0f172a', // Slate 900 for main text
-                    muted: '#334155', // Slate 700 for secondary text (minimum 4.5:1)
-                    border: '#94a3b8', // Slate 400 for borders (visible)
-                    focus: '#f59e0b', // Amber 500 for clear focus rings
-                }
-            }
+                accent: {
+                    50: '#fdfceb',
+                    100: '#fbf8c7',
+                    200: '#f7f191',
+                    300: '#f2e350',
+                    400: '#edd01f',
+                    500: '#d9b610',
+                    600: '#bb8f0a',
+                    700: '#95680c',
+                    800: '#7c5311',
+                    900: '#6a4513',
+                    950: '#3e2407',
+                },
+                'accessible-focus': '#facc15',
+            },
         },
     },
 

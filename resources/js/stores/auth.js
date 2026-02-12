@@ -20,8 +20,10 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async login(email, password) {
-      const res = await axios.post('/login', { email, password })
-      this.user = res.data.user
+      const res = await axios.post('/gestor-privado', { email, password })
+      // Si Laravel redirige, axios puede manejarlo o fallar si no hay JSON.
+      // Pero para asegurar que el estado se actualice, intentamos obtener el usuario.
+      await this.fetchUser()
     },
 
     async logout() {
