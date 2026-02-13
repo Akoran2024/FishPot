@@ -7,9 +7,8 @@
       <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-teal-50 rounded-full blur-3xl opacity-30"></div>
     </div>
 
-    <!-- Navbar -->
-    <nav class="bg-primary-900/90 backdrop-blur-md text-white shadow-xl sticky top-0 z-50 border-b border-primary-800" 
-    aria-label="Navegación principal">
+    <!-- Navbar (Solo para clientes) -->
+    <nav v-if="!isAdminRoute" class="bg-primary-900/90 backdrop-blur-md text-white shadow-xl sticky top-0 z-50 border-b border-primary-800" aria-label="Navegación principal">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20 items-center">
           <!-- Logo -->
@@ -102,8 +101,8 @@
       </router-view>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-16 relative z-10 border-t border-slate-800">
+    <!-- Footer (Solo para clientes) -->
+    <footer v-if="!isAdminRoute" class="bg-slate-950 text-slate-400 py-16 relative z-10 border-t border-slate-800">
       <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
         <div class="text-center md:text-left">
           <div class="flex items-center justify-center md:justify-start space-x-2 mb-4">
@@ -160,6 +159,11 @@ const router = useRouter()
 
 const isMenuOpen = ref(false)
 const cartCount = computed(() => cartStore.totalItems)
+
+// Detectar si estamos en el panel de administración
+const isAdminRoute = computed(() => {
+  return router.currentRoute.value.path.startsWith('/admin')
+})
 
 const logout = async () => {
   await authStore.logout()

@@ -7,6 +7,9 @@ import Tienda from '../views/Tienda.vue'
 import Carrito from '../views/Carrito.vue'
 import Login from '../views/Login.vue'
 import Clientes from '../views/Clientes.vue'
+import Pedidos from '../views/Pedidos.vue'
+import Productos from '../views/Productos.vue'
+import Usuarios from '../views/Usuarios.vue'
 
 const routes = [
   { path: '/', name: 'home', component: Home },
@@ -15,6 +18,9 @@ const routes = [
   { path: '/tienda', name: 'tienda', component: Tienda },
   { path: '/carrito', name: 'carrito', component: Carrito },
   { path: '/login', name: 'login', component: Login },
+  { path: '/admin/pedidos', name: 'admin.pedidos', component: Pedidos, meta: { requiresAuth: true } },
+  { path: '/admin/productos', name: 'admin.productos', component: Productos, meta: { requiresAuth: true } },
+  { path: '/admin/usuarios', name: 'admin.usuarios', component: Usuarios, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({

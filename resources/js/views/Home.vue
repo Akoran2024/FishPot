@@ -10,7 +10,13 @@
       
       <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div class="max-w-3xl animate-fade-in">
-          
+          <div v-if="authStore.user" class="mb-6 inline-flex items-center space-x-2 bg-accent-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-accent-500/30">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-accent-500"></span>
+            </span>
+            <span class="text-accent-300 font-black uppercase tracking-widest text-xs">Bienvenido, {{ authStore.user.name }}</span>
+          </div>
           
           <h1 class="text-6xl md:text-8xl font-black text-white leading-[1.1] mb-8 drop-shadow-sm">
             Explora el mundo<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-accent-300"> de la pesca</span> en Lanzarote
@@ -40,32 +46,7 @@
       </div>
     </section>
 
-    <!-- Quick Stats -->
-    <div class="max-w-7xl mx-auto px-4 -mt-24 relative z-30">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="group bg-white/80 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl shadow-primary-900/10 border border-white transition-all duration-500 hover:scale-105">
-           <div class="bg-primary-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary-600 transition-colors duration-300">
-             <svg class="w-8 h-8 text-primary-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-           </div>
-           <div class="text-primary-900 font-black text-5xl mb-2">500+</div>
-           <p class="text-slate-500 font-bold uppercase tracking-wider text-sm">Especies catalogadas</p>
-        </div>
-        <div class="group bg-white/80 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl shadow-primary-900/10 border border-white transition-all duration-500 hover:scale-105">
-           <div class="bg-accent-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent-500 transition-colors duration-300">
-             <svg class="w-8 h-8 text-accent-600 group-hover:text-primary-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-           </div>
-           <div class="text-primary-900 font-black text-5xl mb-2">24h</div>
-           <p class="text-slate-500 font-bold uppercase tracking-wider text-sm">Mareas en tiempo real</p>
-        </div>
-        <div class="group bg-white/80 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl shadow-primary-900/10 border border-white transition-all duration-500 hover:scale-105">
-           <div class="bg-primary-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary-600 transition-colors duration-300">
-             <svg class="w-8 h-8 text-primary-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-           </div>
-           <div class="text-primary-900 font-black text-5xl mb-2">10k+</div>
-           <p class="text-slate-500 font-bold uppercase tracking-wider text-sm">Comunidad activa</p>
-        </div>
-      </div>
-    </div>
+   
 
     <!-- Features Section -->
     <section class="py-12 relative overflow-hidden">
@@ -93,29 +74,14 @@
       </div>
     </section>
 
-    <!-- Promo Section -->
-    <section class="max-w-7xl mx-auto px-4 py-12">
-      <div class="bg-primary-900 rounded-[3rem] overflow-hidden relative">
-        <div class="absolute inset-0 opacity-10">
-          <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover">
-        </div>
-        <div class="relative z-10 px-8 py-20 md:p-20 flex flex-col md:flex-row items-center justify-between gap-12">
-          <div class="text-center md:text-left">
-            <h2 class="text-4xl md:text-5xl font-black text-white mb-6">¿Listo para tu próxima aventura?</h2>
-            <p class="text-primary-200 text-lg mb-10 max-w-lg font-medium">Únete a nuestra comunidad y recibe las mejores ofertas y avisos sobre la actividad pesquera en Lanzarote.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <input type="email" placeholder="Tu correo electrónico" class="px-6 py-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-accent-500 min-w-[300px] backdrop-blur-md">
-              <button class="bg-accent-500 hover:bg-accent-400 text-primary-950 px-8 py-4 rounded-2xl font-black transition-colors">Suscribirse</button>
-            </div>
-          </div>
-          <div class="hidden lg:block w-80 h-80 bg-gradient-to-br from-accent-400 to-primary-400 rounded-full blur-[80px] opacity-20"></div>
-        </div>
-      </div>
-    </section>
+   
   </main>
 </template>
 
 <script setup>
+import { useAuthStore } from '../stores/auth'
+const authStore = useAuthStore()
+
 const features = [
   {
     title: 'Meteorología',
@@ -158,6 +124,3 @@ const features = [
   animation: fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 </style>
-
-<script setup>
-</script>

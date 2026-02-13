@@ -1,10 +1,5 @@
 <template>
-  
-  <!-- imagen -->
-   <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/80 to-transparent z-10"></div>
-        <img src="https://www.diariodelanzarote.com/sites/default/files/archivos/2015/Julio%202015/230720-pescador660.jpeg" alt="Fishing Background" class="w-full h-full object-cover">
-      </div>
+
 
   <div class="min-h-[80vh] flex items-center justify-center px-4 relative z-10">
     <div class="max-w-md w-full bg-white/80 backdrop-blur-xl rounded-[3rem] shadow-2xl p-12 border border-white animate-fade-in">

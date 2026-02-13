@@ -1,12 +1,6 @@
 <template>
 
-  <!-- imagen -->
-   <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/80 to-transparent z-10"></div>
-        <img src="https://www.diariodelanzarote.com/sites/default/files/archivos/2015/Julio%202015/230720-pescador660.jpeg" alt="Fishing Background" class="w-full h-full object-cover">
-      </div>
-
-
+  
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
     <div class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
       <div class="animate-fade-in">
@@ -109,22 +103,15 @@ const fetchProducts = async () => {
     if (res.data && res.data.length > 0) {
       products.value = res.data
     } else {
-      useFallbackProducts()
+      console.warn('La base de datos de productos está vacía.')
+      products.value = []
     }
   } catch (error) {
-    console.error('Error cargando productos, usando respaldo:', error)
-    useFallbackProducts()
+    console.error('Error cargando productos:', error)
+    products.value = []
   } finally {
     loading.value = false
   }
-}
-
-const useFallbackProducts = () => {
-  products.value = [
-    { id: 1, name: 'Caña de Carbono X1', description: 'Cargada desde respaldo local', price: 129, stock: 10, category: 'Cañas' },
-    { id: 2, name: 'Carrete Silver Stream', description: 'Cargada desde respaldo local', price: 89, stock: 5, category: 'Carretes' },
-    { id: 3, name: 'Kit de Señuelos Rapala', description: 'Cargada desde respaldo local', price: 45, stock: 0, category: 'Señuelos' }
-  ]
 }
 
 onMounted(fetchProducts)

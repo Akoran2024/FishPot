@@ -3,6 +3,7 @@
 @section('header', 'Vista General')
 
 @section('content')
+@if(request()->routeIs('admin.dashboard'))
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <!-- Stats Card 1 -->
     <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center justify-between group hover:shadow-lg transition-all duration-300">
@@ -124,4 +125,7 @@
         </div>
     </div>
 </div>
+@else
+    <div id="app"></div>
+@endif
 @endsection

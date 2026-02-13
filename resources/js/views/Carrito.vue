@@ -1,9 +1,6 @@
 <template>
   <!-- imagen -->
-   <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/80 to-transparent z-10"></div>
-        <img src="https://www.diariodelanzarote.com/sites/default/files/archivos/2015/Julio%202015/230720-pescador660.jpeg" alt="Fishing Background" class="w-full h-full object-cover">
-      </div>
+ 
 
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
     <div class="mb-12 animate-fade-in">
@@ -71,7 +68,7 @@
               </div>
             </div>
           </div>
-          <button class="w-full bg-accent-500 hover:bg-accent-400 text-primary-950 py-5 rounded-[1.5rem] font-black text-lg transition-all shadow-xl shadow-accent-950/20 active:scale-95">
+          <button @click="checkout" class="w-full bg-accent-500 hover:bg-accent-400 text-primary-950 py-5 rounded-[1.5rem] font-black text-lg transition-all shadow-xl shadow-accent-950/20 active:scale-95">
             Finalizar Pedido
           </button>
           
@@ -89,6 +86,33 @@
 
 <script setup>
 import { useCartStore } from '../stores/cart'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const cartStore = useCartStore()
+const router = useRouter()
+
+const checkout = async () => {
+  if (cartStore.items.length === 0) return
+
+  try {
+    const orderData = {
+      items: cartStore.items.map(item => ({
+        id: item.id,
+        quantity: item.quantity
+      })),
+      total: cartStore.totalPrice
+    }
+
+    await axios.post('/orders', orderData)
+
+    alert('¡Pedido realizado con éxito! El stock ha sido actualizado.')
+    cartStore.clearCart()
+    router.push('/')
+  } catch (error) {
+    console.error('Error al procesar el pedido:', error)
+    const message = error.response?.data?.message || 'Hubo un error al procesar tu pedido.'
+    alert(message)
+  }
+}
 </script>

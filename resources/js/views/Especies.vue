@@ -1,10 +1,5 @@
 <template>
 
-  <!-- imagen -->
-   <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/80 to-transparent z-10"></div>
-        <img src="https://www.diariodelanzarote.com/sites/default/files/archivos/2015/Julio%202015/230720-pescador660.jpeg" alt="Fishing Background" class="w-full h-full object-cover">
-      </div>
 
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
     <div class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
@@ -253,13 +248,13 @@ const species = [
     id: 21, type: 'pez', name: 'Pargo', vulgar: 'Bocinegro, pargo, palleta', latin: 'Pagrus pagrus', size: '33 cm', 
     description: 'Pez de color rosado intenso, muy fuerte. Es uno de los reyes de la pesca de fondo.', 
     habitat: 'Fondos rocosos limpios', bait: 'Gamba o calamar', curiosity: 'Su nombre "bocinegro" viene del color oscuro de su boca.',
-    difficulty: 2, color: 'bg-red-300' 
+    difficulty: 2, color: 'bg-red-300', image: '/imagenes/pargo.jpeg' 
   },
   { 
     id: 22, type: 'pez', name: 'Salpa', vulgar: 'Salema', latin: 'Sarpa salpa', size: '24 cm', 
     description: 'Pez herbívoro de color plateado con líneas doradas. Suele nadar en bancos muy numerosos.', 
     habitat: 'Zonas de algas en rocas', bait: 'Algas o pan', curiosity: 'Es de los pocos peces canarios que se alimenta casi exclusivamente de algas.',
-    difficulty: 1, color: 'bg-yellow-200' 
+    difficulty: 1, color: 'bg-yellow-200', image: '/imagenes/salema.jpg' 
   },
   { 
     id: 26, type: 'pez', name: 'Sargo', vulgar: 'Sargo, sargo blanco', latin: 'Diplodus sargus', size: '22 cm', 
@@ -271,7 +266,7 @@ const species = [
     id: 28, type: 'pez', name: 'Patudo', vulgar: 'Tuna', latin: 'Thunnus obesus', size: '3,2 kg', 
     description: 'Túnido de gran tamaño. Una de las pescas más deportivas y exigentes que se pueden hacer en Lanzarote.', 
     habitat: 'Aguas oceánicas profundas', bait: 'Curricán o vivo', curiosity: 'Puede regular su temperatura corporal por encima de la del agua.',
-    difficulty: 3, color: 'bg-blue-800' 
+    difficulty: 3, color: 'bg-blue-800', image: '/imagenes/patudo.jpg' 
   }
 ]
 
