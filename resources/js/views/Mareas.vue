@@ -32,10 +32,10 @@
           <p class="text-sm text-primary-200/60 font-medium">Lanzarote, Islas Canarias</p>
         </div>
         
-        <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-white/50 relative overflow-hidden group">
-          <p class="text-accent-600 font-bold uppercase text-xs tracking-[0.2em] mb-4">Estado Hoy</p>
-          <p class="text-4xl font-black text-slate-900 mb-1">{{ todayTides.day_name }}</p>
-          <p class="text-sm text-slate-500 font-medium">{{ todayTides.tides.length }} movimientos hoy</p>
+        <div :class="todayTides ? getFishingStatus(todayTides).class : 'bg-white'" class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-white/50 relative overflow-hidden group">
+          <p class="text-slate-500 font-bold uppercase text-xs tracking-[0.2em] mb-4">Estado Pesca</p>
+          <p class="text-2xl font-black text-slate-900 mb-1" v-if="todayTides">{{ getFishingStatus(todayTides).label }}</p>
+          <p class="text-sm text-slate-500 font-medium" v-if="todayTides">{{ getFishingStatus(todayTides).risk }}</p>
         </div>
 
         <div class="bg-accent-500 p-8 rounded-[2.5rem] shadow-xl text-primary-950 relative overflow-hidden group">
@@ -56,6 +56,15 @@
             </div>
             <div class="bg-primary-50 p-3 rounded-2xl">
               <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+          </div>
+
+          <!-- Fishing Suitability Indicator -->
+          <div :class="getFishingStatus(day).class" class="mb-6 p-4 rounded-2xl border flex items-start space-x-3">
+            <div class="mt-0.5 font-bold text-lg">{{ getFishingStatus(day).icon }}</div>
+            <div>
+              <p class="font-bold text-sm">{{ getFishingStatus(day).label }}</p>
+              <p v-if="getFishingStatus(day).risk" class="text-xs mt-1 opacity-90">{{ getFishingStatus(day).risk }}</p>
             </div>
           </div>
           
@@ -110,6 +119,35 @@ const todayTides = computed(() => {
   const today = new Date().toISOString().split('T')[0]
   return weeklyTides.value.find(day => day.date === today) || weeklyTides.value[0]
 })
+
+const getFishingStatus = (day) => {
+  // Buscamos la bajamar más baja del día para evaluar seguridad
+  const heights = day.tides.map(t => parseFloat(t.altura))
+  const minHeight = Math.min(...heights)
+  
+  if (minHeight >= 0.5 && minHeight <= 1.0) {
+    return { 
+      label: 'Día adecuado para pescar', 
+      class: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+      icon: '✓',
+      risk: 'Las condiciones de la marea son óptimas para la costa de Lanzarote.'
+    }
+  } else if (minHeight < 0.5) {
+    return { 
+      label: 'Aviso de riesgo: Marea muy baja', 
+      class: 'bg-amber-50 text-amber-700 border-amber-100',
+      icon: '!',
+      risk: 'Riesgo de rocas expuestas y superficies resbaladizas. Extremar precaución.'
+    }
+  } else {
+    return { 
+      label: 'Aviso de riesgo: Marea alta', 
+      class: 'bg-orange-50 text-orange-700 border-orange-100',
+      icon: '!',
+      risk: 'Fuertes corrientes y difícil acceso a pesqueros. No recomendado para principiantes.'
+    }
+  }
+}
 
 onMounted(() => {
   fetchTides()

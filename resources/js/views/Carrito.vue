@@ -27,7 +27,8 @@
         <div v-for="item in cartStore.items" :key="item.id" 
              class="group bg-white/80 backdrop-blur-md p-8 rounded-[2.5rem] border border-white flex flex-col sm:flex-row items-center gap-8 shadow-xl hover:shadow-2xl transition-all duration-300">
           <div class="h-32 w-32 bg-slate-50 rounded-[1.5rem] flex-shrink-0 flex items-center justify-center text-primary-200 group-hover:bg-primary-50 transition-colors duration-500 relative overflow-hidden">
-             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <img v-if="item.image" :src="'/' + item.image" :alt="item.name" class="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-110">
+             <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
              </svg>
           </div>

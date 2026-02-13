@@ -1,14 +1,10 @@
 <template>
-  <div class="min-h-screen bg-slate-50 flex flex-col relative overflow-x-hidden">
-    <!-- Decorative background elements -->
-    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-      <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary-100 rounded-full blur-3xl opacity-50"></div>
-      <div class="absolute top-1/2 -left-24 w-80 h-80 bg-blue-100 rounded-full blur-3xl opacity-40"></div>
-      <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-teal-50 rounded-full blur-3xl opacity-30"></div>
-    </div>
+  <div class="min-h-screen bg-[#fafaf9] flex flex-col relative overflow-x-hidden text-slate-900">
+    <!-- Subtle background texture or simpler elements -->
+    <div class="fixed inset-0 z-0 pointer-events-none opacity-[0.03]" style="background-image: url('https://www.transparenttextures.com/patterns/felt.png');"></div>
 
     <!-- Navbar (Solo para clientes) -->
-    <nav v-if="!isAdminRoute" class="bg-primary-900/90 backdrop-blur-md text-white shadow-xl sticky top-0 z-50 border-b border-primary-800" aria-label="Navegación principal">
+    <nav v-if="!isAdminRoute" class="bg-primary-950 text-white sticky top-0 z-50 border-b border-primary-900" aria-label="Navegación principal">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20 items-center">
           <!-- Logo -->
@@ -30,6 +26,7 @@
             <router-link to="/mareas" class="px-4 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold focus:outline-none focus:ring-2 focus:ring-accent-400">Tabla de mareas</router-link>
             <router-link to="/especies" class="px-4 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold focus:outline-none focus:ring-2 focus:ring-accent-400">Especies</router-link>
             <router-link to="/tienda" class="px-4 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold focus:outline-none focus:ring-2 focus:ring-accent-400">Tienda</router-link>
+            <a v-if="authStore.user?.role === 'admin'" href="/admin" class="px-4 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold focus:outline-none focus:ring-2 focus:ring-accent-400">Admin</a>
             
             <div class="flex items-center space-x-6 ml-6 border-l border-primary-700/50 pl-6">
               <router-link to="/carrito" class="relative group p-2 text-white hover:text-accent-300 transition-colors focus:outline-none focus:ring-2 focus:ring-accent-400 rounded-full" aria-label="Ver carrito de compras">
@@ -80,6 +77,7 @@
           <router-link @click="isMenuOpen = false" to="/mareas" class="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-primary-800 transition">Tabla de mareas</router-link>
           <router-link @click="isMenuOpen = false" to="/especies" class="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-primary-800 transition">Especies</router-link>
           <router-link @click="isMenuOpen = false" to="/tienda" class="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-primary-800 transition">Tienda</router-link>
+          <a v-if="authStore.user?.role === 'admin'" href="/admin" class="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-primary-800 transition">Admin</a>
           <div class="pt-4 border-t border-primary-800">
             <template v-if="authStore.user">
                <button @click="logout" class="w-full text-center bg-primary-800 py-3 rounded-xl font-bold">Cerrar sesión ({{ authStore.user.name }})</button>

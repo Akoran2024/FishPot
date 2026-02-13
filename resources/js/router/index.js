@@ -34,7 +34,8 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   
-  if (authStore.loading) {
+  // Solo intentamos cargar el usuario si no está cargado y no hay una carga en curso
+  if (!authStore.user && authStore.loading) {
     await authStore.fetchUser()
   }
 
