@@ -14,7 +14,7 @@
         <div class="flex justify-between h-20 items-center">
           <!-- Logo -->
           <div class="flex items-center space-x-3 group">
-            <div class="bg-white p-1 rounded-xl shadow-inner transform group-hover:scale-110 transition duration-300">
+            <div>
                <img 
                 :src="'/imagenes/Vieja.png'" 
                 alt="Logotipo de FishPot"
@@ -107,7 +107,7 @@
       <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
         <div class="text-center md:text-left">
           <div class="flex items-center justify-center md:justify-start space-x-2 mb-4">
-            <div class="bg-white p-1 rounded-lg w-8 h-8 flex items-center justify-center">
+            <div>
                <img :src="'/imagenes/Vieja.png'" alt="Logo" class="h-6 w-auto" />
             </div>
             <span class="text-2xl font-bold text-white">Fish<span class="text-primary-500">Pot</span></span>

@@ -1,4 +1,10 @@
 <template>
+  <!-- imagen -->
+   <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/80 to-transparent z-10"></div>
+        <img src="https://www.diariodelanzarote.com/sites/default/files/archivos/2015/Julio%202015/230720-pescador660.jpeg" alt="Fishing Background" class="w-full h-full object-cover">
+      </div>
+
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
     <div class="mb-12 animate-fade-in">
       <h2 class="text-accent-600 font-bold tracking-[0.2em] uppercase text-sm mb-4">Tu Selección</h2>
