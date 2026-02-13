@@ -39,9 +39,10 @@
            <!-- Decorative background for product -->
            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-primary-100/50 to-transparent"></div>
            
-           <!-- Placeholder for product image -->
-           <div class="w-full h-full flex items-center justify-center transition-transform duration-700 group-hover:scale-110">
-              <svg class="h-20 w-20 text-primary-200 group-hover:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+           <!-- Product Image -->
+           <div class="w-full h-full flex items-center justify-center transition-transform duration-700 group-hover:scale-110 p-4">
+              <img v-if="product.image" :src="'/' + product.image" :alt="product.name" class="w-full h-full object-contain">
+              <svg v-else class="h-20 w-20 text-primary-200 group-hover:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
            </div>
            
            <div class="absolute bottom-4 left-4">

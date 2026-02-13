@@ -27,7 +27,7 @@ class ProductSeeder extends Seeder
                 'price' => 89.00,
                 'stock' => 5,
                 'category' => 'Carretes',
-                'image' => 'imagenes/pescador.jpeg'
+                'image' => 'imagenes/carrete.png'
             ],
             [
                 'name' => 'Kit de Señuelos Rapala',
@@ -35,7 +35,7 @@ class ProductSeeder extends Seeder
                 'price' => 40.00,
                 'stock' => 8,
                 'category' => 'Señuelos',
-                'image' => 'imagenes/pescador.jpeg'
+                'image' => 'imagenes/senuelo.png'
             ],
             [
                 'name' => 'Anzuelos Gamakatsu',
@@ -43,7 +43,7 @@ class ProductSeeder extends Seeder
                 'price' => 12.50,
                 'stock' => 50,
                 'category' => 'Accesorios',
-                'image' => 'imagenes/pescador.jpeg'
+                'image' => 'imagenes/jurel.jpg'
             ],
             [
                 'name' => 'Hilo Trenzado 0.30mm',
@@ -51,7 +51,7 @@ class ProductSeeder extends Seeder
                 'price' => 25.00,
                 'stock' => 15,
                 'category' => 'Hilos',
-                'image' => 'imagenes/pescador.jpeg'
+                'image' => 'imagenes/mero.jpg'
             ],
         ];
 
