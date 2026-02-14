@@ -34,7 +34,7 @@
               <td class="px-6 py-4 text-slate-700">{{ client.address || '-' }}</td>
               <td class="px-6 py-4 text-right space-x-2">
                 <button @click="openModal(client)" class="text-primary-700 hover:text-primary-900 font-bold text-sm underline decoration-2 underline-offset-2 focus:ring-2 focus:ring-primary-500 rounded px-1">Editar<span class="sr-only"> a {{ client.name }}</span></button>
-                <button @click="deleteClient(client.id)" class="text-red-700 hover:text-red-900 font-bold text-sm underline decoration-2 underline-offset-2 focus:ring-2 focus:ring-red-500 rounded px-1">Eliminar<span class="sr-only"> a {{ client.name }}</span></button>
+                <button @click="deleteClient(client.id)" class="text-purple-700 hover:text-purple-900 font-bold text-sm underline decoration-2 underline-offset-2 focus:ring-2 focus:ring-purple-500 rounded px-1">Eliminar<span class="sr-only"> a {{ client.name }}</span></button>
               </td>
             </tr>
             <tr v-if="clients.length === 0">

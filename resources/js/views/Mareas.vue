@@ -15,8 +15,8 @@
       </div>
     </div>
 
-    <div v-else-if="error" class="bg-red-50 p-10 rounded-[2.5rem] border border-red-100 text-red-700 text-center shadow-xl">
-      <svg class="w-16 h-16 mx-auto mb-4 text-red-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+    <div v-else-if="error" class="bg-purple-50 p-10 rounded-[2.5rem] border border-purple-100 text-purple-700 text-center shadow-xl">
+      <svg class="w-16 h-16 mx-auto mb-4 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
       <p class="text-lg font-bold">{{ error }}</p>
     </div>
 
@@ -27,8 +27,8 @@
           <div class="absolute -right-4 -bottom-4 opacity-10 transform group-hover:scale-110 transition duration-500">
             <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
           </div>
-          <p class="text-primary-300 font-bold uppercase text-xs tracking-[0.2em] mb-4">Puerto Base</p>
-          <p class="text-4xl font-black mb-1">Arrecife</p>
+          <p class="text-primary-300 font-bold uppercase text-xs tracking-[0.2em] mb-4">Puerto</p>
+          <p class="text-4xl font-black mb-1">La Santa</p>
           <p class="text-sm text-primary-200/60 font-medium">Lanzarote, Islas Canarias</p>
         </div>
         
@@ -38,10 +38,11 @@
           <p class="text-sm text-slate-500 font-medium" v-if="todayTides">{{ getFishingStatus(todayTides).risk }}</p>
         </div>
 
-        <div class="bg-accent-500 p-8 rounded-[2.5rem] shadow-xl text-primary-950 relative overflow-hidden group">
-          <p class="text-primary-950/60 font-bold uppercase text-xs tracking-[0.2em] mb-4">Próxima Marea</p>
+        
+        <div class="bg-primary-900 p-8 rounded-[2.5rem] shadow-2xl text-white relative overflow-hidden group">
+          <p class="text-primary-300 font-bold uppercase text-xs tracking-[0.2em] mb-4">Próxima Marea</p>
           <p class="text-4xl font-black mb-1">09:45</p>
-          <p class="text-sm text-primary-950/60 font-medium">Pleamar (estimado)</p>
+          <p class="text-primary-300 font-bold uppercase text-xs tracking-[0.2em] mb-4">Pleamar (estimado)</p>
         </div>
       </div>
 
@@ -59,7 +60,7 @@
             </div>
           </div>
 
-          <!-- Fishing Suitability Indicator -->
+          <!-- Indicador para pescar -->
           <div :class="getFishingStatus(day).class" class="mb-6 p-4 rounded-2xl border flex items-start space-x-3">
             <div class="mt-0.5 font-bold text-lg">{{ getFishingStatus(day).icon }}</div>
             <div>

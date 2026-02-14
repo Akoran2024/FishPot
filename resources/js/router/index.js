@@ -10,11 +10,13 @@ import Clientes from '../views/Clientes.vue'
 import Pedidos from '../views/Pedidos.vue'
 import Productos from '../views/Productos.vue'
 import Usuarios from '../views/Usuarios.vue'
+import Lugares from '../views/Lugares.vue'
 
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/mareas', name: 'mareas', component: Mareas },
   { path: '/especies', name: 'especies', component: Especies },
+  { path: '/lugares', name: 'lugares', component: Lugares },
   { path: '/tienda', name: 'tienda', component: Tienda },
   { path: '/carrito', name: 'carrito', component: Carrito },
   { path: '/login', name: 'login', component: Login },

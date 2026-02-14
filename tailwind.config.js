@@ -17,37 +17,50 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: {
-                    50: '#f2f7f9',
-                    100: '#e1ecf2',
-                    200: '#c7dce8',
-                    300: '#9dbfd4',
-                    400: '#6c9bb8',
-                    500: '#4e7d9c',
-                    600: '#406683',
-                    700: '#36536b',
-                    800: '#30475a',
-                    900: '#2b3d4d',
-                    950: '#1c2833', // Deep Oceanic
+                primary: { // Deep, classic sea blues/greens
+                    50: '#e0f2f7',   // Lightest Sky/Water
+                    100: '#b3e5fc',  // Light Blue Sky
+                    200: '#81d4fa',  // Muted Sky Blue
+                    300: '#4fc3f7',  // Clear Water
+                    400: '#29b6f6',  // Ocean Surface
+                    500: '#039be5',  // Main Deep Ocean Blue
+                    600: '#0288d1',  // Darker Ocean
+                    700: '#0277bd',  // Deep Sea
+                    800: '#01579b',  // Abyss Blue
+                    900: '#013a6e',  // Midnight Ocean
+                    950: '#002855',  // Deepest Midnight Blue
                 },
-                accent: {
-                    50: '#faf8f2',
-                    100: '#f3ece1',
-                    200: '#e6d8c0',
-                    300: '#d4ba92',
-                    400: '#c3a16d',
-                    500: '#b68c52', // Sandy/Earth
-                    600: '#a67746',
-                    700: '#8a5e3b',
-                    800: '#714d34',
-                    900: '#5c3f2d',
-                    950: '#311f16',
+                secondary: { // Weathered Wood / Sand / Off-whites
+                    50: '#f9f5f0',   // Creamy Off-white (Parchment)
+                    100: '#f0ede8',  // Light Linen
+                    200: '#e0dcd7',  // Muted Sand
+                    300: '#d1cdc7',  // Aged Stone
+                    400: '#c2bcb6',  // Light Wood Grain
+                    500: '#b3ad9f',  // Main Weathered Wood/Stone
+                    600: '#9d988a',  // Darker Wood/Stone
+                    700: '#878275',  // Deep Earthy Grey
+                    800: '#716c60',  // Dark Wood
+                    900: '#5c574e',  // Rich Earth Brown
+                    950: '#3e3a33',  // Darkest Earthy Tone
                 },
-                'volcanic': {
-                    DEFAULT: '#1a1a1a',
-                    light: '#2d2d2d',
+                accent: { // Muted Reds / Brass / Gold (for highlights, classic feel)
+                    50: '#fef3f2',
+                    100: '#fee2e2',
+                    200: '#fecaca',
+                    300: '#fca5a5',
+                    400: '#ef4444', // Classic Buoy Red
+                    500: '#dc2626', // Main Accent Red
+                    600: '#b91c1c',
+                    700: '#991b1b',
+                    800: '#7f1d1d',
+                    900: '#641d26',
+                    950: '#450a0a',
                 },
-                'accessible-focus': '#b68c52',
+                gold: { // Aged brass/gold for metallic accents
+                    DEFAULT: '#d4af37',
+                    light: '#e6c35c',
+                    dark: '#a2882a',
+                }
             },
         },
     },

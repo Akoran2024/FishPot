@@ -13,7 +13,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-slate-50 min-h-screen flex">
+<body class="font-sans antialiased bg-primary-50 min-h-screen flex">
     
     <!-- Sidebar -->
     @include('layouts.sidebar')

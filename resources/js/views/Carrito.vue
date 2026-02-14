@@ -36,7 +36,7 @@
             <h3 class="font-black text-slate-900 text-2xl group-hover:text-primary-600 transition-colors">{{ item.name }}</h3>
             <p class="text-slate-400 font-bold text-sm uppercase tracking-widest mt-1">Cantidad: {{ item.quantity }}</p>
             <div class="mt-4 flex flex-wrap justify-center sm:justify-start gap-4">
-               <button @click="cartStore.removeItem(item.id)" class="text-xs font-black text-red-500 hover:text-red-700 uppercase tracking-widest bg-red-50 px-4 py-2 rounded-xl transition-colors">Eliminar</button>
+               <button @click="cartStore.removeItem(item.id)" class="text-xs font-black text-purple-500 hover:text-purple-700 uppercase tracking-widest bg-purple-50 px-4 py-2 rounded-xl transition-colors">Eliminar</button>
             </div>
           </div>
           <div class="text-center sm:text-right flex flex-col justify-center">

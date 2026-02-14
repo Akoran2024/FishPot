@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#fafaf9] flex flex-col relative overflow-x-hidden text-slate-900">
+  <div class="min-h-screen bg-secondary-50 flex flex-col relative overflow-x-hidden text-primary-950">
     <!-- Subtle background texture or simpler elements -->
     <div class="fixed inset-0 z-0 pointer-events-none opacity-[0.03]" style="background-image: url('https://www.transparenttextures.com/patterns/felt.png');"></div>
 
@@ -25,6 +25,7 @@
           <div class="hidden md:flex items-center space-x-1">
             <router-link to="/mareas" class="px-4 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold focus:outline-none focus:ring-2 focus:ring-accent-400">Tabla de mareas</router-link>
             <router-link to="/especies" class="px-4 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold focus:outline-none focus:ring-2 focus:ring-accent-400">Especies</router-link>
+            <router-link to="/lugares" class="px-4 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold focus:outline-none focus:ring-2 focus:ring-accent-400">Lugares</router-link>
             <router-link to="/tienda" class="px-4 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold focus:outline-none focus:ring-2 focus:ring-accent-400">Tienda</router-link>
             <a v-if="authStore.user?.role === 'admin'" href="/admin" class="px-4 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold focus:outline-none focus:ring-2 focus:ring-accent-400">Admin</a>
             
@@ -45,12 +46,12 @@
                 </div>
               </template>
               <template v-else>
-                <router-link to="/login" class="bg-accent-500 hover:bg-accent-400 text-primary-950 px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent-950/20">Ingresar</router-link>
+                <router-link to="/login" class="bg-primary-600 hover:bg-primary-500 text-white px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-primary-950/20">Ingresar</router-link>
               </template>
             </div>
           </div>
           
-          <!-- Mobile Menu Button -->
+          <!-- Menú móvil botón -->
           <div class="md:hidden flex items-center space-x-2">
              <router-link to="/carrito" class="relative p-2 text-white hover:text-accent-300 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -71,11 +72,12 @@
         </div>
       </div>
 
-      <!-- Mobile Menu Content -->
+      <!-- Menú móvil -->
       <transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 -translate-y-4" enter-to-class="opacity-100 translate-y-0" leave-active-class="transition duration-150 ease-in" leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 -translate-y-4">
         <div v-show="isMenuOpen" class="md:hidden bg-primary-900 border-t border-primary-800 px-4 pt-2 pb-6 space-y-2 shadow-2xl">
           <router-link @click="isMenuOpen = false" to="/mareas" class="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-primary-800 transition">Tabla de mareas</router-link>
           <router-link @click="isMenuOpen = false" to="/especies" class="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-primary-800 transition">Especies</router-link>
+          <router-link @click="isMenuOpen = false" to="/lugares" class="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-primary-800 transition">Lugares</router-link>
           <router-link @click="isMenuOpen = false" to="/tienda" class="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-primary-800 transition">Tienda</router-link>
           <a v-if="authStore.user?.role === 'admin'" href="/admin" class="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-primary-800 transition">Admin</a>
           <div class="pt-4 border-t border-primary-800">
@@ -83,7 +85,7 @@
                <button @click="logout" class="w-full text-center bg-primary-800 py-3 rounded-xl font-bold">Cerrar sesión ({{ authStore.user.name }})</button>
             </template>
             <template v-else>
-               <router-link @click="isMenuOpen = false" to="/login" class="block w-full text-center bg-accent-500 text-primary-950 py-3 rounded-xl font-bold">Ingresar</router-link>
+               <router-link @click="isMenuOpen = false" to="/login" class="block w-full text-center bg-primary-600 text-white py-3 rounded-xl font-bold">Ingresar</router-link>
             </template>
           </div>
         </div>
@@ -100,7 +102,7 @@
     </main>
 
     <!-- Footer (Solo para clientes) -->
-    <footer v-if="!isAdminRoute" class="bg-slate-950 text-slate-400 py-16 relative z-10 border-t border-slate-800">
+    <footer v-if="!isAdminRoute" class="bg-primary-950 text-primary-400 py-16 relative z-10 border-t border-primary-800">
       <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
         <div class="text-center md:text-left">
           <div class="flex items-center justify-center md:justify-start space-x-2 mb-4">
@@ -127,18 +129,18 @@
           <p class="text-sm mt-1">Lanzarote, Islas Canarias</p>
           <div class="mt-6 flex justify-center md:justify-end space-x-4">
             <!-- Social placeholders -->
-            <div class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
+            <div class="w-8 h-8 bg-primary-800 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
               <span class="sr-only">Facebook</span>
               <div class="w-4 h-4 bg-white/20 rounded-sm"></div>
             </div>
-            <div class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
+            <div class="w-8 h-8 bg-primary-800 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
               <span class="sr-only">Instagram</span>
               <div class="w-4 h-4 bg-white/20 rounded-sm"></div>
             </div>
           </div>
         </div>
       </div>
-      <div class="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-slate-800 text-center text-xs">
+      <div class="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-primary-800 text-center text-xs">
         <p>FishPot &copy; 2026. Todos los derechos reservados.</p>
       </div>
     </footer>

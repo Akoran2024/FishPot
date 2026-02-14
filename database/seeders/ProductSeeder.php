@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
                 'price' => 129.00,
                 'stock' => 10,
                 'category' => 'Cañas',
-                'image' => 'imagenes/pescador.jpeg'
+                'image' => 'imagenes/caña.png'
             ],
             [
                 'name' => 'Carrete Silver Stream',
@@ -43,7 +43,7 @@ class ProductSeeder extends Seeder
                 'price' => 12.50,
                 'stock' => 50,
                 'category' => 'Accesorios',
-                'image' => 'imagenes/jurel.jpg'
+                'image' => 'imagenes/anzuelos.png'
             ],
             [
                 'name' => 'Hilo Trenzado 0.30mm',
@@ -51,7 +51,7 @@ class ProductSeeder extends Seeder
                 'price' => 25.00,
                 'stock' => 15,
                 'category' => 'Hilos',
-                'image' => 'imagenes/mero.jpg'
+                'image' => 'imagenes/hilo.png'
             ],
         ];
 

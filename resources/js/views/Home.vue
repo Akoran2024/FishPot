@@ -1,8 +1,7 @@
 <template>
   <main class="space-y-20 pb-20">
-    <!-- Hero Section -->
     <section class="relative min-h-[700px] flex items-center overflow-hidden">
-      <!-- Background Video or Image Placeholder -->
+      <!-- Imagen de fondo -->
       <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/80 to-transparent z-10"></div>
         <img src="/public/imagenes/barco.jpg" 
@@ -30,7 +29,7 @@
           </p>
           
           <div class="flex flex-col sm:flex-row gap-6">
-            <router-link to="/tienda" class="group relative bg-accent-500 hover:bg-accent-400 text-primary-950 px-10 py-5 rounded-2xl font-extrabold text-lg text-center transition-all duration-300 shadow-2xl shadow-accent-950/40 transform hover:-translate-y-1">
+            <router-link to="/tiendas" class="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-10 py-5 rounded-2xl font-extrabold text-lg text-center transition-all duration-300">
               Ver Tienda
               <span class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">→</span>
             </router-link>
@@ -41,22 +40,16 @@
         </div>
       </div>
 
-      <!-- Scroll indicator -->
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce hidden md:block">
-        <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-1">
-          <div class="w-1 h-2 bg-accent-400 rounded-full"></div>
-        </div>
-      </div>
     </section>
 
    
 
-    <!-- Features Section -->
+    <!-- Sección sobre página -->
     <section class="py-12 relative overflow-hidden">
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
           <div class="max-w-xl">
-            <h2 class="text-accent-600 font-bold tracking-[0.2em] uppercase text-sm mb-4">Herramientas Profesionales</h2>
+            <h2 class="text-primary-950 font-bold tracking-[0.2em] uppercase text-sm mb-4">Herramientas Profesionales</h2>
             <p class="text-4xl md:text-5xl font-black text-slate-900 leading-tight">Diseñado para los amantes del <span class="text-primary-600">mar</span>.</p>
           </div>
           <p class="text-slate-500 font-medium max-w-sm mb-2">

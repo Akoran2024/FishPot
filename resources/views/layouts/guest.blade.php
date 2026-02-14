@@ -20,13 +20,13 @@
             }
         </style>
     </head>
-    <body class="antialiased text-slate-900 bg-slate-50">
+    <body class="antialiased text-primary-900 bg-primary-50">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 relative overflow-hidden">
             <!-- Decorative background elements -->
             <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
                 <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary-100 rounded-full blur-3xl opacity-50"></div>
-                <div class="absolute top-1/2 -left-24 w-80 h-80 bg-blue-100 rounded-full blur-3xl opacity-40"></div>
-                <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-teal-50 rounded-full blur-3xl opacity-30"></div>
+                <div class="absolute top-1/2 -left-24 w-80 h-80 bg-primary-100 rounded-full blur-3xl opacity-40"></div>
+                <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-primary-50 rounded-full blur-3xl opacity-30"></div>
             </div>
 
             <div class="z-10 mb-8">
@@ -35,7 +35,7 @@
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md px-8 py-10 bg-white/80 backdrop-blur-xl border border-white shadow-2xl overflow-hidden sm:rounded-[2.5rem] z-10">
+            <div class="w-full sm:max-w-md px-8 py-10 bg-white/80 backdrop-blur-xl border border-primary-200 shadow-2xl overflow-hidden sm:rounded-[2.5rem] z-10">
                 {{ $slot }}
             </div>
         </div>

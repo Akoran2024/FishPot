@@ -33,7 +33,7 @@
         
         <div class="h-56 bg-slate-50 rounded-[2rem] mb-6 flex items-center justify-center group-hover:bg-primary-50 transition-colors duration-500 relative overflow-hidden">
            <div v-if="product.stock <= 0" class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
-              <span class="bg-red-600 text-white px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg transform -rotate-12">Agotado</span>
+              <span class="bg-purple-600 text-white px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg transform -rotate-12">Agotado</span>
            </div>
            
            <!-- Decorative background for product -->
@@ -57,8 +57,8 @@
           <p class="text-slate-500 text-sm leading-relaxed font-medium line-clamp-2">{{ product.description }}</p>
           
           <div class="flex items-center space-x-2 pt-2">
-            <div :class="product.stock < 5 ? 'bg-red-500' : 'bg-emerald-500'" class="w-1.5 h-1.5 rounded-full shadow-sm animate-pulse"></div>
-            <span :class="product.stock < 5 ? 'text-red-500' : 'text-slate-400'" class="text-[10px] font-black uppercase tracking-[0.2em]">
+            <div :class="product.stock < 5 ? 'bg-purple-500' : 'bg-emerald-500'" class="w-1.5 h-1.5 rounded-full shadow-sm animate-pulse"></div>
+            <span :class="product.stock < 5 ? 'text-purple-500' : 'text-slate-400'" class="text-[10px] font-black uppercase tracking-[0.2em]">
               Stock: {{ product.stock }} unidades
             </span>
           </div>
