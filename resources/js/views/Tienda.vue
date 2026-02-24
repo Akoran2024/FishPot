@@ -57,8 +57,8 @@
           <p class="text-slate-500 text-sm leading-relaxed font-medium line-clamp-2">{{ product.description }}</p>
           
           <div class="flex items-center space-x-2 pt-2">
-            <div :class="product.stock < 5 ? 'bg-purple-500' : 'bg-emerald-500'" class="w-1.5 h-1.5 rounded-full shadow-sm animate-pulse"></div>
-            <span :class="product.stock < 5 ? 'text-purple-500' : 'text-slate-400'" class="text-[10px] font-black uppercase tracking-[0.2em]">
+            <div :class="product.stock < 5 ? 'bg-red-500' : 'bg-emerald-500'" class="w-1.5 h-1.5 rounded-full shadow-sm animate-pulse"></div>
+            <span :class="product.stock < 5 ? 'text-red-500' : 'text-slate-400'" class="text-[10px] font-black uppercase tracking-[0.2em]">
               Stock: {{ product.stock }} unidades
             </span>
           </div>
@@ -72,7 +72,7 @@
           <button 
             @click="addToCart(product)" 
             :disabled="product.stock <= 0"
-            :class="product.stock <= 0 ? 'bg-slate-100 text-slate-300 cursor-not-allowed' : 'bg-accent-500 hover:bg-accent-400 text-primary-950 shadow-lg shadow-accent-950/10 active:scale-95'"
+            :class="product.stock <= 0 ? 'text-slate-300 cursor-not-allowed' : 'bg-primary-600 hover:bg-accent-400 text-primary-950 shadow-lg shadow-accent-950/10 active:scale-95'"
             class="p-4 rounded-2xl transition-all duration-300 transform"
             title="Añadir al carrito"
           >

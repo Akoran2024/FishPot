@@ -21,8 +21,8 @@ const routes = [
   { path: '/carrito', name: 'carrito', component: Carrito },
   { path: '/login', name: 'login', component: Login },
   { path: '/admin/pedidos', name: 'admin.pedidos', component: Pedidos, meta: { requiresAuth: true } },
-  { path: '/admin/productos', name: 'admin.productos', component: Productos, meta: { requiresAuth: true } },
-  { path: '/admin/usuarios', name: 'admin.usuarios', component: Usuarios, meta: { requiresAuth: true } },
+  { path: '/admin/productos', name: 'admin.productos.index', component: Productos, meta: { requiresAuth: true } },
+  { path: '/admin/usuarios', name: 'admin.usuarios.index', component: Usuarios, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({

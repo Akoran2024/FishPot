@@ -1,13 +1,11 @@
 <template>
-  <main class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+  <main class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:lg-px-8">
     <div class="mb-10 flex justify-between items-end">
       <div>
         <h1 class="text-4xl font-black text-slate-900">Gestión de Productos</h1>
         <p class="text-slate-700 mt-2 font-medium">Administra el inventario y stock de la tienda.</p>
       </div>
-      <button @click="openModal()" class="bg-primary-700 hover:bg-primary-800 text-white px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-primary-200">
-        Nuevo Producto
-      </button>
+     
     </div>
 
     <!-- Table -->

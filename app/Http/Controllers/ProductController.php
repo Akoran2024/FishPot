@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
+
 
 class ProductController extends Controller
 {
@@ -12,25 +15,25 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return response()->json(Product::all());
+        $products = Product::all();
+        return view('admin.products.index', compact('products'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('admin.products.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'category' => 'nullable|string',
-            'stock' => 'required|integer|min:0',
-            'image' => 'nullable|string',
-        ]);
-
-        $product = Product::create($validated);
-        return response()->json($product, 201);
+        Product::create($request->validated());
+        return redirect()->route('admin.products.index')->with('success', 'Producto creado exitosamente.');
     }
 
     /**
@@ -38,25 +41,25 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+ 
         return response()->json($product);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Product $product)
+    {
+        return view('admin.products.edit', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'category' => 'nullable|string',
-            'stock' => 'required|integer|min:0',
-            'image' => 'nullable|string',
-        ]);
-
-        $product->update($validated);
-        return response()->json($product);
+        $product->update($request->validated());
+        return redirect()->route('admin.products.index')->with('success', 'Producto actualizado exitosamente.');
     }
 
     /**
@@ -65,6 +68,14 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return response()->json(null, 204);
+        return redirect()->route('admin.products.index')->with('success', 'Producto eliminado exitosamente.');
+    }
+
+    /**
+     * Display a listing of the resource for API consumption.
+     */
+    public function apiIndex()
+    {
+        return response()->json(Product::all());
     }
 }

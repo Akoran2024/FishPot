@@ -69,6 +69,67 @@
               </div>
             </div>
           </div>
+          <div class="mb-6 p-4 bg-primary-800/50 rounded-lg">
+            <h3 class="text-xl font-black mb-4">Dirección de Envío</h3>
+            <div class="space-y-4">
+              <div>
+                <label for="shipping_address" class="block text-primary-200 text-sm font-bold mb-1">Dirección:</label>
+                <input type="text" id="shipping_address" v-model="shippingAddress" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+              </div>
+              <div>
+                <label for="shipping_city" class="block text-primary-200 text-sm font-bold mb-1">Ciudad:</label>
+                <input type="text" id="shipping_city" v-model="shippingCity" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+              </div>
+              <div>
+                <label for="shipping_state" class="block text-primary-200 text-sm font-bold mb-1">Provincia/Estado:</label>
+                <input type="text" id="shipping_state" v-model="shippingState" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+              </div>
+              <div>
+                <label for="shipping_zip_code" class="block text-primary-200 text-sm font-bold mb-1">Código Postal:</label>
+                <input type="text" id="shipping_zip_code" v-model="shippingZipCode" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+              </div>
+              <div>
+                <label for="shipping_country" class="block text-primary-200 text-sm font-bold mb-1">País:</label>
+                <input type="text" id="shipping_country" v-model="shippingCountry" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+              </div>
+            </div>
+          </div>
+          <div class="mb-6">
+            <h3 class="text-xl font-black mb-4">Método de Pago</h3>
+            <div class="flex flex-col space-y-3">
+              <label class="inline-flex items-center">
+                <input type="radio" v-model="paymentMethod" value="online_payment" class="form-radio text-primary-500 h-5 w-5">
+                <span class="ml-2 text-white">Pagar ahora (Tarjeta/PayPal)</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" v-model="paymentMethod" value="cash_on_delivery" class="form-radio text-primary-500 h-5 w-5">
+                <span class="ml-2 text-white">Contra reembolso</span>
+              </label>
+            </div>
+          </div>
+          <div v-if="paymentMethod === 'online_payment'" class="mb-6 p-4 bg-primary-800/50 rounded-lg">
+            <h3 class="text-xl font-black mb-4">Datos de Tarjeta (Simulado)</h3>
+            <p class="text-sm text-primary-200 mb-4">
+              Estos campos son solo para demostración y no procesan pagos reales.
+              <br> ¡NO uses datos de tarjeta reales aquí!
+            </p>
+            <div class="space-y-4">
+              <div>
+                <label for="card_number" class="block text-primary-200 text-sm font-bold mb-1">Número de Tarjeta:</label>
+                <input type="text" id="card_number" v-model="cardNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required pattern="[0-9]{13,16}" title="Número de tarjeta válido (13-16 dígitos)">
+              </div>
+              <div class="flex space-x-4">
+                <div class="flex-1">
+                  <label for="card_expiry" class="block text-primary-200 text-sm font-bold mb-1">Fecha de Caducidad (MM/AA):</label>
+                  <input type="text" id="card_expiry" v-model="cardExpiry" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required pattern="(0[1-9]|1[0-2])\/([0-9]{2})" placeholder="MM/AA">
+                </div>
+                <div class="flex-1">
+                  <label for="card_cvc" class="block text-primary-200 text-sm font-bold mb-1">CVC:</label>
+                  <input type="text" id="card_cvc" v-model="cardCVC" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required pattern="[0-9]{3,4}" title="Código CVC (3-4 dígitos)">
+                </div>
+              </div>
+            </div>
+          </div>
           <button @click="checkout" class="w-full bg-accent-500 hover:bg-accent-400 text-primary-950 py-5 rounded-[1.5rem] font-black text-lg transition-all shadow-xl shadow-accent-950/20 active:scale-95">
             Finalizar Pedido
           </button>
@@ -86,12 +147,27 @@
 </template>
 
 <script setup>
+import { ref } from 'vue' // Import ref
 import { useCartStore } from '../stores/cart'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 const cartStore = useCartStore()
 const router = useRouter()
+
+const paymentMethod = ref('online_payment') // Reactive variable for payment method
+
+// New reactive variables for shipping details
+const shippingAddress = ref('')
+const shippingCity = ref('')
+const shippingState = ref('')
+const shippingZipCode = ref('')
+const shippingCountry = ref('')
+
+// New reactive variables for simulated card details
+const cardNumber = ref('')
+const cardExpiry = ref('') // Format MM/YY
+const cardCVC = ref('')
 
 const checkout = async () => {
   if (cartStore.items.length === 0) return
@@ -102,12 +178,26 @@ const checkout = async () => {
         id: item.id,
         quantity: item.quantity
       })),
-      total: cartStore.totalPrice
+      total: cartStore.totalPrice,
+      payment_method: paymentMethod.value, // Include payment method
+      shipping_address: shippingAddress.value, // Include shipping details
+      shipping_city: shippingCity.value,
+      shipping_state: shippingState.value,
+      shipping_zip_code: shippingZipCode.value,
+      shipping_country: shippingCountry.value,
     }
 
-    await axios.post('/orders', orderData)
+    // Include simulated card details only if online payment is selected
+    if (paymentMethod.value === 'online_payment') {
+      orderData.card_number = cardNumber.value
+      orderData.card_expiry = cardExpiry.value
+      orderData.card_cvc = cardCVC.value
+    }
 
-    alert('¡Pedido realizado con éxito! El stock ha sido actualizado.')
+    // Existing Axios post call
+    const response = await axios.post('/orders', orderData)
+
+    alert(response.data.message || '¡Pedido realizado con éxito! El stock ha sido actualizado.')
     cartStore.clearCart()
     router.push('/')
   } catch (error) {

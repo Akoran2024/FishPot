@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 // API routes
 Route::get('/tides', [TideController::class, 'index']);
-Route::get('/products-list', [ProductController::class, 'index']);
+Route::get('/products-list', [ProductController::class, 'apiIndex']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/user', function (Request $request) {
@@ -28,29 +28,28 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', function () {
-        return view('admin.dashboard');
+        return redirect()->route('admin.users.index');
     })->name('admin.dashboard');
 
-    Route::get('/admin/pedidos', function () {
-        return view('admin.dashboard');
-    })->name('admin.pedidos');
+    // Admin User CRUD routes
+    Route::resource('admin/users', AdminUserController::class)->names('admin.users');
 
-    Route::get('/admin/productos', function () {
-        return view('admin.dashboard');
-    })->name('admin.productos');
 
-    Route::get('/admin/usuarios', function () {
-        return view('admin.dashboard');
-    })->name('admin.usuarios');
+    // Admin Product CRUD routes
+    Route::resource('admin/products', ProductController::class)->names('admin.products');
     
-    Route::get('/admin/users-list', [AdminUserController::class, 'index']);
-    Route::patch('/admin/users/{user}/role', [AdminUserController::class, 'updateRole']);
-    Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy']);
+    // Admin Order CRUD routes
+    Route::resource('admin/orders', OrderController::class)->names('admin.orders');
     
     Route::get('/orders-list', [OrderController::class, 'index']);
-    Route::apiResource('products', ProductController::class)->except(['index']);
+    Route::apiResource('products', ProductController::class)->except(['index', 'store', 'update', 'destroy']);
     Route::apiResource('clients', ClientController::class);
     
+    // Order Status Updates
+    Route::patch('admin/orders/{order}/accept', [OrderController::class, 'accept'])->name('admin.orders.accept');
+    Route::get('admin/orders/{order}/ship/form', [OrderController::class, 'showShipForm'])->name('admin.orders.ship.form'); // New route for shipping form
+    Route::patch('admin/orders/{order}/ship', [OrderController::class, 'ship'])->name('admin.orders.ship');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

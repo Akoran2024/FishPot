@@ -29,7 +29,7 @@
           </p>
           
           <div class="flex flex-col sm:flex-row gap-6">
-            <router-link to="/tiendas" class="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-10 py-5 rounded-2xl font-extrabold text-lg text-center transition-all duration-300">
+            <router-link to="/tienda" class="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-10 py-5 rounded-2xl font-extrabold text-lg text-center transition-all duration-300">
               Ver Tienda
               <span class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">→</span>
             </router-link>

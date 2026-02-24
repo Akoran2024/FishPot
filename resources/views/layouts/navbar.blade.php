@@ -15,14 +15,16 @@
         </button>
 
         <!-- User Profile -->
-        <div class="flex items-center space-x-3 border-l border-primary-200 pl-6">
-            <div class="text-right hidden sm:block">
-                <p class="text-sm font-bold text-primary-900">{{ Auth::user()->name }}</p>
-                <p class="text-xs text-primary-500 font-medium uppercase tracking-wider">Administrador</p>
+        @auth
+            <div class="flex items-center space-x-3 border-l border-primary-200 pl-6">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-bold text-primary-900">{{ Auth::user()->name }}</p>
+                    <p class="text-xs text-primary-500 font-medium uppercase tracking-wider">Administrador</p>
+                </div>
+                <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-black border border-primary-200 shadow-sm">
+                    {{ substr(Auth::user()->name, 0, 1) }}
+                </div>
             </div>
-            <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-black border border-primary-200 shadow-sm">
-                {{ substr(Auth::user()->name, 0, 1) }}
-            </div>
-        </div>
+        @endauth
     </div>
 </header>

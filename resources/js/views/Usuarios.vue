@@ -5,6 +5,7 @@
         <h1 class="text-4xl font-black text-slate-900">Gestión de Usuarios</h1>
         <p class="text-slate-700 mt-2 font-medium">Administra los accesos y roles de los usuarios registrados.</p>
       </div>
+      
     </div>
 
     <!-- Table -->
