@@ -1,90 +1,78 @@
 <template>
-
-  
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
-    <div class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-      <div class="animate-fade-in">
-        <h2 class="text-accent-600 font-bold tracking-[0.2em] uppercase text-sm mb-4">Equipamiento Profesional</h2>
-        <h1 class="text-5xl font-black text-slate-900">Tienda de Pesca</h1>
-        <p class="text-slate-500 mt-4 font-medium max-w-xl">Solo las mejores marcas y materiales seleccionados por pescadores expertos para tus jornadas en Lanzarote.</p>
+    <div class="mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 border-b border-nautical-200 pb-12">
+      <div class="max-w-2xl">
+        <h2 class="text-primary-800 font-serif italic text-sm tracking-[0.2em] uppercase mb-4">Equipamiento de Calidad</h2>
+        <h1 class="text-5xl md:text-6xl font-serif font-black text-primary-950 leading-tight tracking-tight italic">Almacén de Aparejos</h1>
+        <p class="text-nautical-600 mt-6 font-serif italic text-lg leading-relaxed">Selección de materiales probados en nuestras costas. Desde la pesca tradicional a las artes más modernas, con el sello de confianza de FishPot.</p>
       </div>
       
-      <div class="flex items-center space-x-4 bg-white/50 backdrop-blur-md p-2 rounded-2xl border border-white shadow-sm">
-        <div class="p-2 bg-primary-100 rounded-xl">
-          <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+      <router-link to="/carrito" class="flex items-center space-x-6 bg-white p-4 rounded-lg border border-nautical-200 shadow-md group">
+        <div class="p-3 bg-primary-950 text-white rounded shadow-lg group-hover:bg-primary-800 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         </div>
-        <div>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">En tu carrito</p>
-          <p class="text-sm font-black text-primary-900">{{ cartStore.totalItems }} artículos</p>
+        <div class="flex flex-col">
+          <span class="text-[10px] font-black text-nautical-400 uppercase tracking-widest leading-none mb-1 italic">Su Cesto</span>
+          <span class="text-lg font-serif font-black text-primary-950 leading-none italic">{{ cartStore.totalItems }} artículos</span>
         </div>
-      </div>
+      </router-link>
     </div>
 
-    <div v-if="loading" class="flex justify-center py-24 bg-white/50 backdrop-blur-md rounded-[3rem] border border-white">
+    <div v-if="loading" class="flex justify-center py-32 bg-white/50 border border-nautical-100 rounded-lg">
       <div class="flex flex-col items-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary-100 border-t-primary-600 mb-4"></div>
-        <p class="text-primary-900 font-bold">Cargando catálogo...</p>
+        <div class="animate-spin rounded-full h-8 w-8 border-2 border-nautical-200 border-t-primary-800 mb-6"></div>
+        <p class="text-primary-950 font-serif italic">Preparando el mostrador...</p>
       </div>
     </div>
 
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
       <div v-for="product in products" :key="product.id" 
-           class="group bg-white/80 backdrop-blur-sm rounded-[2.5rem] border border-white p-6 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col">
+           class="nautical-card p-4 group flex flex-col border-b-4 border-primary-100 hover:border-primary-800 transition-all duration-500">
         
-        <div class="h-56 bg-slate-50 rounded-[2rem] mb-6 flex items-center justify-center group-hover:bg-primary-50 transition-colors duration-500 relative overflow-hidden">
-           <div v-if="product.stock <= 0" class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
-              <span class="bg-purple-600 text-white px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg transform -rotate-12">Agotado</span>
+        <div class="h-64 bg-nautical-50 rounded mb-6 flex items-center justify-center relative overflow-hidden group-hover:bg-white transition-colors">
+           <div v-if="product.stock <= 0" class="absolute inset-0 bg-white/70 z-10 flex items-center justify-center">
+              <span class="bg-primary-950 text-white px-5 py-2 font-serif italic text-sm shadow-xl transform -rotate-2">Sin Existencias</span>
            </div>
            
-           <!-- Decorative background for product -->
-           <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-primary-100/50 to-transparent"></div>
-           
-           <!-- Product Image -->
-           <div class="w-full h-full flex items-center justify-center transition-transform duration-700 group-hover:scale-110 p-4">
-              <img v-if="product.image" :src="'/' + product.image" :alt="product.name" class="w-full h-full object-contain">
-              <svg v-else class="h-20 w-20 text-primary-200 group-hover:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+           <div class="w-full h-full p-6 transition-transform duration-700 group-hover:scale-110">
+              <img v-if="product.image" :src="'/' + product.image" :alt="product.name" class="w-full h-full object-contain grayscale-[0.2] group-hover:grayscale-0">
+              <div v-else class="w-full h-full flex items-center justify-center text-nautical-200 italic font-serif">Aparejo</div>
            </div>
            
            <div class="absolute bottom-4 left-4">
-             <span class="bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-black text-slate-400 uppercase tracking-widest shadow-sm">
+             <span class="bg-white/80 px-3 py-1 border border-nautical-100 text-[9px] font-bold text-nautical-400 uppercase tracking-widest italic">
                {{ product.category || 'Equipo' }}
              </span>
            </div>
         </div>
 
-        <div class="flex-grow space-y-3">
-          <h3 class="font-black text-slate-900 text-xl group-hover:text-primary-600 transition-colors duration-300">{{ product.name }}</h3>
-          <p class="text-slate-500 text-sm leading-relaxed font-medium line-clamp-2">{{ product.description }}</p>
+        <div class="flex-grow px-2">
+          <h3 class="font-serif font-black text-primary-950 text-xl group-hover:text-primary-800 transition-colors italic mb-2">{{ product.name }}</h3>
+          <p class="text-nautical-600 text-sm leading-relaxed font-serif italic line-clamp-2 mb-4">{{ product.description }}</p>
           
-          <div class="flex items-center space-x-2 pt-2">
-            <div :class="product.stock < 5 ? 'bg-red-500' : 'bg-emerald-500'" class="w-1.5 h-1.5 rounded-full shadow-sm animate-pulse"></div>
-            <span :class="product.stock < 5 ? 'text-red-500' : 'text-slate-400'" class="text-[10px] font-black uppercase tracking-[0.2em]">
-              Stock: {{ product.stock }} unidades
+          <div class="flex items-center space-x-2">
+            <div :class="product.stock < 5 ? 'bg-red-500' : 'bg-primary-700'" class="w-1.5 h-1.5 rounded-full shadow-sm"></div>
+            <span class="text-[10px] font-bold text-nautical-300 uppercase tracking-widest italic">
+              Existencias: {{ product.stock }}
             </span>
           </div>
         </div>
         
-        <div class="mt-8 flex items-center justify-between">
+        <div class="mt-8 pt-6 border-t border-nautical-100 flex items-center justify-between px-2">
           <div class="flex flex-col">
-            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Precio</span>
-            <span class="text-3xl font-black text-primary-950">{{ product.price }}<span class="text-lg text-primary-600">€</span></span>
+            <span class="text-[9px] font-bold text-nautical-400 uppercase tracking-widest italic mb-1">Precio</span>
+            <span class="text-3xl font-serif font-black text-primary-950 italic tracking-tighter">{{ product.price }}<span class="text-base ml-0.5">€</span></span>
           </div>
           <button 
             @click="addToCart(product)" 
             :disabled="product.stock <= 0"
-            :class="product.stock <= 0 ? 'text-slate-300 cursor-not-allowed' : 'bg-primary-600 hover:bg-accent-400 text-primary-950 shadow-lg shadow-accent-950/10 active:scale-95'"
-            class="p-4 rounded-2xl transition-all duration-300 transform"
-            title="Añadir al carrito"
+            :class="product.stock <= 0 ? 'bg-nautical-100 text-nautical-300' : 'bg-primary-950 text-white hover:bg-primary-800 active:translate-y-1 shadow-md'"
+            class="p-4 rounded transition-all duration-300"
           >
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
           </button>
         </div>
       </div>
-    </div>
-
-    <!-- Empty State -->
-    <div v-if="!loading && products.length === 0" class="text-center py-32 bg-white/50 backdrop-blur-md rounded-[3rem] border-2 border-dashed border-white">
-      <p class="text-slate-400 font-bold text-lg">Estamos reponiendo nuestro inventario.</p>
     </div>
   </div>
 </template>
@@ -101,15 +89,9 @@ const loading = ref(true)
 const fetchProducts = async () => {
   try {
     const res = await axios.get('/products-list')
-    if (res.data && res.data.length > 0) {
-      products.value = res.data
-    } else {
-      console.warn('La base de datos de productos está vacía.')
-      products.value = []
-    }
+    products.value = res.data || []
   } catch (error) {
     console.error('Error cargando productos:', error)
-    products.value = []
   } finally {
     loading.value = false
   }
@@ -118,11 +100,7 @@ const fetchProducts = async () => {
 onMounted(fetchProducts)
 
 const addToCart = (product) => {
-  if (product.stock <= 0) {
-    alert('Lo sentimos, no queda stock de este producto')
-    return
-  }
+  if (product.stock <= 0) return
   cartStore.addItem(product)
-  alert(`${product.name} añadido al carrito`)
 }
 </script>

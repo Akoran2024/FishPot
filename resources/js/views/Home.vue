@@ -1,91 +1,133 @@
 <template>
-  <main class="space-y-20 pb-20">
-    <section class="relative min-h-[700px] flex items-center overflow-hidden">
-      <!-- Imagen de fondo -->
-      <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/80 to-transparent z-10"></div>
-        <img src="/public/imagenes/barco.jpg" 
-        alt="Mi imagen" 
-        class="w-full h-full object-cover">
-
-      </div>
-      
-      <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div class="max-w-3xl animate-fade-in">
-          <div v-if="authStore.user" class="mb-6 inline-flex items-center space-x-2 bg-accent-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-accent-500/30">
-            <span class="relative flex h-3 w-3">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-accent-500"></span>
-            </span>
-            <span class="text-accent-300 font-black uppercase tracking-widest text-xs">Bienvenido, {{ authStore.user.name }}</span>
+  <div class="min-h-screen text-nautical-900 selection:bg-primary-200">
+    <!-- Hero Tradicional (Transparente para ver el fondo) -->
+    <section class="relative min-h-[85vh] flex items-center overflow-hidden border-b border-nautical-200/50">
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-nautical-200 mb-8 shadow-sm">
+            <span class="text-primary-800 font-serif italic text-xs tracking-wide">Tradición pesquera en Lanzarote</span>
           </div>
           
-          <h1 class="text-6xl md:text-8xl font-black text-white leading-[1.1] mb-8 drop-shadow-sm">
-            Explora el mundo<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-accent-300"> de la pesca</span> en Lanzarote
+          <h1 class="text-6xl md:text-8xl font-serif font-black leading-[1.1] tracking-tight text-primary-950 mb-8">
+            El Arte de la <br/>
+            <span class="italic text-primary-700">Buena Pesca</span>
           </h1>
           
-          <p class="text-xl text-primary-100/90 mb-12 leading-relaxed font-medium max-w-xl">
-            Tu guía definitiva para la pesca: mareas precisas, catálogo de especies locales con sus tallas mínimas y la mejor equipación profesional, para poder disfrutar de lo que te gusta.
+          <p class="text-xl text-nautical-700 mb-12 leading-relaxed font-serif italic max-w-xl">
+            Siente el pulso del Atlántico. Consulta las mareas, conoce nuestras especies y equípate con lo mejor para tu próxima jornada en la costa.
           </p>
           
-          <div class="flex flex-col sm:flex-row gap-6">
-            <router-link to="/tienda" class="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-10 py-5 rounded-2xl font-extrabold text-lg text-center transition-all duration-300">
-              Ver Tienda
-              <span class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">→</span>
+          <div class="flex flex-wrap gap-4">
+            <router-link to="/tienda" class="nautical-btn">
+              Visitar Tienda
             </router-link>
-            <router-link to="/mareas" class="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-10 py-5 rounded-2xl font-extrabold text-lg text-center transition-all duration-300">
-              Consultar Mareas
+            <router-link to="/mareas" class="px-8 py-3 bg-white text-primary-900 border border-nautical-300 font-serif italic text-lg hover:bg-nautical-50 transition-all shadow-sm">
+              Tablas de Mareas
             </router-link>
           </div>
         </div>
       </div>
-
     </section>
 
-   
-
-    <!-- Sección sobre página -->
-    <section class="py-12 relative overflow-hidden">
+    <!-- Stats Section (Estilo Bitácora) -->
+    <section class="py-12 -mt-16 relative z-20">
       <div class="max-w-7xl mx-auto px-4">
-        <div class="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
-          <div class="max-w-xl">
-            <h2 class="text-primary-950 font-bold tracking-[0.2em] uppercase text-sm mb-4">Herramientas Profesionales</h2>
-            <p class="text-4xl md:text-5xl font-black text-slate-900 leading-tight">Diseñado para los amantes del <span class="text-primary-600">mar</span>.</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div v-for="(stat, i) in stats" :key="i" class="nautical-card p-6 text-center border-b-2 border-b-primary-200">
+            <p class="text-nautical-400 font-serif italic text-xs uppercase tracking-widest mb-1">{{ stat.label }}</p>
+            <p class="text-3xl font-black text-primary-950">{{ stat.value }}</p>
           </div>
-          <p class="text-slate-500 font-medium max-w-sm mb-2">
-            Todo lo necesario para que tu jornada de pesca sea perfecta, desde la previsión meteorológica hasta el equipamiento.
-          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Features (Cuadrícula Clásica) -->
+    <section class="py-24 relative">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-20">
+          <h2 class="text-4xl md:text-5xl font-serif font-black text-primary-950 mb-4 tracking-tight">Todo para el Pescador</h2>
+          <div class="w-24 h-1 bg-primary-700 mx-auto opacity-30"></div>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div v-for="(feature, index) in features" :key="index" 
-               class="group p-10 rounded-[2rem] bg-white border border-slate-100 hover:border-primary-200 transition-all duration-300 hover:shadow-xl hover:shadow-primary-900/5">
-            <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-primary-600 mb-8 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
-               <div v-html="feature.icon" class="w-7 h-7"></div>
+               class="nautical-card p-10 group hover:border-primary-400 transition-all duration-500">
+            <div class="w-16 h-16 bg-nautical-50 rounded-full flex items-center justify-center text-primary-700 mb-8 border border-nautical-200 group-hover:bg-primary-950 group-hover:text-white transition-all duration-500">
+                 <div v-html="feature.icon" class="w-8 h-8"></div>
             </div>
-            <h3 class="text-xl font-extrabold mb-4 text-slate-900">{{ feature.title }}</h3>
-            <p class="text-slate-500 leading-relaxed text-sm font-medium">{{ feature.description }}</p>
+            
+            <h3 class="text-2xl font-serif font-black mb-4 text-primary-950 italic">{{ feature.title }}</h3>
+            <p class="text-nautical-600 leading-relaxed text-sm mb-8 font-serif">{{ feature.description }}</p>
+            
+            <router-link :to="feature.link" class="text-primary-800 font-serif font-bold italic text-sm hover:text-primary-600 transition-colors flex items-center">
+              Saber más <span class="ml-2">→</span>
+            </router-link>
           </div>
         </div>
       </div>
     </section>
 
-   
-  </main>
+    <!-- Newsletter / CTA Tradicional -->
+    <section class="py-32 px-4 bg-primary-950 relative overflow-hidden text-center">
+       <div class="absolute inset-0 opacity-10 pointer-events-none" 
+            style="background-image: url('https://www.transparenttextures.com/patterns/pinstripe-dark.png')"></div>
+       
+       <div class="relative z-10 max-w-4xl mx-auto">
+          <h2 class="text-4xl md:text-6xl font-serif font-black text-white mb-8 leading-tight tracking-tight italic">Únete a nuestra Cofradía</h2>
+          <p class="text-primary-100 text-xl mb-12 max-w-2xl mx-auto font-serif italic">Recibe en tu correo las mejores ofertas, noticias de pesca y el estado de la mar en Lanzarote.</p>
+          
+          <div v-if="!authStore.user">
+            <router-link to="/login" class="px-12 py-4 bg-white text-primary-950 font-serif italic text-xl hover:bg-primary-50 transition-all shadow-xl inline-block">
+               Registrarse ahora
+            </router-link>
+          </div>
+       </div>
+    </section>
+  </div>
 </template>
 
 <script setup>
 import { useAuthStore } from '../stores/auth'
 const authStore = useAuthStore()
 
+const heroImage = '/imagenes/barco.jpg'
+
+const stats = [
+  { label: 'Especies', value: '45+' },
+  { label: 'Puntos Costa', value: '12' },
+  { label: 'Aparejos', value: '120+' },
+  { label: 'Comunidad', value: '500+' }
+]
+
+const features = [
+  {
+    title: 'Bitácora de Mareas',
+    description: 'Consulta los mejores momentos para salir a pescar. Datos precisos de pleamar y bajamar en nuestras costas.',
+    link: '/mareas',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>'
+  },
+  {
+    title: 'Especies Locales',
+    description: 'Conoce a fondo los peces de nuestras aguas: vieja, sargo, mero y muchos más. Técnicas y mejores cebos.',
+    link: '/especies',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>'
+  },
+  {
+    title: 'Tienda de Aparejos',
+    description: 'Equípate con cañas, carretes y los mejores hilos para enfrentar cualquier captura en el Atlántico.',
+    link: '/tienda',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>'
+  }
+]
 </script>
 
 <style scoped>
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Transiciones suaves */
+.nautical-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.animate-fade-in {
-  animation: fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.nautical-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 </style>

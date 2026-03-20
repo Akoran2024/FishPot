@@ -26,6 +26,11 @@ export const useAuthStore = defineStore('auth', {
       await this.fetchUser()
     },
 
+    async register(userData) {
+      await axios.post('/register', userData)
+      await this.fetchUser()
+    },
+
     async logout() {
       await axios.post('/logout')
       this.user = null

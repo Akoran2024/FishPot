@@ -6,20 +6,24 @@ import Especies from '../views/Especies.vue'
 import Tienda from '../views/Tienda.vue'
 import Carrito from '../views/Carrito.vue'
 import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 import Clientes from '../views/Clientes.vue'
 import Pedidos from '../views/Pedidos.vue'
 import Productos from '../views/Productos.vue'
 import Usuarios from '../views/Usuarios.vue'
 import Lugares from '../views/Lugares.vue'
+import Licencia from '../views/Licencia.vue'
 
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/mareas', name: 'mareas', component: Mareas },
   { path: '/especies', name: 'especies', component: Especies },
   { path: '/lugares', name: 'lugares', component: Lugares },
+  { path: '/licencia', name: 'licencia', component: Licencia },
   { path: '/tienda', name: 'tienda', component: Tienda },
   { path: '/carrito', name: 'carrito', component: Carrito },
   { path: '/login', name: 'login', component: Login },
+  { path: '/register', name: 'register', component: Register },
   { path: '/admin/pedidos', name: 'admin.pedidos', component: Pedidos, meta: { requiresAuth: true } },
   { path: '/admin/productos', name: 'admin.productos.index', component: Productos, meta: { requiresAuth: true } },
   { path: '/admin/usuarios', name: 'admin.usuarios.index', component: Usuarios, meta: { requiresAuth: true } },

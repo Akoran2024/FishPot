@@ -1,115 +1,87 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
-    <div class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-      <div class="animate-fade-in">
-        <h2 class="text-primary-600 font-bold tracking-[0.2em] uppercase text-sm mb-4">Descubre Lanzarote</h2>
-        <h1 class="text-5xl font-black text-primary-950 leading-tight">Lugares de Pesca</h1>
-        <p class="text-primary-500 mt-4 font-medium max-w-xl">Explora los mejores puntos de pesca en las costas de Lanzarote, su dificultad, descripción y recomendaciones.
-          Tenga en cuenta que en nuestra web sólo mostraremos la zona, nunca los puntos exactos, ya que nuestro objetivo es que no se saturen los pesqueros.
-        </p>
-      </div>
-      
-      <div class="w-full md:w-auto flex flex-col sm:flex-row gap-4 animate-fade-in">
-        <div class="relative group">
-          <input type="text" v-model="search" placeholder="Buscar lugar..." class="w-full sm:w-64 px-6 py-4 bg-white/80 backdrop-blur-md border border-primary-200 rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-400 outline-none transition shadow-sm group-hover:shadow-md">
-          <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        </div>
-      </div>
+    <div class="mb-16 border-b border-nautical-200 pb-12 text-center md:text-left">
+      <h2 class="text-primary-800 font-serif italic text-sm tracking-[0.2em] uppercase mb-4">Costa de Lanzarote</h2>
+      <h1 class="text-5xl md:text-6xl font-serif font-black text-primary-950 leading-tight tracking-tight italic">Lugares de Pesca</h1>
+      <p class="text-nautical-600 mt-6 font-serif italic text-lg leading-relaxed max-w-3xl">Explore los rincones de nuestra costa. Un mapa de sensaciones y desafíos para el pescador que respeta el entorno. Recuerde: el secreto del buen pesquero es el silencio.</p>
     </div>
 
-    <div v-if="filteredPlaces.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+    <div v-if="filteredPlaces.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
       <div 
         v-for="place in filteredPlaces" 
         :key="place.id" 
         @click="selectedPlace = place"
-        class="group bg-white/80 backdrop-blur-sm rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all duration-500 border border-primary-200 overflow-hidden cursor-pointer transform hover:-translate-y-2"
+        class="nautical-card group cursor-pointer border-b-4 border-primary-100 hover:border-primary-700 transition-all duration-500"
       >
-        <div class="h-64 relative overflow-hidden">
+        <div class="h-64 relative overflow-hidden bg-nautical-50">
            <img 
             v-if="place.image"
             :src="place.image" 
             :alt="place.name"
-            class="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+            class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition duration-700 group-hover:scale-105"
            />
-           <div v-else class="w-full h-full flex items-center justify-center bg-gray-200 opacity-40">
-              <svg class="h-20 w-20 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-           </div>
+           <div class="absolute inset-0 bg-gradient-to-t from-primary-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
            
-           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-           <div class="absolute top-6 right-6 bg-white/90 backdrop-blur px-4 py-1.5 rounded-full text-[10px] font-black text-primary-800 uppercase tracking-widest shadow-lg">
+           <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 border border-nautical-200 text-[9px] font-bold text-primary-950 uppercase tracking-widest shadow-sm">
              {{ place.solo_or_accompanied }}
            </div>
         </div>
         
         <div class="p-8">
-          <div class="flex flex-col mb-4">
-            <h2 class="text-2xl font-black text-primary-900 group-hover:text-primary-600 transition duration-300">{{ place.name }}</h2>
-          </div>
-          
-          <div class="flex items-center justify-between pt-6 border-t border-primary-50">
-            <span class="text-[10px] font-black text-primary-400 uppercase tracking-widest">Dificultad</span>
+          <h2 class="text-3xl font-serif font-black text-primary-950 group-hover:text-primary-700 transition duration-300 italic mb-4">{{ place.name }}</h2>
+          <div class="flex items-center justify-between pt-6 border-t border-nautical-100">
+            <span class="text-[10px] font-bold text-nautical-300 uppercase tracking-widest italic">Nivel de desafío</span>
             <div class="flex space-x-1.5">
-              <div v-for="i in 3" :key="i" :class="i <= place.difficulty ? 'bg-primary-500' : 'bg-primary-100'" class="h-1.5 w-6 rounded-full shadow-inner transition-colors duration-500"></div>
+              <div v-for="i in 3" :key="i" :class="i <= place.difficulty ? 'bg-primary-800' : 'bg-nautical-200'" class="h-1.5 w-6 rounded-sm"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    
-    <div v-else class="text-center py-32 bg-white/50 backdrop-blur-md rounded-[3rem] border-2 border-dashed border-primary-200">
-      <div class="max-w-xs mx-auto">
-        <svg class="w-16 h-16 mx-auto mb-6 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        <p class="text-primary-500 font-bold text-lg">No encontramos ese lugar de pesca en nuestras costas.</p>
-        <button @click="search = ''" class="mt-6 text-primary-600 font-black text-sm uppercase tracking-widest hover:text-primary-800 transition">Ver todos</button>
-      </div>
-    </div>
 
-    <!-- Modal con Glassmorphism -->
-    <transition enter-active-class="transition duration-300 ease-out" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100" leave-active-class="transition duration-200 ease-in" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
-      <div v-if="selectedPlace" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 lg:p-8">
-        <div class="absolute inset-0 bg-primary-950/40 backdrop-blur-md" @click="selectedPlace = null"></div>
+    <!-- Modal Lugar -->
+    <transition name="page">
+      <div v-if="selectedPlace" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-primary-950/60 backdrop-blur-sm" @click="selectedPlace = null"></div>
         
-        <div class="relative bg-white/90 backdrop-blur-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-[3rem] shadow-2xl border border-white/50">
-          <button 
-            @click="selectedPlace = null" 
-            class="absolute top-6 right-6 z-10 p-3 bg-white hover:bg-primary-50 rounded-2xl text-primary-900 transition shadow-xl group"
-          >
-            <svg class="h-6 w-6 group-hover:rotate-90 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        <div class="relative bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-lg shadow-2xl border-4 border-white">
+          <button @click="selectedPlace = null" class="absolute top-6 right-6 z-10 p-2 bg-nautical-100 hover:bg-nautical-200 text-primary-900 transition">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
 
           <div class="flex flex-col lg:flex-row">
-            <div class="w-full lg:w-1/2 h-[400px] lg:h-auto relative">
+            <div class="w-full lg:w-1/2 h-[400px] lg:h-auto">
               <img 
                 v-if="selectedPlace.image"
                 :src="selectedPlace.image" 
                 :alt="selectedPlace.name"
-                class="w-full h-full object-cover"
+                class="w-full h-full object-cover border-r border-nautical-100"
               />
-              <div v-else class="w-full h-full flex items-center justify-center bg-gray-200 opacity-40">
-                  <svg class="h-32 w-32 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent lg:hidden"></div>
             </div>
             
             <div class="w-full lg:w-1/2 p-10 lg:p-16">
               <div class="flex items-center space-x-3 mb-8">
-                <span class="px-4 py-1.5 bg-primary-900 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em]">
-                  {{ selectedPlace.solo_or_accompanied }}
-                </span>
-                <span class="px-4 py-1.5 bg-accent-500 text-primary-950 rounded-xl text-[10px] font-black uppercase tracking-[0.2em]">
-                  Dificultad: {{ selectedPlace.difficulty }}
-                </span>
+                <span class="text-[10px] font-black uppercase tracking-[0.3em] text-primary-800 border-b-2 border-primary-800 pb-1">Cuaderno de Bitácora</span>
               </div>
               
-              <h2 class="text-5xl font-black text-primary-950 leading-tight mb-4">{{ selectedPlace.name }}</h2>
+              <h2 class="text-5xl font-serif font-black text-primary-950 leading-tight mb-8 italic">{{ selectedPlace.name }}</h2>
               
-            <div class="space-y-8">
+              <div class="space-y-8">
                 <div>
-                  <h4 class="text-primary-900 font-black uppercase text-xs tracking-[0.2em] mb-4">Descripción</h4>
-                  <p class="text-primary-600 leading-relaxed font-medium text-lg">
-                    {{ selectedPlace.description }}
+                  <h4 class="text-nautical-400 font-serif italic text-xs tracking-[0.2em] mb-4 uppercase">Notas del Terreno</h4>
+                  <p class="text-primary-900 leading-relaxed font-serif text-lg italic">
+                    "{{ selectedPlace.description }}"
                   </p>
+                </div>
+                
+                <div class="pt-10 border-t border-nautical-100 flex items-center justify-between">
+                   <div>
+                     <span class="block text-[10px] font-bold text-nautical-400 uppercase tracking-widest mb-1 italic">Recomendación</span>
+                     <span class="font-serif font-black text-primary-900 italic capitalize">Ir {{ selectedPlace.solo_or_accompanied }}</span>
+                   </div>
+                   <div class="text-primary-200">
+                     <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                   </div>
                 </div>
               </div>
             </div>
@@ -162,9 +134,7 @@ const places = [
 const filteredPlaces = computed(() => {
   return places.filter(place => {
     const matchesSearch = place.name.toLowerCase().includes(search.value.toLowerCase()) || 
-                          place.description.toLowerCase().includes(search.value.toLowerCase()) ||
-                          place.solo_or_accompanied.toLowerCase().includes(search.value.toLowerCase());
-    
+                          place.description.toLowerCase().includes(search.value.toLowerCase());
     return matchesSearch;
   })
 })

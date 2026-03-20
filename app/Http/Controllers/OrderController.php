@@ -14,6 +14,15 @@ use App\Http\Requests\OrderUpdateRequest;
 class OrderController extends Controller
 {
     /**
+     * Display a listing of the resource for the API.
+     */
+    public function apiIndex()
+    {
+        $orders = Order::with(['user', 'items.product'])->latest()->get();
+        return response()->json($orders);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -172,6 +181,52 @@ class OrderController extends Controller
         });
         
         return redirect()->route('admin.orders.index')->with('success', 'Pedido eliminado exitosamente y stock restaurado.');
+    }
+
+    /**
+     * Accept the specified order (API).
+     */
+    public function apiAccept(Order $order)
+    {
+        if ($order->status === 'pending') {
+            $order->status = 'accepted';
+            $order->save();
+            return response()->json(['message' => 'Pedido aceptado.', 'order' => $order->load(['user', 'items.product'])]);
+        }
+        return response()->json(['message' => 'No se puede aceptar el pedido.'], 422);
+    }
+
+    /**
+     * Ship the specified order (API).
+     */
+    public function apiShip(Request $request, Order $order)
+    {
+        if ($order->status === 'accepted') {
+            $order->status = 'shipped';
+            $order->save();
+            return response()->json(['message' => 'Pedido enviado.', 'order' => $order->load(['user', 'items.product'])]);
+        }
+        return response()->json(['message' => 'No se puede enviar el pedido.'], 422);
+    }
+
+    /**
+     * Cancel/Reject the specified order (API).
+     */
+    public function apiCancel(Order $order)
+    {
+        DB::transaction(function () use ($order) {
+            // Restore stock
+            foreach ($order->items as $item) {
+                $product = Product::find($item->product_id);
+                if ($product) {
+                    $product->stock += $item->quantity;
+                    $product->save();
+                }
+            }
+            $order->status = 'cancelled';
+            $order->save();
+        });
+        return response()->json(['message' => 'Pedido rechazado y stock restaurado.', 'order' => $order->load(['user', 'items.product'])]);
     }
 
     /**

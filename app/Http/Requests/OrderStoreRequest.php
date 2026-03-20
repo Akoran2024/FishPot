@@ -30,17 +30,17 @@ class OrderStoreRequest extends FormRequest
             'items.*.quantity' => ['required', 'integer', 'min:1'],
             'payment_method' => ['required', 'string', 'in:online_payment,cash_on_delivery'],
 
-            // Shipping details fields from frontend (always required for now)
+            // Shipping details fields from frontend
             'shipping_address' => ['required', 'string', 'max:255'],
             'shipping_city' => ['required', 'string', 'max:255'],
-            'shipping_state' => ['required', 'string', 'max:255'],
+            'shipping_state' => ['nullable', 'string', 'max:255'],
             'shipping_zip_code' => ['required', 'string', 'max:255'],
-            'shipping_country' => ['required', 'string', 'max:255'],
+            'shipping_country' => ['nullable', 'string', 'max:255'],
 
-            // Simulated credit card details (required only if payment_method is online_payment)
-            'card_number' => ['required_if:payment_method,online_payment', 'string', 'digits_between:13,16'],
-            'card_expiry' => ['required_if:payment_method,online_payment', 'string', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'], // MM/YY format
-            'card_cvc' => ['required_if:payment_method,online_payment', 'string', 'digits_between:3,4'],
-        ];
-    }
-}
+            // Simulated credit card details (optional for now)
+            'card_number' => ['nullable', 'string', 'digits_between:13,16'],   
+            'card_expiry' => ['nullable', 'string', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'], // MM/YY format
+            'card_cvc' => ['nullable', 'string', 'digits_between:3,4'],        
+            ];
+            }
+            }

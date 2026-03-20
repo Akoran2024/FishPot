@@ -1,164 +1,144 @@
 <template>
-
-
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
-    <div class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-      <div class="animate-fade-in">
-        <h2 class="text-primary-600 font-bold tracking-[0.2em] uppercase text-sm mb-4">Biodiversidad de Lanzarote</h2>
-        <h1 class="text-5xl font-black text-primary-950 leading-tight">Guía de Especies</h1>
-        <p class="text-primary-500 mt-4 font-medium max-w-xl">Conoce las tallas mínimas, hábitats y curiosidades de las especies que habitan nuestras costas.</p>
+    <div class="mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 border-b border-nautical-200 pb-12">
+      <div class="max-w-2xl">
+        <h2 class="text-primary-800 font-serif italic text-sm tracking-[0.2em] uppercase mb-4">Biodiversidad de Lanzarote</h2>
+        <h1 class="text-5xl md:text-6xl font-serif font-black text-primary-950 leading-tight tracking-tight italic">Guía de Especies</h1>
+        <p class="text-nautical-600 mt-6 font-serif italic text-lg leading-relaxed">Un registro detallado de las especies que habitan nuestras aguas. Conozca sus tallas mínimas, hábitats y artes de pesca recomendadas.</p>
       </div>
       
-      <div class="w-full md:w-auto flex flex-col sm:flex-row gap-4 animate-fade-in">
-        <div class="flex bg-white/50 backdrop-blur-md p-1.5 rounded-2xl border border-primary-200 shadow-sm">
+      <div class="w-full md:w-auto flex flex-col sm:flex-row gap-4">
+        <div class="flex bg-white p-1 rounded-lg border border-nautical-200 shadow-sm">
           <button 
             @click="category = 'all'" 
-            :class="category === 'all' ? 'bg-primary-900 text-white shadow-lg' : 'text-primary-500 hover:text-primary-700'"
-            class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300"
+            :class="category === 'all' ? 'bg-primary-950 text-white' : 'text-nautical-500 hover:text-primary-800'"
+            class="px-5 py-2 rounded font-serif italic text-sm transition-all"
           >
-            Todos
+            Todas
           </button>
           <button 
             @click="category = 'pez'" 
-            :class="category === 'pez' ? 'bg-primary-900 text-white shadow-lg' : 'text-primary-500 hover:text-primary-700'"
-            class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300"
+            :class="category === 'pez' ? 'bg-primary-950 text-white' : 'text-nautical-500 hover:text-primary-800'"
+            class="px-5 py-2 rounded font-serif italic text-sm transition-all"
           >
             Peces
           </button>
           <button 
             @click="category = 'molusco'" 
-            :class="category === 'molusco' ? 'bg-primary-900 text-white shadow-lg' : 'text-primary-500 hover:text-primary-700'"
-            class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300"
+            :class="category === 'molusco' ? 'bg-primary-950 text-white' : 'text-nautical-500 hover:text-primary-800'"
+            class="px-5 py-2 rounded font-serif italic text-sm transition-all"
           >
             Moluscos
           </button>
         </div>
-        <div class="relative group">
-          <input type="text" v-model="search" placeholder="Buscar especie..." class="w-full sm:w-64 px-6 py-4 bg-white/80 backdrop-blur-md border border-primary-200 rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-400 outline-none transition shadow-sm group-hover:shadow-md">
-          <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <div class="relative">
+          <input type="text" v-model="search" placeholder="Buscar especie..." class="w-full sm:w-64 px-5 py-3 bg-white border border-nautical-300 rounded-lg focus:ring-2 focus:ring-primary-200 focus:border-primary-700 outline-none transition font-serif italic text-sm">
+          <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-nautical-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         </div>
       </div>
     </div>
 
-    <div v-if="filteredSpecies.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+    <div v-if="filteredSpecies.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
       <div 
         v-for="fish in filteredSpecies" 
         :key="fish.id" 
         @click="selectedSpecies = fish"
-        class="group bg-white/80 backdrop-blur-sm rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all duration-500 border border-primary-200 overflow-hidden cursor-pointer transform hover:-translate-y-2"
+        class="nautical-card group cursor-pointer transition-all duration-500 hover:-translate-y-2 border-b-4 border-b-primary-100 hover:border-b-primary-700"
       >
-        <div class="h-64 relative overflow-hidden">
+        <div class="h-72 relative overflow-hidden bg-nautical-50">
            <img 
             v-if="fish.image"
             :src="fish.image" 
             :alt="fish.name"
-            class="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+            class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition duration-700 group-hover:scale-105"
            />
-           <div v-else :class="fish.color" class="w-full h-full flex items-center justify-center opacity-40">
-              <svg class="h-20 w-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+           <div v-else :class="fish.color" class="w-full h-full flex items-center justify-center opacity-20 italic font-serif">
+              Sin imagen
            </div>
            
-           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+           <div class="absolute inset-0 bg-gradient-to-t from-primary-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-           <div class="absolute top-6 right-6 bg-white/90 backdrop-blur px-4 py-1.5 rounded-full text-[10px] font-black text-primary-800 uppercase tracking-widest shadow-lg">
+           <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded border border-nautical-200 text-[9px] font-bold text-primary-900 uppercase tracking-widest shadow-sm">
              {{ fish.type === 'pez' ? 'Pez' : 'Molusco' }}
            </div>
            
-           <div class="absolute bottom-6 left-6 bg-primary-500 px-4 py-1.5 rounded-xl text-xs font-black text-primary-950 uppercase tracking-wider shadow-xl transform -translate-x-2 group-hover:translate-x-0 transition-transform duration-500">
-             Talla mín: {{ fish.size }}
+           <div class="absolute bottom-6 left-6 bg-white px-4 py-2 border-l-4 border-primary-800 shadow-xl">
+             <span class="text-[10px] font-bold text-nautical-400 uppercase tracking-widest block leading-none mb-1">Talla Mínima</span>
+             <span class="text-lg font-serif font-black text-primary-950 italic leading-none">{{ fish.size }}</span>
            </div>
         </div>
         
         <div class="p-8">
           <div class="flex flex-col mb-4">
-            <h2 class="text-2xl font-black text-primary-900 group-hover:text-primary-600 transition duration-300">{{ fish.name }}</h2>
-            <span v-if="fish.vulgar" class="text-sm font-bold text-primary-500 italic">{{ fish.vulgar }}</span>
+            <h2 class="text-2xl font-serif font-black text-primary-950 group-hover:text-primary-700 transition duration-300 italic">{{ fish.name }}</h2>
+            <span v-if="fish.vulgar" class="text-sm font-serif italic text-primary-600">{{ fish.vulgar }}</span>
           </div>
-          <p class="text-primary-400 italic text-xs mb-6 font-bold uppercase tracking-widest">{{ fish.latin }}</p>
+          <p class="text-nautical-400 italic text-xs mb-6 font-medium uppercase tracking-[0.2em]">{{ fish.latin }}</p>
           
-          <div class="flex items-center justify-between pt-6 border-t border-primary-50">
-            <span class="text-[10px] font-black text-primary-400 uppercase tracking-widest">Dificultad</span>
+          <div class="flex items-center justify-between pt-6 border-t border-nautical-100">
+            <span class="text-[10px] font-bold text-nautical-300 uppercase tracking-widest italic">Dificultad de captura</span>
             <div class="flex space-x-1.5">
-              <div v-for="i in 3" :key="i" :class="i <= fish.difficulty ? 'bg-primary-500' : 'bg-primary-100'" class="h-1.5 w-6 rounded-full shadow-inner transition-colors duration-500"></div>
+              <div v-for="i in 3" :key="i" :class="i <= fish.difficulty ? 'bg-primary-800' : 'bg-nautical-200'" class="h-1.5 w-6 rounded-sm transition-colors duration-500"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
     
-    <div v-else class="text-center py-32 bg-white/50 backdrop-blur-md rounded-[3rem] border-2 border-dashed border-primary-200">
-      <div class="max-w-xs mx-auto">
-        <svg class="w-16 h-16 mx-auto mb-6 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        <p class="text-primary-500 font-bold text-lg">No encontramos esa especie en nuestras costas.</p>
-        <button @click="search = ''; category = 'all'" class="mt-6 text-primary-600 font-black text-sm uppercase tracking-widest hover:text-primary-800 transition">Ver todos</button>
-      </div>
+    <div v-else class="text-center py-32 bg-white/50 border-2 border-dashed border-nautical-200">
+      <p class="text-nautical-400 font-serif italic text-lg">No encontramos registros de esa especie en nuestras bitácoras.</p>
+      <button @click="search = ''; category = 'all'" class="mt-6 text-primary-800 font-serif font-bold italic border-b border-primary-800">Ver todo el catálogo</button>
     </div>
 
-    <!-- Modal con Glassmorphism -->
-    <transition enter-active-class="transition duration-300 ease-out" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100" leave-active-class="transition duration-200 ease-in" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
-      <div v-if="selectedSpecies" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 lg:p-8">
-        <div class="absolute inset-0 bg-primary-950/40 backdrop-blur-md" @click="selectedSpecies = null"></div>
+    <!-- Modal Estilo Antiguo -->
+    <transition name="page">
+      <div v-if="selectedSpecies" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-primary-950/60 backdrop-blur-sm" @click="selectedSpecies = null"></div>
         
-        <div class="relative bg-white/90 backdrop-blur-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-[3rem] shadow-2xl border border-primary-200/50">
-          <button 
-            @click="selectedSpecies = null" 
-            class="absolute top-6 right-6 z-10 p-3 bg-white hover:bg-primary-50 rounded-2xl text-primary-900 transition shadow-xl group"
-          >
-            <svg class="h-6 w-6 group-hover:rotate-90 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        <div class="relative bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-lg shadow-2xl border-4 border-white">
+          <button @click="selectedSpecies = null" class="absolute top-6 right-6 z-10 p-2 bg-nautical-100 hover:bg-nautical-200 text-primary-900 transition">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
 
           <div class="flex flex-col lg:flex-row">
-            <div class="w-full lg:w-1/2 h-[400px] lg:h-auto relative">
+            <div class="w-full lg:w-1/2 h-[450px] lg:h-auto bg-nautical-50">
               <img 
                 v-if="selectedSpecies.image"
                 :src="selectedSpecies.image" 
                 :alt="selectedSpecies.name"
-                class="w-full h-full object-cover"
+                class="w-full h-full object-cover border-r border-nautical-100"
               />
-              <div v-else :class="selectedSpecies.color" class="w-full h-full flex items-center justify-center opacity-40">
-                  <svg class="h-32 w-32 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent lg:hidden"></div>
             </div>
             
             <div class="w-full lg:w-1/2 p-10 lg:p-16">
               <div class="flex items-center space-x-3 mb-8">
-                <span class="px-4 py-1.5 bg-primary-900 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em]">
-                  {{ selectedSpecies.type === 'pez' ? 'Pez' : 'Molusco' }}
-                </span>
-                <span class="px-4 py-1.5 bg-primary-500 text-primary-950 rounded-xl text-[10px] font-black uppercase tracking-[0.2em]">
-                  Talla: {{ selectedSpecies.size }}
-                </span>
+                <span class="text-[10px] font-black uppercase tracking-[0.3em] text-primary-800 border-b-2 border-primary-800 pb-1">Ficha Especie</span>
               </div>
               
-              <h2 class="text-5xl font-black text-primary-950 leading-tight mb-4">{{ selectedSpecies.name }}</h2>
-              <p v-if="selectedSpecies.vulgar" class="text-2xl font-bold text-primary-600 italic mb-2">{{ selectedSpecies.vulgar }}</p>
-              <p class="text-primary-400 italic font-bold text-sm tracking-widest uppercase mb-10">{{ selectedSpecies.latin }}</p>
+              <h2 class="text-5xl font-serif font-black text-primary-950 leading-tight mb-2 italic">{{ selectedSpecies.name }}</h2>
+              <p class="text-primary-500 italic font-serif text-sm tracking-widest uppercase mb-10">{{ selectedSpecies.latin }}</p>
               
-            <div class="space-y-8">
-                <div>
-                  <h4 class="text-primary-900 font-black uppercase text-xs tracking-[0.2em] mb-4">Descripción</h4>
-                  <p class="text-primary-600 leading-relaxed font-medium text-lg">
-                    {{ selectedSpecies.description }}
+              <div class="space-y-10">
+                <div class="prose prose-nautical">
+                  <h4 class="text-nautical-400 font-serif italic text-xs tracking-[0.2em] mb-4 uppercase">Descripción y Notas</h4>
+                  <p class="text-primary-900 leading-relaxed font-serif text-lg italic">
+                    "{{ selectedSpecies.description }}"
                   </p>
                 </div>
 
-                <div v-if="selectedSpecies.curiosity" class="bg-primary-50 p-6 rounded-2xl border border-primary-100">
-                  <h4 class="text-primary-900 font-black uppercase text-xs tracking-[0.2em] mb-2 flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"></path></svg>
-                    ¿Sabías que?
-                  </h4>
-                  <p class="text-primary-700 text-sm font-medium italic">{{ selectedSpecies.curiosity }}</p>
+                <div v-if="selectedSpecies.curiosity" class="bg-nautical-50 p-6 border-l-4 border-primary-700">
+                  <h4 class="text-primary-900 font-serif font-black italic text-sm mb-2">¿Sabía que?</h4>
+                  <p class="text-nautical-700 text-sm font-serif italic">{{ selectedSpecies.curiosity }}</p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-8 pt-10 border-t border-primary-100">
-                  <div class="group">
-                    <span class="block text-[10px] font-black text-primary-400 uppercase tracking-[0.2em] mb-2 group-hover:text-primary-600 transition">Hábitat Común</span>
-                    <span class="font-black text-primary-900 text-xl italic group-hover:text-primary-900">{{ selectedSpecies.habitat || 'Costas de Lanzarote' }}</span>
+                <div class="grid grid-cols-2 gap-8 pt-10 border-t border-nautical-100">
+                  <div>
+                    <span class="block text-[10px] font-bold text-nautical-400 uppercase tracking-widest mb-2 italic">Hábitat</span>
+                    <span class="font-serif font-black text-primary-950 text-xl italic">{{ selectedSpecies.habitat || 'Zonas de roca' }}</span>
                   </div>
                   <div>
-                    <span class="block text-[10px] font-black text-primary-400 uppercase tracking-[0.2em] mb-2">Cebo Recomendado</span>
-                    <span class="font-black text-primary-600 text-lg">{{ selectedSpecies.bait || 'Varios' }}</span>
+                    <span class="block text-[10px] font-bold text-nautical-400 uppercase tracking-widest mb-2 italic">Cebo Recomendado</span>
+                    <span class="font-serif font-black text-primary-700 text-xl italic">{{ selectedSpecies.bait || 'Varios' }}</span>
                   </div>
                 </div>
               </div>
@@ -236,19 +216,20 @@ const species = [
     id: 17, type: 'pez', name: 'Loro viejo', vulgar: 'Vieja', latin: 'Sparisoma cretense', size: '20 cm', 
     description: 'El pez más icónico de Canarias. Posee colores vibrantes, especialmente las hembras que son rojas y amarillas.', 
     habitat: 'Arrecifes y sebadales', bait: 'Cangrejo blanco', curiosity: 'Tiene un "pico" similar al de un loro que usa para raspar algas de las rocas.',
-        difficulty: 2, color: 'bg-primary-500', image: '/imagenes/vieja.jpg'  
-      },
-      { 
-        id: 18, type: 'pez', name: 'Mero', vulgar: 'Mero', latin: 'Epinephelus marginatus', size: '45 cm', 
-        description: 'El gigante de los fondos canarios. Puede vivir muchos años y alcanzar tamaños impresionantes.', 
-        habitat: 'Grandes cuevas submarinas', bait: 'Pulpo o calamar', curiosity: 'Es hermafrodita: nace hembra y con el tiempo puede convertirse en macho.',
-        difficulty: 3, color: 'bg-secondary-800', image: '/imagenes/mero.jpg'
-      },
-      { 
-        id: 21, type: 'pez', name: 'Pargo', vulgar: 'Bocinegro, pargo, palleta', latin: 'Pagrus pagrus', size: '33 cm', 
-        description: 'Pez de color rosado intenso, muy fuerte. Es uno de los reyes de la pesca de fondo.', 
-        habitat: 'Fondos rocosos limpios', bait: 'Gamba o calamar', curiosity: 'Su nombre "bocinegro" viene del color oscuro de su boca.',
-        difficulty: 2, color: 'bg-primary-300', image: '/imagenes/pargo.jpeg'   },
+    difficulty: 2, color: 'bg-primary-500', image: '/imagenes/vieja.jpg'  
+  },
+  { 
+    id: 18, type: 'pez', name: 'Mero', vulgar: 'Mero', latin: 'Epinephelus marginatus', size: '45 cm', 
+    description: 'El gigante de los fondos canarios. Puede vivir muchos años y alcanzar tamaños impresionantes.', 
+    habitat: 'Grandes cuevas submarinas', bait: 'Pulpo o calamar', curiosity: 'Es hermafrodita: nace hembra y con el tiempo puede convertirse en macho.',
+    difficulty: 3, color: 'bg-secondary-800', image: '/imagenes/mero.jpg'
+  },
+  { 
+    id: 21, type: 'pez', name: 'Pargo', vulgar: 'Bocinegro, pargo, palleta', latin: 'Pagrus pagrus', size: '33 cm', 
+    description: 'Pez de color rosado intenso, muy fuerte. Es uno de los reyes de la pesca de fondo.', 
+    habitat: 'Fondos rocosos limpios', bait: 'Gamba o calamar', curiosity: 'Su nombre "bocinegro" viene del color oscuro de su boca.',
+    difficulty: 2, color: 'bg-primary-300', image: '/imagenes/pargo.jpeg'   
+  },
   { 
     id: 22, type: 'pez', name: 'Salpa', vulgar: 'Salema', latin: 'Sarpa salpa', size: '24 cm', 
     description: 'Pez herbívoro de color plateado con líneas doradas. Suele nadar en bancos muy numerosos.', 
@@ -274,9 +255,7 @@ const filteredSpecies = computed(() => {
     const matchesSearch = fish.name.toLowerCase().includes(search.value.toLowerCase()) || 
                          fish.latin.toLowerCase().includes(search.value.toLowerCase()) ||
                          (fish.vulgar && fish.vulgar.toLowerCase().includes(search.value.toLowerCase()));
-    
     const matchesCategory = category.value === 'all' || fish.type === category.value;
-    
     return matchesSearch && matchesCategory;
   })
 })

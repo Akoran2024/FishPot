@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>FishPot - Página de pesca en Lanzarote</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>FishPot - Pesca en Lanzarote</title>
+    
+    <link rel="icon" type="image/png" href="{{ asset('imagenes/Vieja.png') }}">
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     <style>
-        h1, h2, h3, h4, .font-display {
-            font-family: 'Fraunces', serif;
-        }
+        /* Eliminamos cualquier fondo sólido aquí para que mande el CSS */
         body {
-            font-family: 'Inter', sans-serif;
-            letter-spacing: -0.01em;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased selection:bg-primary-500/30">
     <div id="app"></div>
 </body>
 </html>

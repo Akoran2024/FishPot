@@ -1,144 +1,103 @@
 <template>
-  <!-- imagen -->
- 
-
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
-    <div class="mb-12 animate-fade-in">
-      <h2 class="text-accent-600 font-bold tracking-[0.2em] uppercase text-sm mb-4">Tu Selección</h2>
-      <h1 class="text-5xl font-black text-slate-900 mb-4">Carrito de Compras</h1>
-      <p class="text-slate-500 font-medium">Revisa tus artículos antes de zarpar.</p>
+    <div class="mb-16 border-b border-nautical-200 pb-12">
+      <h2 class="text-primary-800 font-serif italic text-sm tracking-[0.2em] uppercase mb-2">Su selección</h2>
+      <h1 class="text-5xl md:text-6xl font-serif font-black text-primary-950 italic tracking-tight">Cesto de Compra</h1>
+      <p class="text-nautical-600 mt-4 font-serif italic text-lg">Revise sus aparejos antes de confirmar el pedido. Listos para zarpar.</p>
     </div>
 
-    <div v-if="cartStore.items.length === 0" class="bg-white/70 backdrop-blur-xl rounded-[3rem] p-20 text-center border border-white shadow-xl animate-fade-in">
-      <div class="bg-primary-50 w-24 h-24 rounded-[2rem] flex items-center justify-center mx-auto mb-8 text-primary-200 shadow-inner">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div v-if="cartStore.items.length === 0" class="nautical-card p-24 text-center">
+      <div class="bg-nautical-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-10 text-nautical-200 border border-nautical-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
         </svg>
       </div>
-      <p class="text-2xl text-slate-400 font-black mb-8 uppercase tracking-widest">Tu carrito está vacío</p>
-      <router-link to="/tienda" class="inline-block bg-primary-900 text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-primary-950 transition-all shadow-xl shadow-primary-950/20 active:scale-95">
-        Volver a la Tienda
+      <p class="text-3xl text-nautical-300 font-serif italic mb-10">Su cesto está vacío</p>
+      <router-link to="/tienda" class="nautical-btn">
+        Volver al Almacén
       </router-link>
     </div>
 
-    <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-      <!-- Lista de Productos -->
-      <div class="lg:col-span-2 space-y-6">
+    <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
+      <!-- Lista de Aparejos -->
+      <div class="lg:col-span-2 space-y-8">
         <div v-for="item in cartStore.items" :key="item.id" 
-             class="group bg-white/80 backdrop-blur-md p-8 rounded-[2.5rem] border border-white flex flex-col sm:flex-row items-center gap-8 shadow-xl hover:shadow-2xl transition-all duration-300">
-          <div class="h-32 w-32 bg-slate-50 rounded-[1.5rem] flex-shrink-0 flex items-center justify-center text-primary-200 group-hover:bg-primary-50 transition-colors duration-500 relative overflow-hidden">
-             <img v-if="item.image" :src="'/' + item.image" :alt="item.name" class="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-110">
-             <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-             </svg>
+             class="nautical-card p-8 group flex flex-col sm:flex-row items-center gap-10 hover:border-primary-300 transition-all">
+          <div class="h-32 w-32 bg-nautical-50 rounded flex-shrink-0 flex items-center justify-center p-4">
+             <img v-if="item.image" :src="'/' + item.image" :alt="item.name" class="w-full h-full object-contain grayscale-[0.2] group-hover:grayscale-0 transition-all">
           </div>
           <div class="flex-grow text-center sm:text-left">
-            <h3 class="font-black text-slate-900 text-2xl group-hover:text-primary-600 transition-colors">{{ item.name }}</h3>
-            <p class="text-slate-400 font-bold text-sm uppercase tracking-widest mt-1">Cantidad: {{ item.quantity }}</p>
-            <div class="mt-4 flex flex-wrap justify-center sm:justify-start gap-4">
-               <button @click="cartStore.removeItem(item.id)" class="text-xs font-black text-purple-500 hover:text-purple-700 uppercase tracking-widest bg-purple-50 px-4 py-2 rounded-xl transition-colors">Eliminar</button>
-            </div>
+            <h3 class="font-serif font-black text-primary-950 text-2xl italic group-hover:text-primary-800 transition-colors">{{ item.name }}</h3>
+            <p class="text-nautical-400 font-serif italic text-sm mt-1 uppercase tracking-widest">Cantidad: {{ item.quantity }} unidades</p>
+            <button @click="cartStore.removeItem(item.id)" class="mt-4 text-[10px] font-bold text-red-700 uppercase tracking-widest hover:text-red-900 border-b border-red-200 pb-0.5">Retirar del cesto</button>
           </div>
           <div class="text-center sm:text-right flex flex-col justify-center">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Subtotal</p>
-            <p class="font-black text-3xl text-primary-950">{{ item.price * item.quantity }}<span class="text-sm">€</span></p>
+            <p class="text-[9px] font-bold text-nautical-300 uppercase tracking-widest mb-1 italic">Subtotal</p>
+            <p class="font-serif font-black text-3xl text-primary-950 italic tracking-tighter">{{ item.price * item.quantity }}<span class="text-sm">€</span></p>
           </div>
         </div>
       </div>
 
-      <!-- Resumen -->
-      <div class="bg-primary-950 text-white p-10 rounded-[3rem] shadow-2xl sticky top-28 border border-primary-900 overflow-hidden relative group">
-        <!-- Decorative element -->
-        <div class="absolute -right-20 -top-20 w-64 h-64 bg-primary-800 rounded-full blur-[80px] opacity-20 transition-all duration-700 group-hover:scale-110"></div>
+      <!-- Albarán de Pedido -->
+      <div class="bg-white p-12 shadow-2xl border-4 border-double border-nautical-100 relative">
+        <div class="absolute inset-0 pointer-events-none opacity-5" style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;"></div>
         
         <div class="relative z-10">
-          <h2 class="text-3xl font-black mb-10">Resumen</h2>
+          <h2 class="text-3xl font-serif font-black mb-10 text-primary-950 italic text-center border-b border-nautical-100 pb-6">Resumen de Pedido</h2>
+          
+          <div class="space-y-6 mb-12 font-serif italic">
+            <div class="flex justify-between items-center text-nautical-600">
+              <span>Suma de aparejos</span>
+              <span class="font-bold text-primary-900">{{ cartStore.totalPrice }}€</span>
+            </div>
+            <div class="flex justify-between items-center text-nautical-600">
+              <span>Portes de envío</span>
+              <span class="text-primary-700 font-bold">Sin cargo</span>
+            </div>
+            <div class="pt-8 border-t-2 border-dashed border-nautical-200 flex justify-between items-end">
+              <div>
+                <span class="block text-nautical-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">Total a liquidar</span>
+                <span class="text-5xl font-serif font-black text-primary-950 tracking-tighter italic">{{ cartStore.totalPrice }}€</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detalles de Entrega -->
           <div class="space-y-6 mb-12">
-            <div class="flex justify-between items-center">
-              <span class="text-primary-300 font-bold uppercase text-[10px] tracking-[0.2em]">Subtotal</span>
-              <span class="font-black text-xl">{{ cartStore.totalPrice }}€</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-primary-300 font-bold uppercase text-[10px] tracking-[0.2em]">Gastos de Envío</span>
-              <span class="text-accent-400 font-black text-xs uppercase tracking-widest">Gratis</span>
-            </div>
-            <div class="pt-8 border-t border-primary-800 flex justify-between items-end">
-              <div>
-                <span class="block text-primary-400 font-bold uppercase text-[10px] tracking-[0.2em] mb-1">Total a pagar</span>
-                <span class="text-4xl font-black">{{ cartStore.totalPrice }}€</span>
+            <h3 class="text-xs font-black text-primary-800 uppercase tracking-[0.3em] mb-4 italic">Detalles de Entrega</h3>
+            <div class="grid grid-cols-1 gap-4">
+              <input type="text" v-model="shippingAddress" placeholder="Dirección de entrega" class="nautical-input">
+              <div class="grid grid-cols-2 gap-4">
+                <input type="text" v-model="shippingCity" placeholder="Localidad" class="nautical-input">
+                <input type="text" v-model="shippingZipCode" placeholder="C. Postal" class="nautical-input">
               </div>
             </div>
           </div>
-          <div class="mb-6 p-4 bg-primary-800/50 rounded-lg">
-            <h3 class="text-xl font-black mb-4">Dirección de Envío</h3>
-            <div class="space-y-4">
-              <div>
-                <label for="shipping_address" class="block text-primary-200 text-sm font-bold mb-1">Dirección:</label>
-                <input type="text" id="shipping_address" v-model="shippingAddress" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-              </div>
-              <div>
-                <label for="shipping_city" class="block text-primary-200 text-sm font-bold mb-1">Ciudad:</label>
-                <input type="text" id="shipping_city" v-model="shippingCity" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-              </div>
-              <div>
-                <label for="shipping_state" class="block text-primary-200 text-sm font-bold mb-1">Provincia/Estado:</label>
-                <input type="text" id="shipping_state" v-model="shippingState" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-              </div>
-              <div>
-                <label for="shipping_zip_code" class="block text-primary-200 text-sm font-bold mb-1">Código Postal:</label>
-                <input type="text" id="shipping_zip_code" v-model="shippingZipCode" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-              </div>
-              <div>
-                <label for="shipping_country" class="block text-primary-200 text-sm font-bold mb-1">País:</label>
-                <input type="text" id="shipping_country" v-model="shippingCountry" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-              </div>
-            </div>
-          </div>
-          <div class="mb-6">
-            <h3 class="text-xl font-black mb-4">Método de Pago</h3>
-            <div class="flex flex-col space-y-3">
-              <label class="inline-flex items-center">
-                <input type="radio" v-model="paymentMethod" value="online_payment" class="form-radio text-primary-500 h-5 w-5">
-                <span class="ml-2 text-white">Pagar ahora (Tarjeta/PayPal)</span>
+
+          <!-- Forma de Pago -->
+          <div class="mb-12">
+            <h3 class="text-xs font-black text-primary-800 uppercase tracking-[0.3em] mb-6 italic">Forma de Pago</h3>
+            <div class="space-y-4 font-serif italic text-sm text-nautical-700">
+              <label class="flex items-center cursor-pointer group">
+                <input type="radio" v-model="paymentMethod" value="online_payment" class="hidden peer">
+                <div class="w-4 h-4 rounded-full border-2 border-nautical-300 mr-3 peer-checked:bg-primary-800 peer-checked:border-primary-800 transition-all"></div>
+                <span class="group-hover:text-primary-950 transition-colors">Pago con tarjeta</span>
               </label>
-              <label class="inline-flex items-center">
-                <input type="radio" v-model="paymentMethod" value="cash_on_delivery" class="form-radio text-primary-500 h-5 w-5">
-                <span class="ml-2 text-white">Contra reembolso</span>
+              <label class="flex items-center cursor-pointer group">
+                <input type="radio" v-model="paymentMethod" value="cash_on_delivery" class="hidden peer">
+                <div class="w-4 h-4 rounded-full border-2 border-nautical-300 mr-3 peer-checked:bg-primary-800 peer-checked:border-primary-800 transition-all"></div>
+                <span class="group-hover:text-primary-950 transition-colors">Pago al recibir el bulto</span>
               </label>
             </div>
           </div>
-          <div v-if="paymentMethod === 'online_payment'" class="mb-6 p-4 bg-primary-800/50 rounded-lg">
-            <h3 class="text-xl font-black mb-4">Datos de Tarjeta (Simulado)</h3>
-            <p class="text-sm text-primary-200 mb-4">
-              Estos campos son solo para demostración y no procesan pagos reales.
-              <br> ¡NO uses datos de tarjeta reales aquí!
-            </p>
-            <div class="space-y-4">
-              <div>
-                <label for="card_number" class="block text-primary-200 text-sm font-bold mb-1">Número de Tarjeta:</label>
-                <input type="text" id="card_number" v-model="cardNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required pattern="[0-9]{13,16}" title="Número de tarjeta válido (13-16 dígitos)">
-              </div>
-              <div class="flex space-x-4">
-                <div class="flex-1">
-                  <label for="card_expiry" class="block text-primary-200 text-sm font-bold mb-1">Fecha de Caducidad (MM/AA):</label>
-                  <input type="text" id="card_expiry" v-model="cardExpiry" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required pattern="(0[1-9]|1[0-2])\/([0-9]{2})" placeholder="MM/AA">
-                </div>
-                <div class="flex-1">
-                  <label for="card_cvc" class="block text-primary-200 text-sm font-bold mb-1">CVC:</label>
-                  <input type="text" id="card_cvc" v-model="cardCVC" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required pattern="[0-9]{3,4}" title="Código CVC (3-4 dígitos)">
-                </div>
-              </div>
-            </div>
-          </div>
-          <button @click="checkout" class="w-full bg-accent-500 hover:bg-accent-400 text-primary-950 py-5 rounded-[1.5rem] font-black text-lg transition-all shadow-xl shadow-accent-950/20 active:scale-95">
-            Finalizar Pedido
+
+          <button @click="checkout" class="nautical-btn w-full text-center py-5">
+            Confirmar Pedido
           </button>
           
-          <div class="mt-8 flex items-center justify-center space-x-4 opacity-50 grayscale hover:grayscale-0 transition duration-500">
-            <!-- Payment icons placeholders -->
-            <div class="w-10 h-6 bg-white/20 rounded-sm"></div>
-            <div class="w-10 h-6 bg-white/20 rounded-sm"></div>
-            <div class="w-10 h-6 bg-white/20 rounded-sm"></div>
+          <div class="mt-10 text-center opacity-40">
+            <img src="https://img.icons8.com/color/48/000000/visa.png" class="inline-block h-6 mx-2 grayscale" alt="Visa">
+            <img src="https://img.icons8.com/color/48/000000/mastercard.png" class="inline-block h-6 mx-2 grayscale" alt="Mastercard">
           </div>
         </div>
       </div>
@@ -147,7 +106,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue' // Import ref
+import { ref } from 'vue'
 import { useCartStore } from '../stores/cart'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
@@ -155,55 +114,41 @@ import axios from 'axios'
 const cartStore = useCartStore()
 const router = useRouter()
 
-const paymentMethod = ref('online_payment') // Reactive variable for payment method
-
-// New reactive variables for shipping details
+const paymentMethod = ref('online_payment')
 const shippingAddress = ref('')
 const shippingCity = ref('')
-const shippingState = ref('')
 const shippingZipCode = ref('')
-const shippingCountry = ref('')
-
-// New reactive variables for simulated card details
-const cardNumber = ref('')
-const cardExpiry = ref('') // Format MM/YY
-const cardCVC = ref('')
 
 const checkout = async () => {
   if (cartStore.items.length === 0) return
+  if (!shippingAddress.value || !shippingCity.value) {
+    alert('Por favor, indique los datos de entrega.')
+    return
+  }
 
   try {
     const orderData = {
-      items: cartStore.items.map(item => ({
-        id: item.id,
-        quantity: item.quantity
-      })),
+      items: cartStore.items.map(item => ({ id: item.id, quantity: item.quantity })),
       total: cartStore.totalPrice,
-      payment_method: paymentMethod.value, // Include payment method
-      shipping_address: shippingAddress.value, // Include shipping details
+      payment_method: paymentMethod.value,
+      shipping_address: shippingAddress.value,
       shipping_city: shippingCity.value,
-      shipping_state: shippingState.value,
       shipping_zip_code: shippingZipCode.value,
-      shipping_country: shippingCountry.value,
     }
 
-    // Include simulated card details only if online payment is selected
-    if (paymentMethod.value === 'online_payment') {
-      orderData.card_number = cardNumber.value
-      orderData.card_expiry = cardExpiry.value
-      orderData.card_cvc = cardCVC.value
-    }
-
-    // Existing Axios post call
     const response = await axios.post('/orders', orderData)
-
-    alert(response.data.message || '¡Pedido realizado con éxito! El stock ha sido actualizado.')
+    alert('¡Pedido anotado con éxito! Recibirá sus aparejos pronto.')
     cartStore.clearCart()
     router.push('/')
   } catch (error) {
     console.error('Error al procesar el pedido:', error)
-    const message = error.response?.data?.message || 'Hubo un error al procesar tu pedido.'
-    alert(message)
+    alert('Hubo un error al procesar el pedido en el puerto.')
   }
 }
 </script>
+
+<style scoped>
+.nautical-input {
+  @apply w-full px-4 py-3 bg-nautical-50 border border-nautical-200 rounded font-serif italic text-sm focus:ring-1 focus:ring-primary-800 focus:border-primary-800 outline-none transition-all placeholder:text-nautical-300;
+}
+</style>

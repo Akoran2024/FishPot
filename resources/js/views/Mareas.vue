@@ -1,90 +1,85 @@
 <template>
-
- 
-
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
-    <div class="mb-12">
-      <h1 class="text-4xl font-black text-slate-900">Tabla de Mareas</h1>
-      <p class="text-slate-500 mt-2 font-medium">Previsiones precisas para la costa de Lanzarote.</p>
+    <div class="mb-16 text-center">
+      <h2 class="text-primary-800 font-serif italic text-sm tracking-[0.2em] uppercase mb-2">Estado de la Mar</h2>
+      <h1 class="text-5xl md:text-6xl font-serif font-black text-primary-950 tracking-tight">Bitácora de Mareas</h1>
+      <p class="text-nautical-600 mt-4 font-serif italic text-lg max-w-2xl mx-auto">Previsiones precisas para la costa de Lanzarote. Consulte el pulso del Atlántico antes de su jornada.</p>
+      <div class="w-24 h-px bg-primary-700 mx-auto mt-8 opacity-20"></div>
     </div>
 
-    <div v-if="loading" class="flex justify-center py-20 bg-white/50 backdrop-blur-md rounded-[2.5rem] border border-white">
+    <div v-if="loading" class="flex justify-center py-32 bg-white/50 backdrop-blur-sm rounded-xl border border-nautical-200">
       <div class="flex flex-col items-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary-100 border-t-primary-600 mb-4"></div>
-        <p class="text-primary-900 font-bold animate-pulse">Consultando al océano...</p>
+        <div class="animate-spin rounded-full h-10 w-10 border-2 border-nautical-200 border-t-primary-800 mb-6"></div>
+        <p class="text-primary-900 font-serif italic animate-pulse">Consultando los registros del puerto...</p>
       </div>
     </div>
 
-    <div v-else-if="error" class="bg-purple-50 p-10 rounded-[2.5rem] border border-purple-100 text-purple-700 text-center shadow-xl">
-      <svg class="w-16 h-16 mx-auto mb-4 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-      <p class="text-lg font-bold">{{ error }}</p>
+    <div v-else-if="error" class="bg-red-50 p-12 rounded-xl border border-red-100 text-red-800 text-center shadow-sm">
+      <p class="text-xl font-serif italic mb-4">{{ error }}</p>
+      <button @click="fetchTides" class="text-sm font-bold uppercase tracking-widest text-red-600 hover:text-red-800 transition">Reintentar conexión</button>
     </div>
 
-    <div v-else class="space-y-12">
-      <!-- Dashboard de Hoy -->
+    <div v-else class="space-y-16">
+      <!-- Dashboard de Hoy (Estilo Placa Tradicional) -->
       <div v-if="todayTides" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-primary-900 p-8 rounded-[2.5rem] shadow-2xl text-white relative overflow-hidden group">
-          <div class="absolute -right-4 -bottom-4 opacity-10 transform group-hover:scale-110 transition duration-500">
-            <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
-          </div>
-          <p class="text-primary-300 font-bold uppercase text-xs tracking-[0.2em] mb-4">Puerto</p>
-          <p class="text-4xl font-black mb-1">La Santa</p>
-          <p class="text-sm text-primary-200/60 font-medium">Lanzarote, Islas Canarias</p>
+        <div class="bg-primary-950 p-10 rounded-lg shadow-xl text-white relative overflow-hidden group border-b-4 border-primary-800">
+          <p class="text-primary-300 font-serif italic text-xs tracking-widest mb-4 opacity-60">Puerto de Referencia</p>
+          <p class="text-4xl font-serif font-black mb-2 tracking-tight italic">La Santa</p>
+          <p class="text-xs text-primary-400 font-bold uppercase tracking-[0.2em]">Lanzarote · Canarias</p>
         </div>
         
-        <div :class="todayTides ? getFishingStatus(todayTides).class : 'bg-white'" class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-white/50 relative overflow-hidden group">
-          <p class="text-slate-500 font-bold uppercase text-xs tracking-[0.2em] mb-4">Estado Pesca</p>
-          <p class="text-2xl font-black text-slate-900 mb-1" v-if="todayTides">{{ getFishingStatus(todayTides).label }}</p>
-          <p class="text-sm text-slate-500 font-medium" v-if="todayTides">{{ getFishingStatus(todayTides).risk }}</p>
+        <div class="nautical-card p-10 text-center flex flex-col justify-center border-b-4 border-primary-200">
+          <p class="text-nautical-400 font-serif italic text-xs tracking-widest mb-4">Estado de Pesca</p>
+          <p class="text-2xl font-serif font-black text-primary-950 mb-1" v-if="todayTides">{{ getFishingStatus(todayTides).label }}</p>
+          <p class="text-sm text-nautical-500 font-serif italic" v-if="todayTides">{{ getFishingStatus(todayTides).risk }}</p>
         </div>
 
-        
-        <div class="bg-primary-900 p-8 rounded-[2.5rem] shadow-2xl text-white relative overflow-hidden group">
-          <p class="text-primary-300 font-bold uppercase text-xs tracking-[0.2em] mb-4">Próxima Marea</p>
-          <p class="text-4xl font-black mb-1">09:45</p>
-          <p class="text-primary-300 font-bold uppercase text-xs tracking-[0.2em] mb-4">Pleamar (estimado)</p>
+        <div class="bg-white p-10 rounded-lg shadow-xl border border-nautical-200 relative overflow-hidden text-center border-b-4 border-nautical-100">
+          <p class="text-nautical-400 font-serif italic text-xs tracking-widest mb-4">Próximo Cambio</p>
+          <p class="text-5xl font-serif font-black text-primary-950 mb-2 italic tracking-tighter">{{ nextTide ? nextTide.hora : '--:--' }}</p>
+          <p class="text-[10px] font-black text-primary-700 uppercase tracking-[0.4em]">{{ nextTide ? nextTide.tipo : 'Calculando...' }}</p>
         </div>
       </div>
 
-      <!-- Listado Semanal -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Listado Semanal (Estilo Catálogo) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div v-for="day in weeklyTides" :key="day.date" 
-             class="bg-white/70 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-xl border border-white hover:border-primary-200 transition-all duration-300">
-          <div class="flex items-center justify-between mb-8">
+             class="nautical-card p-10 group hover:border-primary-300 transition-all duration-500">
+          <div class="flex items-center justify-between mb-10 pb-6 border-b border-nautical-100">
             <div>
-              <h2 class="text-2xl font-black text-slate-900">{{ day.day_name }}</h2>
-              <p class="text-primary-600 font-bold text-sm">{{ day.date }}</p>
+              <h2 class="text-3xl font-serif font-black text-primary-950 italic">{{ day.day_name }}</h2>
+              <p class="text-primary-700 font-serif italic text-sm">{{ day.date }}</p>
             </div>
-            <div class="bg-primary-50 p-3 rounded-2xl">
-              <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <div class="text-primary-200 group-hover:text-primary-400 transition-colors">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
             </div>
           </div>
 
-          <!-- Indicador para pescar -->
-          <div :class="getFishingStatus(day).class" class="mb-6 p-4 rounded-2xl border flex items-start space-x-3">
-            <div class="mt-0.5 font-bold text-lg">{{ getFishingStatus(day).icon }}</div>
-            <div>
-              <p class="font-bold text-sm">{{ getFishingStatus(day).label }}</p>
-              <p v-if="getFishingStatus(day).risk" class="text-xs mt-1 opacity-90">{{ getFishingStatus(day).risk }}</p>
+          <!-- Indicador Náutico -->
+          <div :class="getFishingStatus(day).class" class="mb-10 p-6 border-l-4 border-primary-800 bg-primary-50/30">
+            <div class="flex items-center space-x-4">
+              <span class="text-2xl">{{ getFishingStatus(day).icon }}</span>
+              <div>
+                <p class="font-serif font-black text-primary-950 text-lg italic">{{ getFishingStatus(day).label }}</p>
+                <p class="text-xs font-serif italic text-nautical-600 mt-1">{{ getFishingStatus(day).risk }}</p>
+              </div>
             </div>
           </div>
           
-          <div class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div v-for="tide in day.tides" :key="tide.hora" 
-                 class="flex items-center justify-between p-4 rounded-2xl bg-slate-50/50 border border-slate-100 hover:bg-white hover:shadow-md transition duration-200">
-              <div class="flex items-center space-x-4">
-                <div :class="tide.tipo.toLowerCase() === 'pleamar' ? 'text-blue-600 bg-blue-100' : 'text-amber-600 bg-amber-100'" class="p-2 rounded-xl">
-                  <svg v-if="tide.tipo.toLowerCase() === 'pleamar'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-                  <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                </div>
-                <div>
-                  <p class="font-black text-slate-900">{{ tide.hora }}</p>
-                  <p class="text-[10px] uppercase tracking-widest font-bold text-slate-400">{{ tide.tipo }}</p>
-                </div>
+                 class="p-5 bg-nautical-50/50 border border-nautical-100 hover:bg-white hover:border-primary-200 transition duration-300">
+              <div class="flex items-center justify-between mb-2">
+                <span :class="tide.tipo.toLowerCase() === 'pleamar' ? 'text-primary-800' : 'text-nautical-500'" class="text-[10px] font-black uppercase tracking-[0.2em]">
+                  {{ tide.tipo }}
+                </span>
+                <span class="text-primary-950 font-serif font-black text-xl">{{ tide.hora }}</span>
               </div>
-              <div class="text-right">
-                <p class="text-lg font-black text-primary-900">{{ tide.altura }}m</p>
-                <p class="text-[10px] uppercase tracking-widest font-bold text-slate-400">Altura</p>
+              <div class="flex items-end justify-between">
+                <div class="h-1.5 w-16 bg-nautical-200 rounded-full overflow-hidden">
+                   <div :style="{ width: (parseFloat(tide.altura) * 30) + '%' }" class="h-full bg-primary-700"></div>
+                </div>
+                <span class="text-xs font-serif italic text-nautical-500">{{ tide.altura }} metros</span>
               </div>
             </div>
           </div>
@@ -109,7 +104,7 @@ const fetchTides = async () => {
     weeklyTides.value = response.data
   } catch (err) {
     console.error('Error fetching tides:', err)
-    error.value = 'No se pudieron cargar los datos de las mareas. Por favor, inténtelo de nuevo más tarde.'
+    error.value = 'No se pudieron recuperar los registros de marea. Inténtelo más tarde.'
   } finally {
     loading.value = false
   }
@@ -121,32 +116,29 @@ const todayTides = computed(() => {
   return weeklyTides.value.find(day => day.date === today) || weeklyTides.value[0]
 })
 
+const nextTide = computed(() => {
+  if (!todayTides.value) return null
+  const now = new Date()
+  const currentTime = now.getHours() * 60 + now.getMinutes()
+  const futureTides = todayTides.value.tides.filter(tide => {
+    const [hours, minutes] = tide.hora.split(':').map(Number)
+    return (hours * 60 + minutes) > currentTime
+  })
+  if (futureTides.length > 0) return futureTides[0]
+  if (weeklyTides.value.length > 1) return weeklyTides.value[1].tides[0]
+  return todayTides.value.tides[0]
+})
+
 const getFishingStatus = (day) => {
-  // Buscamos la bajamar más baja del día para evaluar seguridad
+  if (!day.tides || day.tides.length === 0) return { label: 'Sin datos', class: '', icon: '?', risk: '' }
   const heights = day.tides.map(t => parseFloat(t.altura))
   const minHeight = Math.min(...heights)
-  
   if (minHeight >= 0.5 && minHeight <= 1.0) {
-    return { 
-      label: 'Día adecuado para pescar', 
-      class: 'bg-emerald-50 text-emerald-700 border-emerald-100',
-      icon: '✓',
-      risk: 'Las condiciones de la marea son óptimas para la costa de Lanzarote.'
-    }
+    return { label: 'Jornada favorable', class: '', icon: '⚓', risk: 'Condiciones óptimas según los registros locales.' }
   } else if (minHeight < 0.5) {
-    return { 
-      label: 'Aviso de riesgo: Marea muy baja', 
-      class: 'bg-amber-50 text-amber-700 border-amber-100',
-      icon: '!',
-      risk: 'Riesgo de rocas expuestas y superficies resbaladizas. Extremar precaución.'
-    }
+    return { label: 'Marea muy baja', class: '', icon: '⚠️', risk: 'Riesgo de rocas expuestas. Proceda con cautela.' }
   } else {
-    return { 
-      label: 'Aviso de riesgo: Marea alta', 
-      class: 'bg-orange-50 text-orange-700 border-orange-100',
-      icon: '!',
-      risk: 'Fuertes corrientes y difícil acceso a pesqueros. No recomendado para principiantes.'
-    }
+    return { label: 'Marea alta / Viva', class: '', icon: '🌊', risk: 'Corrientes fuertes. Solo para expertos en costa.' }
   }
 }
 
