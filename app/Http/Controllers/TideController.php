@@ -22,54 +22,60 @@ class TideController extends Controller
 
     public function index()
     {
-        $start = Carbon::now()->startOfDay();
-        // Request extremes for 7 days
-        $end = Carbon::now()->addDays(6)->endOfDay();
+        $timezone = 'Atlantic/Canary';
+        $start = Carbon::now($timezone)->startOfDay();
+        // Request for 7 days
+        $days = 7;
 
         try {
-            // If no API key, return sample data or error
+            // If no API key, return sample data
             if (!$this->worldTidesApiKey) {
-                return response()->json($this->getSampleData());
+                return response()->json($this->getSampleData($timezone));
             }
 
-            $response = Http::get('https://www.worldtides.info/api/v2/extremes', [
+            // Using v3 API with correct parameters
+            $response = Http::get('https://www.worldtides.info/api/v3', [
+                'extremes' => true,
                 'lat' => self::LATITUDE,
                 'lon' => self::LONGITUDE,
                 'key' => $this->worldTidesApiKey,
                 'start' => $start->timestamp,
-                'end' => $end->timestamp,
+                'length' => $days * 24 * 3600, // 7 days in seconds
                 'datum' => 'LAT', // Lowest Astronomical Tide
             ]);
 
             if ($response->failed()) {
-                Log::error('WorldTides API failure: ' . $response->body());
-                return response()->json($this->getSampleData());
+                Log::error('WorldTides API failure: ' . $response->status() . ' ' . $response->body());
+                return response()->json($this->getSampleData($timezone));
             }
 
             $apiData = $response->json();
 
-            if (isset($apiData['error'])) {
-                Log::error('WorldTides API Error: ' . $apiData['error']);
-                return response()->json($this->getSampleData());
+            if (isset($apiData['error']) || !isset($apiData['extremes'])) {
+                Log::error('WorldTides API Error: ' . ($apiData['error'] ?? 'No extremes data found'));
+                return response()->json($this->getSampleData($timezone));
             }
 
-            return response()->json($this->formatTideData($apiData['extremes'], $start, $end));
+            // The end date for the loop
+            $end = $start->copy()->addDays($days - 1)->endOfDay();
+
+            return response()->json($this->formatTideData($apiData['extremes'], $start, $end, $timezone));
 
         } catch (\Exception $e) {
             Log::error('Error fetching tide data: ' . $e->getMessage());
-            return response()->json($this->getSampleData());
+            return response()->json($this->getSampleData($timezone));
         }
     }
 
-    private function formatTideData($extremes, $start, $end)
+    private function formatTideData($extremes, $start, $end, $timezone)
     {
         $week = [];
         $currentDate = $start->copy();
 
-        // Group extremes by date
+        // Group extremes by date in the local timezone
         $groupedExtremes = [];
         foreach ($extremes as $extreme) {
-            $date = Carbon::createFromTimestamp($extreme['dt'])->toDateString();
+            $date = Carbon::createFromTimestamp($extreme['dt'], $timezone)->toDateString();
             $groupedExtremes[$date][] = $extreme;
         }
 
@@ -79,7 +85,7 @@ class TideController extends Controller
 
             if (isset($groupedExtremes[$dateString])) {
                 foreach ($groupedExtremes[$dateString] as $extreme) {
-                    $time = Carbon::createFromTimestamp($extreme['dt']);
+                    $time = Carbon::createFromTimestamp($extreme['dt'], $timezone);
                     $dayTides[] = [
                         "hora" => $time->format('H:i'),
                         "tipo" => (stripos($extreme['type'], 'High') !== false) ? "Pleamar" : "Bajamar",
@@ -100,21 +106,37 @@ class TideController extends Controller
         return $week;
     }
 
-    private function getSampleData()
+    private function getSampleData($timezone)
     {
         $week = [];
-        $currentDate = Carbon::now()->startOfDay();
+        $currentDate = Carbon::now($timezone)->startOfDay();
         
+        // Base tides for day 0 (simulated)
+        $baseTides = [
+            ["hora" => "03:15", "tipo" => "Bajamar", "altura" => 0.45],
+            ["hora" => "09:30", "tipo" => "Pleamar", "altura" => 2.10],
+            ["hora" => "15:45", "tipo" => "Bajamar", "altura" => 0.52],
+            ["hora" => "22:00", "tipo" => "Pleamar", "altura" => 2.05],
+        ];
+
         for ($i = 0; $i < 7; $i++) {
+            $dayTides = [];
+            foreach ($baseTides as $tide) {
+                // Tides shift approximately 50 minutes later each day
+                $time = Carbon::createFromFormat('H:i', $tide['hora'], $timezone);
+                $time->addMinutes($i * 50);
+                
+                $dayTides[] = [
+                    "hora" => $time->format('H:i'),
+                    "tipo" => $tide['tipo'],
+                    "altura" => round($tide['altura'] + (sin($i * 0.5) * 0.15), 2) // Add some variation to heights
+                ];
+            }
+
             $week[] = [
-                "date" => $currentDate->toDateString(),
+                "date" => $dateString = $currentDate->toDateString(),
                 "day_name" => ucfirst($currentDate->translatedFormat('l')),
-                "tides" => [
-                    ["hora" => "03:15", "tipo" => "Bajamar", "altura" => 0.45],
-                    ["hora" => "09:30", "tipo" => "Pleamar", "altura" => 2.10],
-                    ["hora" => "15:45", "tipo" => "Bajamar", "altura" => 0.52],
-                    ["hora" => "22:00", "tipo" => "Pleamar", "altura" => 2.05],
-                ]
+                "tides" => $dayTides
             ];
             $currentDate->addDay();
         }

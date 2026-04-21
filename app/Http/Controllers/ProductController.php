@@ -16,6 +16,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
+        if (request()->wantsJson()) {
+            return response()->json($products);
+        }
         return view('admin.products.index', compact('products'));
     }
 
@@ -32,7 +35,12 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
-        Product::create($request->validated());
+        $product = Product::create($request->validated());
+
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Producto creado exitosamente.', 'product' => $product], 201);
+        }
+
         return redirect()->route('admin.products.index')->with('success', 'Producto creado exitosamente.');
     }
 
@@ -59,6 +67,11 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, Product $product)
     {
         $product->update($request->validated());
+
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Producto actualizado exitosamente.', 'product' => $product]);
+        }
+
         return redirect()->route('admin.products.index')->with('success', 'Producto actualizado exitosamente.');
     }
 
@@ -68,6 +81,11 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+
+        if (request()->wantsJson()) {
+            return response()->json(['message' => 'Producto eliminado exitosamente.']);
+        }
+
         return redirect()->route('admin.products.index')->with('success', 'Producto eliminado exitosamente.');
     }
 

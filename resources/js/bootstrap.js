@@ -1,14 +1,9 @@
 import axios from 'axios'
 
+window.axios = axios;
+
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
-
-// Get CSRF token from meta tag
-const csrfToken = document.head.querySelector('meta[name="csrf-token"]');
-
-if (csrfToken) {
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+// Dejamos que Axios maneje el token CSRF automáticamente a través de la cookie XSRF-TOKEN
+// que Laravel envía. Esto es más robusto para aplicaciones Vue/SPA.

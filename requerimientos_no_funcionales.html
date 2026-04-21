@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requerimientos No Funcionales - FishPot</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --bg: #f4f7f6;
+            --text: #333;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge {
+            background: #e1f5fe;
+            color: #0288d1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            color: var(--primary);
+        }
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Requerimientos No Funcionales</h1>
+        <p>Especificaciones de Calidad y Rendimiento - Proyecto FishPot</p>
+    </header>
+
+    <div class="grid">
+        <!-- RENDIMIENTO -->
+        <div class="card">
+            <h2><span class="badge">RNF-01</span> Rendimiento</h2>
+            <ul>
+                <li><strong>Tiempo de Carga:</strong> La aplicación debe cargar en menos de 1.5 segundos en conexiones de banda ancha.</li>
+                <li><strong>Concurrencia:</strong> Capacidad para manejar hasta 100 usuarios simultáneos sin pérdida de rendimiento.</li>
+                <li><strong>Optimización:</strong> Las imágenes de productos deben estar optimizadas para web (WebP/JPEG progresivo).</li>
+            </ul>
+        </div>
+
+        <!-- SEGURIDAD -->
+        <div class="card">
+            <h2><span class="badge">RNF-02</span> Seguridad</h2>
+            <ul>
+                <li><strong>Autenticación:</strong> Implementación de Laravel Breeze/Sanctum para la gestión segura de usuarios.</li>
+                <li><strong>Cifrado:</strong> Uso obligatorio de algoritmo BCrypt para contraseñas.</li>
+                <li><strong>Protección CSRF:</strong> Protección activa contra ataques Cross-Site Request Forgery en todos los formularios.</li>
+            </ul>
+        </div>
+
+        <!-- USABILIDAD -->
+        <div class="card">
+            <h2><span class="badge">RNF-03</span> Usabilidad</h2>
+            <ul>
+                <li><strong>Responsive Design:</strong> Interfaz adaptada 100% a móviles, tablets y PCs usando Tailwind CSS.</li>
+                <li><strong>Navegación:</strong> El usuario no debe tardar más de 3 clics en encontrar cualquier producto.</li>
+                <li><strong>Feedback:</strong> Mensajes claros de éxito/error en acciones de carrito y login.</li>
+            </ul>
+        </div>
+
+        <!-- MANTENIBILIDAD -->
+        <div class="card">
+            <h2><span class="badge">RNF-04</span> Mantenibilidad</h2>
+            <ul>
+                <li><strong>Código Limpio:</strong> Seguimiento de estándares PSR-12 para PHP y Guía de Estilo de Vue.</li>
+                <li><strong>Documentación:</strong> Uso de migraciones y seeders para replicar la base de datos fácilmente.</li>
+                <li><strong>Modularidad:</strong> Separación clara entre la API (Laravel) y el Frontend (Vue.js).</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

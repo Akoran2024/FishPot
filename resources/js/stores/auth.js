@@ -20,10 +20,22 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async login(email, password) {
-      const res = await axios.post('/gestor-privado', { email, password })
-      // Si Laravel redirige, axios puede manejarlo o fallar si no hay JSON.
-      // Pero para asegurar que el estado se actualice, intentamos obtener el usuario.
-      await this.fetchUser()
+      try {
+        console.log('Solicitando token CSRF...')
+        await axios.get('/sanctum/csrf-cookie')
+        
+        console.log('Intentando login para:', email)
+        const res = await axios.post('/gestor-privado', { email, password })
+        console.log('Respuesta de login exitosa:', res.status)
+        await this.fetchUser()
+      } catch (error) {
+        console.error('Error detallado en login:', {
+          status: error.response?.status,
+          data: error.response?.data,
+          message: error.message
+        })
+        throw error
+      }
     },
 
     async register(userData) {
@@ -32,8 +44,13 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async logout() {
-      await axios.post('/logout')
-      this.user = null
+      try {
+        await axios.post('/logout')
+      } catch (error) {
+        console.error('Logout error:', error)
+      } finally {
+        this.user = null
+      }
     }
   }
 })

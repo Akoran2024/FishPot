@@ -88,9 +88,8 @@
 
 <script setup>
 import { useAuthStore } from '../stores/auth'
-const authStore = useAuthStore()
 
-const heroImage = '/imagenes/barco.jpg'
+const authStore = useAuthStore()
 
 const stats = [
   { label: 'Especies', value: '45+' },
@@ -122,7 +121,6 @@ const features = [
 </script>
 
 <style scoped>
-/* Transiciones suaves */
 .nautical-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

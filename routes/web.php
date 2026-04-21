@@ -33,6 +33,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Admin User CRUD routes
     Route::get('/admin/users-list', [AdminUserController::class, 'getUsersList']);
+    Route::patch('/admin/users/{user}/role', [AdminUserController::class, 'updateRole']);
     Route::resource('admin/users', AdminUserController::class)->names('admin.users');
 
 
@@ -43,7 +44,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/orders-list', [OrderController::class, 'apiIndex']);
     Route::resource('admin/orders', OrderController::class)->names('admin.orders');
     
-    Route::apiResource('products', ProductController::class)->except(['index', 'store', 'update', 'destroy']);
+    Route::apiResource('products', ProductController::class);
     Route::apiResource('clients', ClientController::class);
     
     // Order Status API Updates

@@ -1,12 +1,21 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
-    <div class="mb-16 border-b border-nautical-200 pb-12 text-center md:text-left">
-      <h2 class="text-primary-800 font-serif italic text-sm tracking-[0.2em] uppercase mb-4">Costa de Lanzarote</h2>
-      <h1 class="text-5xl md:text-6xl font-serif font-black text-primary-950 leading-tight tracking-tight italic">Lugares de Pesca</h1>
-      <p class="text-nautical-600 mt-6 font-serif italic text-lg leading-relaxed max-w-3xl">Explore los rincones de nuestra costa. Un mapa de sensaciones y desafíos para el pescador que respeta el entorno. Recuerde: el secreto del buen pesquero es el silencio.</p>
+    <div class="mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 border-b border-nautical-200 pb-12">
+      <div class="max-w-2xl">
+        <h2 class="text-primary-800 font-serif italic text-sm tracking-[0.2em] uppercase mb-4">Costa de Lanzarote</h2>
+        <h1 class="text-5xl md:text-6xl font-serif font-black text-primary-950 leading-tight tracking-tight italic">Lugares de Pesca</h1>
+        <p class="text-nautical-600 mt-6 font-serif italic text-lg leading-relaxed">Explore los rincones de nuestra costa. Un mapa de sensaciones y desafíos para el pescador que respeta el entorno. Recuerde: el secreto del buen pesquero es el silencio.</p>
+      </div>
+
+      <div class="w-full md:w-auto">
+        <div class="relative">
+          <input type="text" v-model="search" placeholder="Buscar lugar..." class="w-full sm:w-64 px-5 py-3 bg-white border border-nautical-300 rounded-lg focus:ring-2 focus:ring-primary-200 focus:border-primary-700 outline-none transition font-serif italic text-sm">
+          <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-nautical-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+      </div>
     </div>
 
-    <div v-if="filteredPlaces.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+    <div v-if="filteredPlaces.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
       <div 
         v-for="place in filteredPlaces" 
         :key="place.id" 
@@ -23,7 +32,7 @@
            <div class="absolute inset-0 bg-gradient-to-t from-primary-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
            
            <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 border border-nautical-200 text-[9px] font-bold text-primary-950 uppercase tracking-widest shadow-sm">
-             {{ place.solo_or_accompanied }}
+             {{ place.solo_or_accompanied === 'solo' ? 'solo' : 'acompañado' }}
            </div>
         </div>
         
@@ -77,7 +86,7 @@
                 <div class="pt-10 border-t border-nautical-100 flex items-center justify-between">
                    <div>
                      <span class="block text-[10px] font-bold text-nautical-400 uppercase tracking-widest mb-1 italic">Recomendación</span>
-                     <span class="font-serif font-black text-primary-900 italic capitalize">Ir {{ selectedPlace.solo_or_accompanied }}</span>
+                     <span class="font-serif font-black text-primary-900 italic capitalize">{{ selectedPlace.solo_or_accompanied === 'solo' ? 'solo' : 'acompañado' }}</span>
                    </div>
                    <div class="text-primary-200">
                      <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
@@ -139,3 +148,12 @@ const filteredPlaces = computed(() => {
   })
 })
 </script>
+
+<style scoped>
+.nautical-card {
+  @apply bg-white/50 backdrop-blur-md border border-nautical-200 shadow-2xl transition-all duration-300;
+}
+.page-enter-active, .page-leave-active { transition: all 0.4s ease-out; }
+.page-enter-from { opacity: 0; transform: translateY(10px); }
+.page-leave-to { opacity: 0; transform: translateY(-10px); }
+</style>

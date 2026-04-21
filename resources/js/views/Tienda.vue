@@ -36,7 +36,7 @@
            
            <div class="w-full h-full p-6 transition-transform duration-700 group-hover:scale-110">
               <img v-if="product.image" :src="'/' + product.image" :alt="product.name" class="w-full h-full object-contain grayscale-[0.2] group-hover:grayscale-0">
-              <div v-else class="w-full h-full flex items-center justify-center text-nautical-200 italic font-serif">Aparejo</div>
+              <div v-else class="w-full h-full flex items-center justify-center text-nautical-200 italic font-serif">Equipo</div>
            </div>
            
            <div class="absolute bottom-4 left-4">

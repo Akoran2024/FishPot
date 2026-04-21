@@ -27,6 +27,7 @@
               class="nautical-input" 
               placeholder="ejemplo@correo.com"
             >
+            <span v-if="validationErrors.email" class="text-red-500 text-xs italic">{{ validationErrors.email[0] }}</span>
           </div>
           
           <div class="space-y-2">
@@ -43,6 +44,7 @@
               class="nautical-input" 
               placeholder="••••••••"
             >
+            <span v-if="validationErrors.password" class="text-red-500 text-xs italic">{{ validationErrors.password[0] }}</span>
           </div>
           
           <div class="pt-4">
@@ -82,17 +84,24 @@ const form = reactive({
   password: ''
 })
 
+const validationErrors = reactive({}) // Reactive object to store validation errors
+
 const handleLogin = async () => {
   loading.value = true
+  // Clear previous errors
+  Object.keys(validationErrors).forEach(key => delete validationErrors[key]);
+
   try {
-    // Restauramos la llamada correcta al store de autenticación
     await authStore.login(form.email, form.password)
-    
-    // Si el login es correcto, redirigimos
     router.push('/')
   } catch (error) {
     console.error('Error de acceso:', error)
-    alert('Acceso denegado: Por favor, compruebe que el correo y la contraseña son correctos.')
+    if (error.response && error.response.status === 422) {
+      Object.assign(validationErrors, error.response.data.errors);
+      alert('Error de acceso: Por favor, compruebe sus credenciales.');
+    } else {
+      alert('Error de acceso: Acceso denegado: Por favor, compruebe que el correo y la contraseña son correctos.');
+    }
   } finally {
     loading.value = false
   }

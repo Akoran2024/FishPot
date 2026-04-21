@@ -11,6 +11,7 @@ import Clientes from '../views/Clientes.vue'
 import Pedidos from '../views/Pedidos.vue'
 import Productos from '../views/Productos.vue'
 import Usuarios from '../views/Usuarios.vue'
+import UserCreate from '../views/UserCreate.vue' // Import the new component
 import Lugares from '../views/Lugares.vue'
 import Licencia from '../views/Licencia.vue'
 
@@ -27,6 +28,7 @@ const routes = [
   { path: '/admin/pedidos', name: 'admin.pedidos', component: Pedidos, meta: { requiresAuth: true } },
   { path: '/admin/productos', name: 'admin.productos.index', component: Productos, meta: { requiresAuth: true } },
   { path: '/admin/usuarios', name: 'admin.usuarios.index', component: Usuarios, meta: { requiresAuth: true } },
+  { path: '/admin/usuarios/crear', name: 'admin.usuarios.create', component: UserCreate, meta: { requiresAuth: true } }, // New route
 ]
 
 const router = createRouter({
@@ -37,12 +39,17 @@ const router = createRouter({
   }
 })
 
+// Optimizamos el guardián para que no bloquee la navegación innecesariamente
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   
-  // Solo intentamos cargar el usuario si no está cargado y no hay una carga en curso
-  if (!authStore.user && authStore.loading) {
-    await authStore.fetchUser()
+  // Si es la primera carga y no tenemos usuario, lo intentamos traer
+  if (authStore.loading) {
+    try {
+      await authStore.fetchUser()
+    } catch (e) {
+      // Ignorar error de carga inicial
+    }
   }
 
   if (to.meta.requiresAuth && !authStore.user) {

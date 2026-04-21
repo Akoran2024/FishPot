@@ -127,6 +127,9 @@ const checkout = async () => {
   }
 
   try {
+    // Aseguramos el token CSRF antes de la petición POST
+    await axios.get('/sanctum/csrf-cookie')
+
     const orderData = {
       items: cartStore.items.map(item => ({ id: item.id, quantity: item.quantity })),
       total: cartStore.totalPrice,
@@ -136,13 +139,18 @@ const checkout = async () => {
       shipping_zip_code: shippingZipCode.value,
     }
 
-    const response = await axios.post('/orders', orderData)
+    await axios.post('/orders', orderData)
     alert('¡Pedido anotado con éxito! Recibirá sus aparejos pronto.')
     cartStore.clearCart()
     router.push('/')
   } catch (error) {
     console.error('Error al procesar el pedido:', error)
-    alert('Hubo un error al procesar el pedido en el puerto.')
+    if (error.response) {
+      console.error('Detalles del error del servidor:', error.response.data);
+      alert(`Hubo un error al procesar el pedido en el puerto: ${error.response.data.message || error.response.statusText || 'Error desconocido'}`);
+    } else {
+      alert('Hubo un error al procesar el pedido en el puerto.');
+    }
   }
 }
 </script>

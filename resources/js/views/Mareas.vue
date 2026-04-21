@@ -15,7 +15,7 @@
     </div>
 
     <div v-else-if="error" class="bg-red-50 p-12 rounded-xl border border-red-100 text-red-800 text-center shadow-sm">
-      <p class="text-xl font-serif italic mb-4">{{ error }}</p>
+      <p class="text-xl font-serif italic mb-4">No se pudieron recuperar los registros de marea. Inténtelo más tarde.</p>
       <button @click="fetchTides" class="text-sm font-bold uppercase tracking-widest text-red-600 hover:text-red-800 transition">Reintentar conexión</button>
     </div>
 
@@ -146,3 +146,9 @@ onMounted(() => {
   fetchTides()
 })
 </script>
+
+<style scoped>
+.nautical-card {
+  @apply bg-white/50 backdrop-blur-md border border-nautical-200 shadow-2xl transition-all duration-300;
+}
+</style>

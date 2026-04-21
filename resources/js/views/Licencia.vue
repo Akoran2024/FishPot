@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen text-nautical-900 selection:bg-primary-200 py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+  <div class="min-h-screen text-nautical-900 selection:bg-primary-200 py-20 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Cabecera -->
       <div class="max-w-3xl mb-16">
@@ -26,12 +26,8 @@
           <section class="nautical-card p-10 border-l-4 border-l-red-400">
             <h2 class="text-3xl font-serif font-black text-primary-950 mb-6 italic">La Obligación Legal</h2>
             <div class="space-y-4 text-nautical-700 font-serif leading-relaxed text-lg">
-              <p>
-                En la Comunidad Autónoma de Canarias, la práctica de la pesca recreativa, ya sea desde tierra, desde embarcación o submarina, requiere obligatoriamente estar en posesión de una <strong>licencia de pesca</strong>.
-              </p>
-              <p>
-                Pescar sin licencia no solo conlleva sanciones económicas considerables, sino que también dificulta la gestión sostenible de nuestros recursos marinos.
-              </p>
+              <p>En la Comunidad Autónoma de Canarias, la práctica de la pesca recreativa, ya sea desde tierra, desde embarcación o submarina, requiere obligatoriamente estar en posesión de una <strong>licencia de pesca</strong>.</p>
+              <p>Pescar sin licencia no solo conlleva sanciones económicas considerables, sino que también dificulta la gestión sostenible de nuestros recursos marinos.</p>
             </div>
           </section>
 
@@ -118,11 +114,10 @@
 </template>
 
 <script setup>
-// No script needed for this static view
 </script>
 
 <style scoped>
 .nautical-card {
-  @apply bg-white/40 backdrop-blur-md border border-nautical-200 shadow-xl transition-all duration-300 hover:border-primary-300;
+  @apply bg-white/40 backdrop-blur-md border border-nautical-200 shadow-xl transition-all duration-300 hover:border-primary-300 rounded-lg;
 }
 </style>

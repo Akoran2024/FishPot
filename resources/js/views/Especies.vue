@@ -100,17 +100,18 @@
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
 
-          <div class="flex flex-col lg:flex-row">
-            <div class="w-full lg:w-1/2 h-[450px] lg:h-auto bg-nautical-50">
+          <div class="flex flex-col lg:flex-row items-center">
+            <!-- Contenedor de imagen fijo, cuadrado y centrado -->
+            <div class="w-full lg:w-[450px] flex-shrink-0 bg-nautical-50 border-b lg:border-b-0 lg:border-r border-nautical-100 overflow-hidden flex items-center justify-center">
               <img 
                 v-if="selectedSpecies.image"
                 :src="selectedSpecies.image" 
                 :alt="selectedSpecies.name"
-                class="w-full h-full object-cover border-r border-nautical-100"
+                class="w-full h-[350px] lg:h-[450px] object-cover"
               />
             </div>
             
-            <div class="w-full lg:w-1/2 p-10 lg:p-16">
+            <div class="flex-1 p-10 lg:p-16 w-full">
               <div class="flex items-center space-x-3 mb-8">
                 <span class="text-[10px] font-black uppercase tracking-[0.3em] text-primary-800 border-b-2 border-primary-800 pb-1">Ficha Especie</span>
               </div>
@@ -260,3 +261,9 @@ const filteredSpecies = computed(() => {
   })
 })
 </script>
+
+<style scoped>
+.page-enter-active, .page-leave-active { transition: all 0.4s ease-out; }
+.page-enter-from { opacity: 0; transform: translateY(10px); }
+.page-leave-to { opacity: 0; transform: translateY(-10px); }
+</style>

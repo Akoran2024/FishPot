@@ -78,7 +78,32 @@ class UserController extends Controller
         }
 
         $user->delete();
+
+        if (request()->wantsJson()) {
+            return response()->json(['message' => 'Usuario eliminado exitosamente.']);
+        }
+
         return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado exitosamente.');
+    }
+
+    public function updateRole(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|in:user,admin',
+        ]);
+
+        if ($user->id === auth()->id() && $request->role !== 'admin') {
+            return response()->json(['message' => 'No puedes quitarte el rol de administrador a ti mismo.'], 403);
+        }
+
+        $user->role = $request->role;
+        $user->save();
+
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Rol de usuario actualizado exitosamente.', 'user' => $user]);
+        }
+
+        return back()->with('success', 'Rol de usuario actualizado exitosamente.');
     }
 
     public function getUsersList()

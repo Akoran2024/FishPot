@@ -18,21 +18,25 @@
           <div class="space-y-1.5">
             <label for="name" class="block text-[10px] font-bold text-nautical-400 uppercase tracking-[0.2em] ml-1 italic">Nombre Completo</label>
             <input id="name" v-model="form.name" type="text" required class="nautical-input" placeholder="SU NOMBRE">
+            <span v-if="validationErrors.name" class="text-red-500 text-xs italic">{{ validationErrors.name[0] }}</span>
           </div>
 
           <div class="space-y-1.5">
             <label for="email" class="block text-[10px] font-bold text-nautical-400 uppercase tracking-[0.2em] ml-1 italic">Correo Electrónico</label>
             <input id="email" v-model="form.email" type="email" required class="nautical-input" placeholder="ejemplo@correo.com">
+            <span v-if="validationErrors.email" class="text-red-500 text-xs italic">{{ validationErrors.email[0] }}</span>
           </div>
           
           <div class="space-y-1.5">
             <label for="password" class="block text-[10px] font-bold text-nautical-400 uppercase tracking-[0.2em] ml-1 italic">Definir Contraseña</label>
             <input id="password" v-model="form.password" type="password" required class="nautical-input" placeholder="••••••••">
+            <span v-if="validationErrors.password" class="text-red-500 text-xs italic">{{ validationErrors.password[0] }}</span>
           </div>
 
           <div class="space-y-1.5">
             <label for="password_confirmation" class="block text-[10px] font-bold text-nautical-400 uppercase tracking-[0.2em] ml-1 italic">Repetir Contraseña</label>
             <input id="password_confirmation" v-model="form.password_confirmation" type="password" required class="nautical-input" placeholder="••••••••">
+            <span v-if="validationErrors.password_confirmation" class="text-red-500 text-xs italic">{{ validationErrors.password_confirmation[0] }}</span>
           </div>
           
           <div class="pt-6">
@@ -54,7 +58,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue' // Import ref for validationErrors
 import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'
 
@@ -68,12 +72,24 @@ const form = reactive({
   password_confirmation: ''
 })
 
+const validationErrors = reactive({}) // Reactive object to store validation errors
+
 const handleRegister = async () => {
+  // Clear previous errors
+  Object.keys(validationErrors).forEach(key => delete validationErrors[key]);
+
   try {
     await authStore.register(form)
     router.push('/')
   } catch (error) {
-    alert('Error en el registro: Inténtelo de nuevo más tarde.')
+    if (error.response && error.response.status === 422) {
+      // Laravel validation error
+      Object.assign(validationErrors, error.response.data.errors);
+      alert('Error de validación: Por favor, revise los campos marcados.');
+    } else {
+      // Other errors
+      alert('Error en el registro: Inténtelo de nuevo más tarde.');
+    }
   }
 }
 </script>

@@ -28,8 +28,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if ($request->wantsJson()) {
-            return response()->json($request->user());
+        if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'user' => $request->user(),
+                'redirect' => $request->user()->role === 'admin' ? route('admin.dashboard', absolute: false) : '/'
+            ]);
         }
 
         if ($request->user()->role === 'admin') {
@@ -42,13 +45,17 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request): \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Sesión cerrada exitosamente.']);
+        }
 
         return redirect('/');
     }

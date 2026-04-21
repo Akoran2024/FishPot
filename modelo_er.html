@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo Entidad-Relación - FishPot</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true, theme:'forest'});</script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e293b;
+            text-align: center;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        .details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .entity-box {
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f1f5f9;
+        }
+        .entity-box h3 {
+            margin-top: 0;
+            color: #2563eb;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 5px;
+        }
+        .pk { color: #d97706; font-weight: bold; }
+        .fk { color: #059669; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Modelo Entidad-Relación (ER)</h1>
+
+    <div class="mermaid">
+        erDiagram
+            USER ||--o{ ORDER : "realiza"
+            ORDER ||--|{ ORDER_ITEM : "contiene"
+            PRODUCT ||--o{ ORDER_ITEM : "es incluido"
+            
+            USER {
+                bigint id PK
+                string name
+                string email
+                string password
+                string role
+            }
+            PRODUCT {
+                bigint id PK
+                string name
+                text description
+                decimal price
+                string category
+                int stock
+                string image
+            }
+            ORDER {
+                bigint id PK
+                bigint user_id FK
+                decimal total
+                string status
+                string shipping_address
+                string payment_method
+            }
+            ORDER_ITEM {
+                bigint id PK
+                bigint order_id FK
+                bigint product_id FK
+                int quantity
+                decimal price
+            }
+            CLIENT {
+                bigint id PK
+                string name
+                string email
+                string phone
+                string address
+            }
+    </div>
+
+    <div class="details">
+        <div class="entity-box">
+            <h3>Usuarios (Users)</h3>
+            <ul>
+                <li><span class="pk">id</span> (PK)</li>
+                <li>name</li>
+                <li>email (Unique)</li>
+                <li>password</li>
+                <li>role (admin/user)</li>
+            </ul>
+        </div>
+        <div class="entity-box">
+            <h3>Productos (Products)</h3>
+            <ul>
+                <li><span class="pk">id</span> (PK)</li>
+                <li>name</li>
+                <li>price</li>
+                <li>stock</li>
+                <li>category</li>
+            </ul>
+        </div>
+        <div class="entity-box">
+            <h3>Pedidos (Orders)</h3>
+            <ul>
+                <li><span class="pk">id</span> (PK)</li>
+                <li><span class="fk">user_id</span> (FK)</li>
+                <li>total</li>
+                <li>status</li>
+                <li>payment_method</li>
+            </ul>
+        </div>
+        <div class="entity-box">
+            <h3>Clientes (Clients)</h3>
+            <ul>
+                <li><span class="pk">id</span> (PK)</li>
+                <li>name</li>
+                <li>email</li>
+                <li>address</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
