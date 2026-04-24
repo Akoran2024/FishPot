@@ -38,6 +38,7 @@ class OrderStoreRequest extends FormRequest
             'shipping_country' => ['nullable', 'string', 'max:255'],
 
             // Simulated credit card details (optional for now)
+            'card_holder' => ['nullable', 'string', 'max:255'],
             'card_number' => ['nullable', 'string', 'digits_between:13,16'],   
             'card_expiry' => ['nullable', 'string', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'], // MM/YY format
             'card_cvc' => ['nullable', 'string', 'digits_between:3,4'],        

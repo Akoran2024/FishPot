@@ -52,12 +52,16 @@
             </div>
             <div class="flex justify-between items-center text-nautical-600">
               <span>Portes de envío</span>
-              <span class="text-primary-700 font-bold">Sin cargo</span>
+              <span v-if="shippingCost > 0" class="text-red-700 font-bold">{{ shippingCost.toFixed(2) }}€</span>
+              <span v-else class="text-primary-700 font-bold">Sin cargo</span>
+            </div>
+            <div v-if="shippingCost > 0" class="text-[9px] text-nautical-400 font-bold uppercase tracking-widest text-right -mt-4">
+              * Tarifa peninsular / exterior aplicada
             </div>
             <div class="pt-8 border-t-2 border-dashed border-nautical-200 flex justify-between items-end">
               <div>
                 <span class="block text-nautical-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">Total a liquidar</span>
-                <span class="text-5xl font-serif font-black text-primary-950 tracking-tighter italic">{{ cartStore.totalPrice }}€</span>
+                <span class="text-5xl font-serif font-black text-primary-950 tracking-tighter italic">{{ finalTotal.toFixed(2) }}€</span>
               </div>
             </div>
           </div>
@@ -83,6 +87,19 @@
                 <div class="w-4 h-4 rounded-full border-2 border-nautical-300 mr-3 peer-checked:bg-primary-800 peer-checked:border-primary-800 transition-all"></div>
                 <span class="group-hover:text-primary-950 transition-colors">Pago con tarjeta</span>
               </label>
+
+              <!-- Sección de Tarjeta (Aparece solo si se selecciona) -->
+              <transition name="fade">
+                <div v-if="paymentMethod === 'online_payment'" class="mt-6 p-6 bg-nautical-50 border border-nautical-100 rounded-lg space-y-4">
+                  <input type="text" v-model="cardHolder" placeholder="Nombre del Titular" class="nautical-input bg-white shadow-inner">
+                  <input type="text" v-model="cardNumber" placeholder="Número de Tarjeta (16 dígitos)" maxlength="16" @input="cardNumber = cardNumber.replace(/\D/g, '')" class="nautical-input bg-white shadow-inner">
+                  <div class="grid grid-cols-2 gap-4">
+                    <input type="text" v-model="cardExpiry" placeholder="MM/YY" maxlength="5" @input="formatExpiry" class="nautical-input bg-white shadow-inner text-center">
+                    <input type="text" v-model="cardCvc" placeholder="CVC" maxlength="3" @input="cardCvc = cardCvc.replace(/\D/g, '')" class="nautical-input bg-white shadow-inner text-center">
+                  </div>
+                </div>
+              </transition>
+
               <label class="flex items-center cursor-pointer group">
                 <input type="radio" v-model="paymentMethod" value="cash_on_delivery" class="hidden peer">
                 <div class="w-4 h-4 rounded-full border-2 border-nautical-300 mr-3 peer-checked:bg-primary-800 peer-checked:border-primary-800 transition-all"></div>
@@ -106,7 +123,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useCartStore } from '../stores/cart'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
@@ -119,11 +136,54 @@ const shippingAddress = ref('')
 const shippingCity = ref('')
 const shippingZipCode = ref('')
 
+// Campos de Tarjeta
+const cardHolder = ref('')
+const cardNumber = ref('')
+const cardExpiry = ref('')
+const cardCvc = ref('')
+
+const shippingCost = computed(() => {
+  if (!shippingZipCode.value || shippingZipCode.value.length < 2) return 0
+  const prefix = shippingZipCode.value.substring(0, 2)
+  // 35 y 38 son las provincias Canarias
+  return (prefix === '35' || prefix === '38') ? 0 : 9.50
+})
+
+const finalTotal = computed(() => {
+  return parseFloat(cartStore.totalPrice) + shippingCost.value
+})
+
+const formatExpiry = (e) => {
+  let val = e.target.value.replace(/\D/g, '')
+  if (val.length > 2) {
+    val = val.substring(0, 2) + '/' + val.substring(2, 4)
+  }
+  cardExpiry.value = val
+}
+
 const checkout = async () => {
   if (cartStore.items.length === 0) return
-  if (!shippingAddress.value || !shippingCity.value) {
-    alert('Por favor, indique los datos de entrega.')
+  
+  // Validaciones básicas de envío
+  if (!shippingAddress.value || !shippingCity.value || !shippingZipCode.value) {
+    alert('Por favor, complete todos los campos de entrega del albarán.')
     return
+  }
+
+  // Validaciones de tarjeta si procede
+  if (paymentMethod.value === 'online_payment') {
+    if (!cardHolder.value || !cardNumber.value || !cardExpiry.value || !cardCvc.value) {
+      alert('Por favor, complete los datos de su tarjeta para zarpar.')
+      return
+    }
+    if (cardNumber.value.length < 16) {
+      alert('El número de tarjeta debe tener 16 dígitos.')
+      return
+    }
+    if (!/^\d{2}\/\d{2}$/.test(cardExpiry.value)) {
+      alert('El formato de caducidad debe ser MM/YY.')
+      return
+    }
   }
 
   try {
@@ -132,11 +192,16 @@ const checkout = async () => {
 
     const orderData = {
       items: cartStore.items.map(item => ({ id: item.id, quantity: item.quantity })),
-      total: cartStore.totalPrice,
+      total: finalTotal.value,
       payment_method: paymentMethod.value,
       shipping_address: shippingAddress.value,
       shipping_city: shippingCity.value,
       shipping_zip_code: shippingZipCode.value,
+      // Datos de tarjeta (simulados)
+      card_holder: cardHolder.value,
+      card_number: cardNumber.value,
+      card_expiry: cardExpiry.value,
+      card_cvc: cardCvc.value
     }
 
     await axios.post('/orders', orderData)

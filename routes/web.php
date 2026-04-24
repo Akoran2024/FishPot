@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
         return $request->user();
     });
     Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/my-orders', [OrderController::class, 'userOrders']);
 });
 
 Route::get('/dashboard', function () {

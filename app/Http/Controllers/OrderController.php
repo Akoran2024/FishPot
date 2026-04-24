@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Mail\InvoiceMail;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -19,6 +21,18 @@ class OrderController extends Controller
     public function apiIndex()
     {
         $orders = Order::with(['user', 'items.product'])->latest()->get();
+        return response()->json($orders);
+    }
+
+    /**
+     * Display a listing of the authenticated user's orders.
+     */
+    public function userOrders()
+    {
+        $orders = Order::where('user_id', Auth::id())
+            ->with(['items.product'])
+            ->latest()
+            ->get();
         return response()->json($orders);
     }
 
@@ -49,6 +63,7 @@ class OrderController extends Controller
         DB::transaction(function () use ($request) {
             // Filter out simulated card details before creating the order
             $validatedData = $request->validated();
+            unset($validatedData['card_holder']);
             unset($validatedData['card_number']);
             unset($validatedData['card_expiry']);
             unset($validatedData['card_cvc']);
@@ -201,12 +216,51 @@ class OrderController extends Controller
      */
     public function apiShip(Request $request, Order $order)
     {
-        if ($order->status === 'accepted') {
-            $order->status = 'shipped';
-            $order->save();
-            return response()->json(['message' => 'Pedido enviado.', 'order' => $order->load(['user', 'items.product'])]);
+        // Permitimos 'accepted' para procesar el envío, o 'shipped' si se está re-intentando
+        if (in_array($order->status, ['accepted', 'shipped'])) {
+            // Si se envían datos de envío en la petición API, los actualizamos
+            $shippingData = $request->only([
+                'shipping_address', 
+                'shipping_city', 
+                'shipping_state', 
+                'shipping_zip_code', 
+                'shipping_country', 
+                'tracking_number'
+            ]);
+            
+            if (!empty(array_filter($shippingData))) {
+                $order->update($shippingData);
+            }
+
+            if ($order->status !== 'shipped') {
+                $order->status = 'shipped';
+                $order->save();
+            }
+
+            // Enviar factura por correo
+            try {
+                Mail::to($order->user->email)->send(new InvoiceMail($order));
+            } catch (\Exception $e) {
+                // Loguear error pero no detener el proceso de respuesta
+                \Log::error('Error enviando factura al pedido ' . $order->id . ': ' . $e->getMessage());
+                
+                // Si es un reintento y falla el correo, igual devolvemos éxito del pedido
+                return response()->json([
+                    'message' => 'Pedido marcado como enviado, pero hubo un problema enviando el correo de la factura.', 
+                    'order' => $order->load(['user', 'items.product']),
+                    'mail_error' => true
+                ]);
+            }
+
+            return response()->json([
+                'message' => 'Pedido enviado y factura emitida exitosamente.', 
+                'order' => $order->load(['user', 'items.product'])
+            ]);
         }
-        return response()->json(['message' => 'No se puede enviar el pedido.'], 422);
+        
+        return response()->json([
+            'message' => 'El pedido no puede ser enviado. Estado actual: ' . $order->status
+        ], 422);
     }
 
     /**
@@ -251,6 +305,10 @@ class OrderController extends Controller
             $order->update($request->validated()); // Update the order with shipping details
             $order->status = 'shipped'; // Explicitly set status to shipped
             $order->save();
+
+            // Enviar factura por correo
+            Mail::to($order->user->email)->send(new InvoiceMail($order));
+
             return redirect()->route('admin.orders.index')->with('success', 'Pedido enviado exitosamente y detalles de envío guardados.');
         }
         return back()->with('error', 'El pedido no puede ser enviado en su estado actual.');

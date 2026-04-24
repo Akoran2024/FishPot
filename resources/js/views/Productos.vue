@@ -87,11 +87,22 @@
                 <span class="font-black text-primary-950 text-xl">{{ product.price }}€</span>
               </td>
               <td class="px-8 py-6 text-center">
-                <div class="flex flex-col items-center">
-                  <span :class="getStockClass(product.stock)" class="px-4 py-1.5 rounded-full text-[10px] font-black border uppercase tracking-tighter">      
+                <div class="flex flex-col items-center group/stock">
+                  <span :class="getStockClass(product.stock)" class="px-4 py-1.5 rounded-full text-[10px] font-black border uppercase tracking-tighter transition-all group-hover/stock:scale-105">      
                     {{ product.stock }} unidades
                   </span>
                   <span class="text-[8px] mt-1 font-bold text-nautical-400 uppercase">{{ getStockLabel(product.stock) }}</span>
+                  
+                  <!-- Quick Repose Button -->
+                  <button 
+                    @click="reposeStock(product)" 
+                    :disabled="reposeLoading === product.id"
+                    class="mt-3 opacity-0 group-hover/stock:opacity-100 transition-all flex items-center space-x-1 px-3 py-1 bg-emerald-600 text-white text-[9px] font-black uppercase tracking-widest rounded hover:bg-emerald-700 shadow-lg active:scale-95 disabled:opacity-50"
+                  >
+                    <svg v-if="reposeLoading !== product.id" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
+                    <svg v-else class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <span>Reponer +10</span>
+                  </button>
                 </div>
               </td>
               <td class="px-8 py-6 text-right">
@@ -217,6 +228,7 @@ const products = ref([])
 const showModal = ref(false)
 const editingId = ref(null)
 const search = ref('')
+const reposeLoading = ref(null)
 const form = ref({ name: '', description: '', price: 0, stock: 0, category: '', image: '' })
 
 // Computed properties for dashboard
@@ -272,6 +284,23 @@ const openModal = (product = null) => {
     form.value = { name: '', description: '', price: 0, stock: 0, category: '', image: '' }
   }
   showModal.value = true
+}
+
+const reposeStock = async (product) => {
+  reposeLoading.value = product.id
+  try {
+    const newStock = product.stock + 10
+    await axios.put(`/products/${product.id}`, {
+      ...product,
+      stock: newStock
+    })
+    product.stock = newStock
+  } catch (error) {
+    console.error('Error reponiendo stock:', error)
+    alert('No se pudo actualizar el stock.')
+  } finally {
+    reposeLoading.value = null
+  }
 }
 
 const saveProduct = async () => {

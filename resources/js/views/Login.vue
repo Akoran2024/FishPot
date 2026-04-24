@@ -74,8 +74,10 @@
 import { reactive, ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '../stores/toast'
 
 const authStore = useAuthStore()
+const toastStore = useToastStore()
 const router = useRouter()
 const loading = ref(false)
 
@@ -93,14 +95,19 @@ const handleLogin = async () => {
 
   try {
     await authStore.login(form.email, form.password)
-    router.push('/')
+    toastStore.add(`¡Bienvenido de nuevo, ${authStore.user.name}!`)
+    if (authStore.user.role === 'admin') {
+      router.push('/admin/pedidos')
+    } else {
+      router.push('/mis-pedidos')
+    }
   } catch (error) {
     console.error('Error de acceso:', error)
     if (error.response && error.response.status === 422) {
       Object.assign(validationErrors, error.response.data.errors);
-      alert('Error de acceso: Por favor, compruebe sus credenciales.');
+      toastStore.add('Error de acceso: Por favor, compruebe sus credenciales.', 'error')
     } else {
-      alert('Error de acceso: Acceso denegado: Por favor, compruebe que el correo y la contraseña son correctos.');
+      toastStore.add('Acceso denegado: Por favor, compruebe sus datos.', 'error')
     }
   } finally {
     loading.value = false

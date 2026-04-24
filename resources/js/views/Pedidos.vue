@@ -78,11 +78,11 @@
           </thead>
           <tbody class="divide-y divide-nautical-200 bg-white/30">
             <tr v-for="order in filteredOrders" :key="order.id" class="hover:bg-primary-50 transition-all duration-300 group">
-              <td class="px-8 py-6">
-                <span class="font-black text-nautical-400 text-sm">#{{ order.id }}</span>
+              <td class="px-8 py-6 cursor-pointer" @click="openDetailsModal(order)">
+                <span class="font-black text-nautical-400 text-sm group-hover:text-primary-800">#{{ order.id }}</span>
                 <p class="text-[8px] font-bold text-nautical-300 uppercase mt-1">{{ formatDate(order.created_at) }}</p>
               </td>
-              <td class="px-8 py-6">
+              <td class="px-8 py-6 cursor-pointer" @click="openDetailsModal(order)">
                 <div class="flex items-center space-x-3">
                   <div class="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-900 font-serif font-black italic shadow-sm group-hover:scale-110 transition-transform">
                     {{ order.user?.name.charAt(0) }}
@@ -221,6 +221,94 @@
         </div>
       </div>
     </transition>
+
+    <!-- MODAL DE DETALLES DEL PEDIDO (VISTA DE BITÁCORA) -->
+    <transition name="modal">
+      <div v-if="showDetailsModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-primary-950/80 backdrop-blur-md p-4 overflow-y-auto">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-4xl overflow-hidden border-4 border-white transform transition-all my-8">
+          <div class="p-8 border-b border-nautical-100 flex justify-between items-center bg-nautical-50">
+            <div>
+              <h2 class="text-3xl font-serif font-black text-primary-950 italic">Detalle de Bitácora</h2>
+              <p class="text-xs text-nautical-500 font-serif italic uppercase tracking-widest mt-1">Registro de Pedido #{{ selectedOrderDetails.id }}</p>
+            </div>
+            <button @click="showDetailsModal = false" class="p-2 bg-white rounded-full text-primary-900 shadow-md hover:scale-110 transition-transform border border-nautical-100">     
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          </div>
+          
+          <div class="p-8 lg:p-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <!-- Información del Cliente -->
+              <div class="space-y-8">
+                <div class="flex items-start gap-6">
+                  <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center text-primary-900 font-serif font-black italic text-2xl border border-primary-200 shadow-inner">
+                    {{ selectedOrderDetails.user?.name.charAt(0) }}
+                  </div>
+                  <div>
+                    <p class="text-[10px] font-black text-nautical-400 uppercase tracking-widest mb-1">Cliente</p>
+                    <p class="text-2xl font-serif font-black text-primary-950 italic">{{ selectedOrderDetails.user?.name }}</p>
+                    <p class="text-sm font-serif italic text-primary-700">{{ selectedOrderDetails.user?.email }}</p>
+                  </div>
+                </div>
+
+                <div class="pt-6 border-t border-nautical-100">
+                  <p class="text-[10px] font-black text-nautical-400 uppercase tracking-widest mb-3 italic">Destino Registrado</p>
+                  <div class="text-sm font-serif italic text-primary-950 space-y-1">
+                    <p class="font-bold">{{ selectedOrderDetails.shipping_address }}</p>
+                    <p>{{ selectedOrderDetails.shipping_city }} ({{ selectedOrderDetails.shipping_zip_code }})</p>
+                    <p class="uppercase text-[10px] tracking-tighter text-nautical-400">{{ selectedOrderDetails.shipping_country || 'España' }}</p>
+                  </div>
+                </div>
+
+                <div class="pt-6 border-t border-nautical-100">
+                  <p class="text-[10px] font-black text-nautical-400 uppercase tracking-widest mb-3 italic">Método de Pago</p>
+                  <p class="text-sm font-serif italic font-bold text-primary-900">
+                    {{ selectedOrderDetails.payment_method === 'online_payment' ? 'Pago con Tarjeta' : 'Pago al Recibir (Contrareembolso)' }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Resumen de Productos -->
+              <div class="bg-nautical-50 p-8 rounded-2xl border border-nautical-200 flex flex-col h-full">
+                <h3 class="text-xs font-black text-primary-900 uppercase tracking-widest flex items-center mb-6">
+                  <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                  Aparejos Seleccionados
+                </h3>
+                
+                <div class="flex-grow space-y-4 overflow-y-auto max-h-60 pr-2">
+                  <div v-for="item in selectedOrderDetails.items" :key="item.id" class="flex justify-between items-center border-b border-nautical-100 pb-3">
+                    <div class="flex-grow">
+                      <p class="font-serif font-black text-primary-950 text-base italic leading-tight">{{ item.product?.name }}</p>
+                      <p class="text-[10px] text-nautical-400 font-bold uppercase tracking-widest mt-1">{{ item.quantity }} unidades x {{ item.price }}€</p>
+                    </div>
+                    <span class="font-black text-primary-900 text-lg ml-4">{{ (item.quantity * item.price).toFixed(2) }}€</span>
+                  </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t-2 border-dashed border-nautical-300">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] font-black uppercase text-nautical-400 italic">Total Declarado</span>
+                    <span class="text-3xl font-serif font-black text-primary-950 italic">{{ selectedOrderDetails.total }}€</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-black uppercase text-nautical-400 italic">Estado Actual</span>
+                    <span :class="statusClass(selectedOrderDetails.status)" class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border shadow-sm">
+                      {{ statusText(selectedOrderDetails.status) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-nautical-100 flex justify-end">
+              <button @click="showDetailsModal = false" class="px-8 py-3 bg-primary-950 text-white rounded font-serif italic font-black uppercase text-xs tracking-[0.2em] hover:bg-primary-800 transition-all shadow-xl">
+                Cerrar Bitácora
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
   </main>
 </template>
 
@@ -230,7 +318,9 @@ import axios from 'axios'
 
 const orders = ref([])
 const showShipModal = ref(false)
+const showDetailsModal = ref(false)
 const selectedOrder = ref(null)
+const selectedOrderDetails = ref(null)
 const shipForm = ref({ address: '', city: '', zip: '' })
 const search = ref('')
 const statusFilter = ref('all')
@@ -277,6 +367,11 @@ const averageOrderValue = computed(() => {
   const total = validOrders.reduce((acc, order) => acc + parseFloat(order.total), 0)
   return total / validOrders.length
 })
+
+const openDetailsModal = (order) => {
+  selectedOrderDetails.value = order
+  showDetailsModal.value = true
+}
 
 const openShipModal = (order) => {
   selectedOrder.value = order

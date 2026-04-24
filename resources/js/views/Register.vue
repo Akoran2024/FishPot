@@ -61,8 +61,10 @@
 import { reactive, ref } from 'vue' // Import ref for validationErrors
 import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '../stores/toast'
 
 const authStore = useAuthStore()
+const toastStore = useToastStore()
 const router = useRouter()
 
 const form = reactive({
@@ -80,15 +82,20 @@ const handleRegister = async () => {
 
   try {
     await authStore.register(form)
-    router.push('/')
+    toastStore.add(`¡Bienvenido a la Cofradía, ${authStore.user.name}!`)
+    if (authStore.user.role === 'admin') {
+      router.push('/admin/pedidos')
+    } else {
+      router.push('/mis-pedidos')
+    }
   } catch (error) {
     if (error.response && error.response.status === 422) {
       // Laravel validation error
       Object.assign(validationErrors, error.response.data.errors);
-      alert('Error de validación: Por favor, revise los campos marcados.');
+      toastStore.add('Error de validación: Por favor, revise los campos marcados.', 'error')
     } else {
       // Other errors
-      alert('Error en el registro: Inténtelo de nuevo más tarde.');
+      toastStore.add('Error en el registro: Inténtelo de nuevo más tarde.', 'error')
     }
   }
 }

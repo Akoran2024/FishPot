@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
         $products = [
             [
                 'name' => 'Caña de Carbono X1',
-                'description' => 'Caña de alta resistencia para pesca de costa.',
+                'description' => 'Caña forjada con fibra de carbono de alto módulo, diseñada específicamente para las exigentes condiciones de la costa canaria. Su acción de punta permite lances extremadamente largos y una sensibilidad excepcional para detectar hasta la picada más sutil en fondos rocosos.',
                 'price' => 129.00,
                 'stock' => 10,
                 'category' => 'Cañas',
@@ -23,7 +23,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Carrete Silver Stream',
-                'description' => 'Carrete con rodamiento de acero inoxidable.',
+                'description' => 'Ingeniería de precisión en cada giro. Este carrete cuenta con un cuerpo sellado de aluminio aeroespacial y 9+1 rodamientos de acero inoxidable resistentes a la corrosión salina. Su sistema de freno progresivo garantiza una salida de hilo suave incluso bajo la presión de las capturas más potentes del Atlántico.',
                 'price' => 89.00,
                 'stock' => 5,
                 'category' => 'Carretes',
@@ -31,7 +31,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Kit de Señuelos Rapala',
-                'description' => 'Set de 5 señuelos variados para diferentes especies.',
+                'description' => 'Colección exclusiva de 5 señuelos de alta eficacia, seleccionados por expertos pescadores locales. Incluye modelos con natación errática y acabados holográficos que imitan a la perfección el movimiento de lisas y bogas, irresistibles para depredadores como el robalo o la anjova.',
                 'price' => 40.00,
                 'stock' => 8,
                 'category' => 'Señuelos',
@@ -39,7 +39,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Anzuelos Gamakatsu',
-                'description' => 'Caja de 20 anzuelos ultra afilados.',
+                'description' => 'El estándar de oro en clavada. Fabricados con acero al carbono de alta pureza y sometidos a un proceso de afilado químico, estos anzuelos garantizan una penetración instantánea y segura. Su recubrimiento especial evita la oxidación prematura tras largas jornadas en el muelle o el roqueo.',
                 'price' => 12.50,
                 'stock' => 50,
                 'category' => 'Accesorios',
@@ -47,7 +47,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Hilo Trenzado 0.30mm',
-                'description' => 'Bobina de 300m de hilo trenzado de alta visibilidad.',
+                'description' => 'Tecnología de 8 hebras de polietileno de ultra alto peso molecular. Este hilo ofrece un diámetro mínimo con una resistencia a la rotura incomparable y una elasticidad cero para un control total. Su color vibrante mejora la visibilidad sobre el azul profundo, facilitando el seguimiento de la línea en condiciones de fuerte corriente.',
                 'price' => 25.00,
                 'stock' => 15,
                 'category' => 'Hilos',

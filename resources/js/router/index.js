@@ -14,6 +14,8 @@ import Usuarios from '../views/Usuarios.vue'
 import UserCreate from '../views/UserCreate.vue' // Import the new component
 import Lugares from '../views/Lugares.vue'
 import Licencia from '../views/Licencia.vue'
+import MisPedidos from '../views/MisPedidos.vue'
+import AdminDashboard from '../views/admin/Dashboard.vue'
 
 const routes = [
   { path: '/', name: 'home', component: Home },
@@ -25,6 +27,8 @@ const routes = [
   { path: '/carrito', name: 'carrito', component: Carrito },
   { path: '/login', name: 'login', component: Login },
   { path: '/register', name: 'register', component: Register },
+  { path: '/mis-pedidos', name: 'mis-pedidos', component: MisPedidos, meta: { requiresAuth: true } },
+  { path: '/admin', name: 'admin.dashboard', component: AdminDashboard, meta: { requiresAuth: true } },
   { path: '/admin/pedidos', name: 'admin.pedidos', component: Pedidos, meta: { requiresAuth: true } },
   { path: '/admin/productos', name: 'admin.productos.index', component: Productos, meta: { requiresAuth: true } },
   { path: '/admin/usuarios', name: 'admin.usuarios.index', component: Usuarios, meta: { requiresAuth: true } },
