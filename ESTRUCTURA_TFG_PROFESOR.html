@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>8.1 Estructura del Proyecto - Memoria TFG</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            line-height: 1.5;
+            color: #000;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            text-align: justify;
+        }
+        h2 { font-size: 1.3rem; margin-top: 30px; }
+        p { margin-bottom: 15px; }
+        .ilustracion {
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+            border: 1px dashed #ccc;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        ul { margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        code { font-family: Consolas, monospace; background: #eee; padding: 2px 4px; }
+        .sub-bullet { margin-left: 20px; list-style-type: circle; }
+    </style>
+</head>
+<body>
+
+    <h1>8. Memoria Técnica del Sistema</h1>
+    <h2>8.1 Estructura del proyecto</h2>
+
+    <p>La carpeta del Proyecto que ha sido denominada como “FishPot” contiene en su interior seis directorios principales: <code>app</code>, <code>bootstrap</code>, <code>config</code>, <code>database</code>, <code>public</code>, <code>resources</code>, <code>routes</code> y <code>tests</code>.</p>
+
+    <div class="ilustracion">
+        Ilustración 8.1.1: Estructura de directorios principal del proyecto FishPot
+    </div>
+
+    <ul>
+        <li>La carpeta <strong>“app”</strong> constituye el núcleo de la aplicación y contiene toda la implementación del Proyecto llevada a cabo haciendo uso del patrón MVC (Modelo-Vista-Controlador) en el lado del servidor. En su interior se encuentran las carpetas fundamentales para la lógica de negocio:
+            <ul class="sub-bullet">
+                <li><strong>“app/Http/Controllers”</strong>: Contiene los controladores que responden a las solicitudes del usuario, invocando la lógica del modelo y devolviendo respuestas a la interfaz.
+                    <ul>
+                        <li><code>StripeController.php</code>: Gestiona la pasarela de pagos y la confirmación de pedidos.</li>
+                        <li><code>TideController.php</code>: Implementa la integración con servicios externos de meteorología y mareas.</li>
+                    </ul>
+                </li>
+                <li><strong>“app/Models”</strong>: Contiene la representación específica de la información con la cual el sistema trabaja (Productos, Pedidos, Usuarios).</li>
+                <li><strong>“app/Http/Middleware”</strong>: Contiene filtros de seguridad como <code>AdminMiddleware.php</code> para restringir el acceso al panel administrativo.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="ilustracion">
+        Ilustración 8.1.2: Detalle de la carpeta app y lógica MVC
+    </div>
+
+    <ul>
+        <li>La carpeta <strong>“resources”</strong> contiene el código fuente del frontend. Dado que el sistema utiliza una arquitectura SPA (Single Page Application), esta carpeta es vital para la presentación visual:
+            <ul class="sub-bullet">
+                <li><strong>“resources/js/views”</strong>: Contiene las páginas del sistema desarrolladas en Vue.js (Tienda, Carrito, Mareas, etc.).</li>
+                <li><strong>“resources/js/stores”</strong>: Almacena la gestión de estado reactivo mediante Pinia (gestión del carrito de compras y sesión de usuario).</li>
+                <li><strong>“resources/js/components”</strong>: Contiene elementos de interfaz reutilizables como notificaciones y selectores.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="ilustracion">
+        Ilustración 8.1.3: Estructura del frontend basado en Vue.js 3
+    </div>
+
+    <ul>
+        <li>La carpeta <strong>“public”</strong> contiene el punto de entrada por defecto a la aplicación <code>index.php</code>. Además, actúa como repositorio de recursos estáticos:
+            <ul class="sub-bullet">
+                <li><strong>“public/imagenes”</strong>: Almacena las fotografías de las especies locales de Lanzarote y el catálogo de productos de pesca.</li>
+                <li>En esta carpeta también se encuentran los archivos compilados de CSS y Javascript generados por Vite para la producción.</li>
+            </ul>
+        </li>
+
+        <li>La carpeta <strong>“database”</strong> gestiona la persistencia de los datos:
+            <ul class="sub-bullet">
+                <li><strong>“database/migrations”</strong>: Define la estructura de las tablas de la base de datos de forma versionada.</li>
+                <li><strong>“database/seeders”</strong>: Contiene los scripts encargados de poblar el catálogo de especies y productos iniciales.</li>
+            </ul>
+        </li>
+
+        <li>La carpeta <strong>“routes”</strong> contiene las definiciones de los puntos de acceso:
+            <ul class="sub-bullet">
+                <li><code>api.php</code>: Define los endpoints que el frontend consume para interactuar con la lógica del servidor.</li>
+                <li><code>web.php</code>: Gestiona la carga inicial de la aplicación y las rutas de autenticación.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="ilustracion">
+        Ilustración 8.1.4: Rutas y configuración de la API REST
+    </div>
+
+    <p>Finalmente, existen ficheros de configuración clave en la raíz del proyecto:</p>
+    <ul>
+        <li><code>.env</code>: Contiene los parámetros de configuración del sistema, como la conexión a la base de datos y las claves secretas de Stripe.</li>
+        <li><code>composer.json</code> y <code>package.json</code>: Gestionan las dependencias del backend (PHP) y del frontend (Javascript) respectivamente.</li>
+        <li><code>vite.config.js</code>: Es el motor de compilación que permite integrar de forma eficiente Vue.js con la estructura de Laravel.</li>
+    </ul>
+
+    <footer style="margin-top: 50px; border-top: 1px solid #000; padding-top: 10px; font-size: 0.8rem;">
+        Página 1 de 1 - FishPot: Plataforma Integral de Pesca Recreativa
+    </footer>
+
+</body>
+</html>

@@ -6,8 +6,12 @@
 
 @layer base {
   body {
-    @apply text-nautical-950 font-sans min-h-screen;
+    @apply text-nautical-950 font-sans min-h-screen transition-colors duration-500;
     background-color: #f7f5f2; /* Color arena de base */
+  }
+
+  .dark body {
+    @apply bg-primary-950 text-nautical-100;
   }
 
   h1, h2, h3, h4 {
@@ -15,12 +19,37 @@
   }
 }
 
+@layer utilities {
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+  .hover-shine {
+    @apply relative overflow-hidden;
+  }
+  .hover-shine::after {
+    content: '';
+    @apply absolute top-0 -left-full w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-25deg] transition-none pointer-events-none;
+  }
+  .hover-shine:hover::after {
+    animation: shine 0.75s ease-in-out;
+  }
+}
+
 @layer components {
   .nautical-card {
-    @apply bg-white/80 backdrop-blur-sm border border-nautical-200 shadow-sm relative overflow-hidden;
+    @apply bg-white/80 dark:bg-primary-900/40 backdrop-blur-md border border-nautical-200 dark:border-white/10 shadow-sm relative overflow-hidden transition-all duration-300;
   }
   
   .nautical-btn {
-    @apply px-6 py-3 bg-primary-950 text-white font-serif italic text-lg hover:bg-primary-900 transition-all border-b-4 border-black active:border-b-0 active:translate-y-1;
+    @apply px-6 py-3 bg-primary-950 dark:bg-primary-500 text-white dark:text-primary-950 font-serif italic text-lg hover:bg-primary-900 dark:hover:bg-primary-400 transition-all border-b-4 border-black/20 active:border-b-0 active:translate-y-1;
   }
 }

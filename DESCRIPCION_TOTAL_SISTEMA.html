@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Anexo: Catálogo Exhaustivo de Ficheros del Sistema - FishPot</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            line-height: 1.5;
+            color: #000;
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px;
+            text-align: justify;
+            background-color: #fff;
+        }
+        h1 { font-size: 1.8rem; text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 30px; }
+        h2 { font-size: 1.4rem; margin-top: 30px; border-bottom: 1px solid #ccc; padding-bottom: 5px; background-color: #f8f9fa; padding: 10px; }
+        h3 { font-size: 1.2rem; margin-top: 25px; color: #333; border-left: 4px solid #0366d6; padding-left: 10px; }
+        .file-section { margin-bottom: 25px; }
+        .file-entry { margin-bottom: 12px; padding: 10px; border: 1px solid #eee; border-radius: 4px; }
+        .file-path { font-family: "Consolas", monospace; font-weight: bold; font-size: 0.9rem; color: #d73a49; display: block; margin-bottom: 3px; }
+        .file-purpose { font-size: 0.95rem; }
+        .category-intro { font-style: italic; margin-bottom: 15px; color: #555; }
+        footer { margin-top: 60px; font-size: 0.8rem; text-align: center; border-top: 1px solid #000; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>Anexo: Catálogo Exhaustivo de Ficheros del Sistema</h1>
+    
+    <p>Este documento constituye una descripción técnica pormenorizada de todos los archivos que conforman la aplicación <strong>FishPot</strong>. La estructura está organizada por capas arquitectónicas para facilitar su comprensión en el marco de la memoria del Trabajo de Fin de Grado.</p>
+
+    <h2>1. Directorio Raíz: Configuración y Entorno</h2>
+    <div class="file-section">
+        <div class="file-entry">
+            <span class="file-path">.env</span>
+            <span class="file-purpose">Fichero de configuración de variables de entorno. Almacena las claves secretas de Stripe, credenciales de la base de datos MySQL, claves de la API de WorldTides y parámetros del servidor de correo.</span>
+        </div>
+        <div class="file-entry">
+            <span class="file-path">composer.json</span>
+            <span class="file-purpose">Archivo de gestión de dependencias de PHP. Define las librerías necesarias como Laravel Framework, Stripe SDK y DOMPDF.</span>
+        </div>
+        <div class="file-entry">
+            <span class="file-path">package.json</span>
+            <span class="file-purpose">Gestión de dependencias de Node.js. Incluye Vue 3, Pinia, Tailwind CSS y Vite para la compilación del frontend.</span>
+        </div>
+        <div class="file-entry">
+            <span class="file-path">vite.config.js</span>
+            <span class="file-purpose">Configuración del motor de empaquetado Vite, optimizado para la integración de Vue.js con la estructura de directorios de Laravel.</span>
+        </div>
+        <div class="file-entry">
+            <span class="file-path">docker-compose.yml y Dockerfile</span>
+            <span class="file-purpose">Definición de la infraestructura contenedorizada. Orquestan los servicios de PHP 8.2, Nginx y MySQL para garantizar la portabilidad del sistema.</span>
+        </div>
+    </div>
+
+    <h2>2. Lógica del Servidor (Carpeta app/)</h2>
+
+    <h3>2.1 Controladores (app/Http/Controllers)</h3>
+    <div class="file-section">
+        <div class="file-entry"><span class="file-path">StripeController.php</span><span class="file-purpose">Maneja el flujo transaccional con la pasarela de pagos, la creación de sesiones y el procesamiento de pedidos confirmados.</span></div>
+        <div class="file-entry"><span class="file-path">TideController.php</span><span class="file-purpose">Gestiona la comunicación con APIs externas para la obtención de datos de mareas de Lanzarote.</span></div>
+        <div class="file-entry"><span class="file-path">ProductController.php</span><span class="file-purpose">Lógica para el listado, filtrado y gestión CRUD de productos y especies marinas.</span></div>
+        <div class="file-entry"><span class="file-path">OrderController.php</span><span class="file-purpose">Gestión administrativa de los pedidos y sus estados de envío.</span></div>
+        <div class="file-entry"><span class="file-path">ClientController.php</span><span class="file-purpose">Administra la información de perfiles y direcciones de facturación de los clientes.</span></div>
+        <div class="file-entry"><span class="file-path">Admin/UserController.php</span><span class="file-purpose">Controlador específico para la gestión de usuarios y roles desde el panel de administración.</span></div>
+        <div class="file-entry"><span class="file-path">Auth/...</span><span class="file-purpose">Conjunto de controladores (Login, Register, Password) que implementan el sistema de autenticación Breeze.</span></div>
+    </div>
+
+    <h3>2.2 Modelos de Datos (app/Models)</h3>
+    <div class="file-section">
+        <div class="file-entry"><span class="file-path">Product.php</span><span class="file-purpose">Modelo de la tabla productos. Incluye lógica de negocio para stock y precios.</span></div>
+        <div class="file-entry"><span class="file-path">Order.php</span><span class="file-purpose">Entidad principal de pedido, relaciona usuarios con transacciones.</span></div>
+        <div class="file-entry"><span class="file-path">OrderItem.php</span><span class="file-purpose">Detalle individual de cada producto dentro de un pedido.</span></div>
+        <div class="file-entry"><span class="file-path">User.php</span><span class="file-purpose">Modelo de usuario con gestión de roles (Admin/User).</span></div>
+        <div class="file-entry"><span class="file-path">Client.php</span><span class="file-purpose">Perfil extendido del usuario para datos de envío.</span></div>
+    </div>
+
+    <h3>2.3 Seguridad y Validación (app/Http/Middleware y Requests)</h3>
+    <div class="file-section">
+        <div class="file-entry"><span class="file-path">Middleware/AdminMiddleware.php</span><span class="file-purpose">Filtro de seguridad que restringe el acceso a rutas administrativas.</span></div>
+        <div class="file-entry"><span class="file-path">Requests/OrderStoreRequest.php</span><span class="file-purpose">Validación estricta de los datos de un pedido antes de procesarlo.</span></div>
+        <div class="file-entry"><span class="file-path">Requests/ProductStoreRequest.php</span><span class="file-purpose">Validación de campos obligatorios, imágenes y tipos de datos para nuevos productos.</span></div>
+    </div>
+
+    <h2>3. Base de Datos (Carpeta database/)</h2>
+    <div class="file-section">
+        <div class="file-entry"><span class="file-path">migrations/xxxx_create_users_table.php</span><span class="file-purpose">Estructura base de la tabla de usuarios y autenticación.</span></div>
+        <div class="file-entry"><span class="file-path">migrations/xxxx_create_products_table.php</span><span class="file-purpose">Definición de campos técnicos del catálogo (precios, imágenes, stock).</span></div>
+        <div class="file-entry"><span class="file-path">migrations/xxxx_create_orders_table.php</span><span class="file-purpose">Esquema para la persistencia de pedidos y transacciones.</span></div>
+        <div class="file-entry"><span class="file-path">seeders/ProductSeeder.php</span><span class="file-purpose">Guion de carga masiva de datos reales para especies y productos de pesca.</span></div>
+        <div class="file-entry"><span class="file-path">factories/UserFactory.php</span><span class="file-purpose">Generador de datos aleatorios para pruebas de carga de usuarios.</span></div>
+    </div>
+
+    <h2>4. Frontend y Presentación (Carpeta resources/)</h2>
+
+    <h3>4.1 Vistas Vue (resources/js/views)</h3>
+    <div class="file-section">
+        <div class="file-entry"><span class="file-path">Home.vue</span><span class="file-purpose">Página de aterrizaje con información destacada y accesos directos.</span></div>
+        <div class="file-entry"><span class="file-path">Shop.vue</span><span class="file-purpose">Catálogo reactivo con filtros dinámicos de productos.</span></div>
+        <div class="file-entry"><span class="file-path">Cart.vue</span><span class="file-purpose">Interfaz de gestión del carrito y checkout.</span></div>
+        <div class="file-entry"><span class="file-path">Tides.vue</span><span class="file-purpose">Visualizador de mareas y datos meteorológicos de Lanzarote.</span></div>
+        <div class="file-entry"><span class="file-path">Species.vue</span><span class="file-purpose">Enciclopedia visual de especies marinas locales.</span></div>
+        <div class="file-entry"><span class="file-path">MyOrders.vue</span><span class="file-purpose">Historial de pedidos y descarga de facturas para el cliente.</span></div>
+        <div class="file-entry"><span class="file-path">Admin/Products.vue</span><span class="file-purpose">Panel administrativo para la gestión CRUD de inventario.</span></div>
+    </div>
+
+    <h3>4.2 Lógica Frontend (resources/js/stores y router)</h3>
+    <div class="file-section">
+        <div class="file-entry"><span class="file-path">stores/cart.js</span><span class="file-purpose">Estado global del carrito con Pinia, gestionando la persistencia en local.</span></div>
+        <div class="file-entry"><span class="file-path">stores/auth.js</span><span class="file-purpose">Gestión de la sesión, roles y permisos del usuario en el frontend.</span></div>
+        <div class="file-entry"><span class="file-path">router/index.js</span><span class="file-purpose">Definición de todas las rutas de la SPA y control de acceso (Guards).</span></div>
+    </div>
+
+    <h3>4.3 Plantillas Blade (resources/views)</h3>
+    <div class="file-section">
+        <div class="file-entry"><span class="file-path">app.blade.php</span><span class="file-purpose">Shell principal de la aplicación donde se monta la SPA de Vue.</span></div>
+        <div class="file-entry"><span class="file-path">pdf/invoice.blade.php</span><span class="file-purpose">Plantilla HTML para la generación dinámica de facturas en PDF.</span></div>
+        <div class="file-entry"><span class="file-path">emails/invoice.blade.php</span><span class="file-purpose">Diseño del correo electrónico que acompaña al envío de la factura.</span></div>
+    </div>
+
+    <h2>5. Definición de Rutas (Carpeta routes/)</h2>
+    <div class="file-section">
+        <div class="file-entry"><span class="file-path">api.php</span><span class="file-purpose">Define los endpoints de la API REST que consume el cliente Vue.</span></div>
+        <div class="file-entry"><span class="file-path">web.php</span><span class="file-purpose">Gestiona la carga de la aplicación y las rutas de autenticación inicial.</span></div>
+    </div>
+
+    <footer>
+        <p>Documentación Técnica FishPot - Proyecto Fin de Grado 2026</p>
+    </footer>
+
+</body>
+</html>

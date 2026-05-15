@@ -243,7 +243,11 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import { useCartStore } from '../stores/cart'
+import { useRoute } from 'vue-router'
 
+const cartStore = useCartStore()
+const route = useRoute()
 const orders = ref([])
 const showDetailsModal = ref(false)
 const selectedOrderDetails = ref(null)
@@ -335,7 +339,12 @@ const formatDate = (dateStr) => {
   return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
 }
 
-onMounted(fetchOrders)
+onMounted(() => {
+  fetchOrders()
+  if (route.query.payment === 'success') {
+    cartStore.clearCart()
+  }
+})
 </script>
 
 <style scoped>

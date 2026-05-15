@@ -8,7 +8,7 @@
         <h1 class="text-5xl font-serif font-black text-primary-950 italic">Crear Nuevo Usuario</h1>
         <p class="text-nautical-700 mt-2 font-serif italic text-lg leading-relaxed">Añade un nuevo miembro a la comunidad FishPot.</p>
       </div>
-      <router-link :to="{ name: 'admin.usuarios.index' }" class="nautical-btn py-3 px-6">
+      <router-link :to="{ name: 'admin.users.index' }" class="nautical-btn py-3 px-6">
         Volver a Usuarios
       </router-link>
     </div>
@@ -62,8 +62,10 @@
 import { reactive } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '../stores/toast'
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const form = reactive({
   name: '',
@@ -76,20 +78,20 @@ const form = reactive({
 const validationErrors = reactive({})
 
 const createUser = async () => {
-  // Clear previous errors
+  // Limpiar errores previos
   Object.keys(validationErrors).forEach(key => delete validationErrors[key]);
 
   try {
-    await axios.post('/admin/users', form) // Submit to Laravel's AdminUserController@store
-    alert('Usuario creado exitosamente.');
-    router.push({ name: 'admin.usuarios.index' });
+    await axios.post('/admin/users', form) // Enviar al controlador AdminUserController de Laravel
+    toastStore.add('Usuario creado exitosamente.');
+    router.push({ name: 'admin.users.index' });
   } catch (error) {
     if (error.response && error.response.status === 422) {
       Object.assign(validationErrors, error.response.data.errors);
-      alert('Error de validación: Por favor, revise los campos marcados.');
+      toastStore.add('Error de validación: Por favor, revise los campos marcados.', 'error');
     } else {
       console.error('Error al crear usuario:', error);
-      alert('Hubo un error al crear el usuario.');
+      toastStore.add('Hubo un error al crear el usuario.', 'error');
     }
   }
 }

@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\App;
 
 class TideController extends Controller
 {
-    private const LATITUDE = 29.035; // Lanzarote Latitude
-    private const LONGITUDE = -13.633; // Lanzarote Longitude
+    private const LATITUDE = 29.035; // Latitud de Lanzarote
+    private const LONGITUDE = -13.633; // Longitud de Lanzarote
     private $worldTidesApiKey;
 
     public function __construct()
@@ -24,55 +24,58 @@ class TideController extends Controller
     {
         $timezone = 'Atlantic/Canary';
         $start = Carbon::now($timezone)->startOfDay();
-        // Request for 7 days
+        // Solicitar datos para 7 días
         $days = 7;
 
         try {
-            // If no API key, return sample data
+            // Si no hay clave de API, devolver datos de ejemplo (simulados)
             if (!$this->worldTidesApiKey) {
                 return response()->json($this->getSampleData($timezone));
             }
 
-            // Using v3 API with correct parameters
+            // Uso de la API v3 con los parámetros correctos
             $response = Http::get('https://www.worldtides.info/api/v3', [
                 'extremes' => true,
                 'lat' => self::LATITUDE,
                 'lon' => self::LONGITUDE,
                 'key' => $this->worldTidesApiKey,
                 'start' => $start->timestamp,
-                'length' => $days * 24 * 3600, // 7 days in seconds
-                'datum' => 'LAT', // Lowest Astronomical Tide
+                'length' => $days * 24 * 3600, // 7 días en segundos
+                'datum' => 'LAT', // Lowest Astronomical Tide (Bajamar Astronómica más baja)
             ]);
 
             if ($response->failed()) {
-                Log::error('WorldTides API failure: ' . $response->status() . ' ' . $response->body());
+                Log::error('Fallo en la API WorldTides: ' . $response->status() . ' ' . $response->body());
                 return response()->json($this->getSampleData($timezone));
             }
 
             $apiData = $response->json();
 
             if (isset($apiData['error']) || !isset($apiData['extremes'])) {
-                Log::error('WorldTides API Error: ' . ($apiData['error'] ?? 'No extremes data found'));
+                Log::error('Error en la API WorldTides: ' . ($apiData['error'] ?? 'No se encontraron datos de extremos'));
                 return response()->json($this->getSampleData($timezone));
             }
 
-            // The end date for the loop
+            // Fecha final para el bucle
             $end = $start->copy()->addDays($days - 1)->endOfDay();
 
             return response()->json($this->formatTideData($apiData['extremes'], $start, $end, $timezone));
 
         } catch (\Exception $e) {
-            Log::error('Error fetching tide data: ' . $e->getMessage());
+            Log::error('Error obteniendo datos de mareas: ' . $e->getMessage());
             return response()->json($this->getSampleData($timezone));
         }
     }
 
+    /**
+     * Formatea los datos de mareas recibidos de la API.
+     */
     private function formatTideData($extremes, $start, $end, $timezone)
     {
         $week = [];
         $currentDate = $start->copy();
 
-        // Group extremes by date in the local timezone
+        // Agrupar extremos por fecha en la zona horaria local
         $groupedExtremes = [];
         foreach ($extremes as $extreme) {
             $date = Carbon::createFromTimestamp($extreme['dt'], $timezone)->toDateString();
@@ -106,12 +109,15 @@ class TideController extends Controller
         return $week;
     }
 
+    /**
+     * Genera datos simulados en caso de que la API no esté disponible.
+     */
     private function getSampleData($timezone)
     {
         $week = [];
         $currentDate = Carbon::now($timezone)->startOfDay();
         
-        // Base tides for day 0 (simulated)
+        // Mareas base para el día 0 (simuladas)
         $baseTides = [
             ["hora" => "03:15", "tipo" => "Bajamar", "altura" => 0.45],
             ["hora" => "09:30", "tipo" => "Pleamar", "altura" => 2.10],
@@ -122,14 +128,14 @@ class TideController extends Controller
         for ($i = 0; $i < 7; $i++) {
             $dayTides = [];
             foreach ($baseTides as $tide) {
-                // Tides shift approximately 50 minutes later each day
+                // Las mareas se desplazan aproximadamente 50 minutos cada día
                 $time = Carbon::createFromFormat('H:i', $tide['hora'], $timezone);
                 $time->addMinutes($i * 50);
                 
                 $dayTides[] = [
                     "hora" => $time->format('H:i'),
                     "tipo" => $tide['tipo'],
-                    "altura" => round($tide['altura'] + (sin($i * 0.5) * 0.15), 2) // Add some variation to heights
+                    "altura" => round($tide['altura'] + (sin($i * 0.5) * 0.15), 2) // Pequeña variación en la altura
                 ];
             }
 
@@ -144,4 +150,3 @@ class TideController extends Controller
         return $week;
     }
 }
-

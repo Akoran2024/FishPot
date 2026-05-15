@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario FishPot - Guía de Operación Total</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: #f4f7f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #1a252f;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            color: #3498db;
+            text-transform: uppercase;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+            transition: 0.3s;
+        }
+
+        .sidebar li a:hover {
+            color: white;
+            padding-left: 10px;
+        }
+
+        .main-content {
+            margin-left: 320px;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 { color: #2980b9; font-size: 2.5rem; margin-top: 0; }
+        h2 { color: #2c3e50; border-left: 5px solid #2980b9; padding-left: 15px; margin-top: 30px; }
+        h3 { color: #34495e; margin-top: 25px; }
+
+        .step-box {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #2980b9;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .admin-badge { background: #e74c3c; }
+        
+        .important {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .pro-tip {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar">
+    <h2>FishPot Guía</h2>
+    <ul>
+        <li><a href="#inicio">1. Puesta en Marcha</a></li>
+        <li><a href="#auth">2. Registro y Acceso</a></li>
+        <li><a href="#mareas">3. Previsión de Mareas</a></li>
+        <li><a href="#especies">4. Guía de Especies</a></li>
+        <li><a href="#lugares">5. Lugares de Pesca</a></li>
+        <li><a href="#licencia">6. Trámites de Licencia</a></li>
+        <li><a href="#tienda">7. Tienda y Compras</a></li>
+        <li><a href="#carrito">8. El Carrito de Compra</a></li>
+        <li><a href="#pagos">9. Proceso de Pago</a></li>
+        <li><a href="#pedidos">10. Mis Pedidos y Facturas</a></li>
+        <li><a href="#admin-productos">11. Gestión de Productos (Admin)</a></li>
+        <li><a href="#admin-pedidos">12. Gestión de Pedidos (Admin)</a></li>
+        <li><a href="#admin-usuarios">13. Gestión de Usuarios (Admin)</a></li>
+    </ul>
+</nav>
+
+<main class="main-content">
+    <header>
+        <h1>Manual de Operación FishPot</h1>
+        <p>Esta es la guía definitiva para usar todas las funciones de la aplicación FishPot.</p>
+    </header>
+
+    <section id="inicio" class="section">
+        <h2>1. Puesta en Marcha Local</h2>
+        <p>Para abrir la aplicación en tu ordenador sin usar sistemas complejos, sigue estos dos pasos:</p>
+        <div class="step-box">
+            <strong>Paso 1:</strong> Abre una terminal en la carpeta del proyecto y escribe <code>php artisan serve</code>. Esto activa el servidor.
+        </div>
+        <div class="step-box">
+            <strong>Paso 2:</strong> Abre otra terminal y escribe <code>npm run dev</code>. Esto activa la parte visual.
+        </div>
+        <p>Ahora entra en tu navegador a: <strong>http://localhost:8000</strong></p>
+    </section>
+
+    <section id="auth" class="section">
+        <h2>2. Registro y Acceso de Usuarios</h2>
+        <p>FishPot permite navegar como invitado, pero para comprar necesitas una cuenta.</p>
+        <h3>Cómo Registrarse:</h3>
+        <ul>
+            <li>Haz clic en <strong>"Registrarse"</strong>.</li>
+            <li>Introduce tu nombre, un email válido y una contraseña.</li>
+            <li>Al terminar, ya estarás dentro de tu panel personal.</li>
+        </ul>
+        <h3>Cómo Iniciar Sesión:</h3>
+        <p>Usa el botón <strong>"Gestor Privado"</strong>. Es el acceso seguro para clientes y administradores.</p>
+    </section>
+
+    <section id="mareas" class="section">
+        <h2>3. Consulta de Mareas (Lanzarote)</h2>
+        <p>Esta sección es vital para planificar tu día de pesca. El sistema muestra los datos de los próximos 7 días.</p>
+        <div class="pro-tip">
+            <strong>Consejo:</strong> Fíjate en los picos de las gráficas. Los mejores momentos para pescar suelen ser los cambios de marea (repunta).
+        </div>
+        <ul>
+            <li><strong>Pleamar:</strong> Marea alta (indicada con altura máxima).</li>
+            <li><strong>Bajamar:</strong> Marea baja (indicada con altura mínima).</li>
+            <li><strong>Altura:</strong> Medida en metros sobre el nivel cero.</li>
+        </ul>
+    </section>
+
+    <section id="especies" class="section">
+        <h2>4. Guía de Especies Marinas</h2>
+        <p>¿No sabes qué pez has capturado? Ve a la sección <strong>"Especies"</strong>.</p>
+        <ul>
+            <li>Verás fotos reales de peces de las Islas Canarias (Vieja, Mero, Sargo, etc.).</li>
+            <li>Cada tarjeta muestra el nombre común y, en versiones extendidas, consejos sobre cómo pescarlos.</li>
+        </ul>
+    </section>
+
+    <section id="lugares" class="section">
+        <h2>5. Lugares Recomendados</h2>
+        <p>En <strong>"Lugares"</strong> encontrarás un mapa o lista de las mejores zonas de pesca en Lanzarote (Famara, Playa Blanca, La Santa).</p>
+        <p>Cada lugar incluye una breve descripción de qué especies suelen frecuentar esa zona y el nivel de dificultad del terreno.</p>
+    </section>
+
+    <section id="licencia" class="section">
+        <h2>6. Gestión de Licencia de Pesca</h2>
+        <p>Pescar sin licencia conlleva multas graves. En esta sección te facilitamos la información:</p>
+        <ul>
+            <li>Enlaces directos a la sede electrónica del Gobierno de Canarias.</li>
+            <li>Requisitos para la licencia de Clase 3 (recreativa desde costa).</li>
+            <li>Tasas vigentes y documentos necesarios.</li>
+        </ul>
+    </section>
+
+    <section id="tienda" class="section">
+        <h2>7. La Tienda Online</h2>
+        <p>Aquí es donde puedes renovar tu equipo. Los productos están divididos por categorías:</p>
+        <div class="step-box">
+            <strong>Cómo buscar:</strong> Usa el buscador superior o los filtros laterales para encontrar cañas, carretes, hilos o señuelos.
+        </div>
+        <p>Al hacer clic en un producto verás su <strong>disponibilidad de Stock</strong>. Si no hay unidades, el botón de compra se desactivará automáticamente.</p>
+    </section>
+
+    <section id="carrito" class="section">
+        <h2>8. Uso del Carrito de Compra</h2>
+        <p>El carrito es inteligente y recuerda tus productos incluso si cierras el navegador.</p>
+        <ul>
+            <li><strong>Añadir:</strong> Pulsa el botón "Añadir" en cualquier producto.</li>
+            <li><strong>Modificar:</strong> Dentro del carrito, puedes cambiar las cantidades pulsando "+" o "-".</li>
+            <li><strong>Validación:</strong> Si intentas pedir más unidades de las que hay en el almacén, el sistema te avisará.</li>
+        </ul>
+    </section>
+
+    <section id="pagos" class="section">
+        <h2>9. Proceso de Pago Seguro (Stripe)</h2>
+        <p>FishPot utiliza Stripe, la pasarela más segura del mundo.</p>
+        <ol>
+            <li>En el carrito, pulsa <strong>"Tramitar Pedido"</strong>.</li>
+            <li>Rellena tus datos de envío (Dirección, Ciudad y Código Postal).</li>
+            <li><strong>Gastos de Envío:</strong> Si el Código Postal empieza por 35 o 38 (Canarias), el envío es GRATIS. Para el resto, se añaden 9.50€.</li>
+            <li>Serás redirigido a la pantalla segura de pago para meter tu tarjeta.</li>
+        </ol>
+        <div class="important">
+            <strong>Seguridad:</strong> Nosotros nunca vemos ni guardamos tu número de tarjeta. Todo lo gestiona Stripe de forma cifrada.
+        </div>
+    </section>
+
+    <section id="pedidos" class="section">
+        <h2>10. Mis Pedidos y Facturas PDF</h2>
+        <p>Una vez pagado, tu pedido aparecerá en <strong>"Mis Pedidos"</strong>.</p>
+        <ul>
+            <li><strong>Estado:</strong> Podrás ver si tu pedido está "Aceptado" o si ya ha sido "Enviado".</li>
+            <li><strong>Factura:</strong> Pulsa el botón de descarga para obtener un <strong>PDF oficial</strong> de tu compra con el desglose de IVA y tus datos.</li>
+        </ul>
+    </section>
+
+    <section id="admin-productos" class="section">
+        <h2>11. Gestión de Productos <span class="badge admin-badge">ADMIN</span></h2>
+        <p>Si eres administrador, puedes controlar el catálogo:</p>
+        <ul>
+            <li><strong>Añadir:</strong> Sube fotos de nuevos productos, ponles precio y stock inicial.</li>
+            <li><strong>Editar:</strong> Cambia los precios cuando haya rebajas o actualiza el stock cuando recibas mercancía nueva.</li>
+            <li><strong>Eliminar:</strong> Quita del catálogo productos que ya no vayas a vender.</li>
+        </ul>
+    </section>
+
+    <section id="admin-pedidos" class="section">
+        <h2>12. Gestión de Pedidos <span class="badge admin-badge">ADMIN</span></h2>
+        <p>Desde aquí controlas el flujo de dinero y envíos:</p>
+        <ul>
+            <li><strong>Aceptar:</strong> Hazlo cuando veas que el pago es correcto y tengas el material listo.</li>
+            <li><strong>Enviar:</strong> Marca como enviado cuando el transportista recoja el paquete. El cliente verá este cambio en su perfil al instante.</li>
+            <li><strong>Cancelar:</strong> Si hay algún error con el cliente o falta de stock insalvable.</li>
+        </ul>
+    </section>
+
+    <section id="admin-usuarios" class="section">
+        <h2>13. Gestión de Usuarios <span class="badge admin-badge">ADMIN</span></h2>
+        <p>Control de acceso a la plataforma:</p>
+        <ul>
+            <li><strong>Ver Lista:</strong> Todos los emails y nombres registrados.</li>
+            <li><strong>Roles:</strong> Puedes convertir a un cliente normal en <strong>Administrador</strong> para que te ayude a gestionar la tienda.</li>
+            <li><strong>Eliminar:</strong> Borra cuentas de prueba o usuarios que no cumplan las normas.</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>FishPot - Tu puerto de confianza para la pesca deportiva.</p>
+        <p>© 2026 Lanzarote, Islas Canarias.</p>
+    </footer>
+</main>
+
+</body>
+</html>

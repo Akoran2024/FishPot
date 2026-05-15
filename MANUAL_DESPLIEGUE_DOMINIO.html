@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Despliegue en Dominio Real - FishPot</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        h3 { color: #16a085; margin-top: 25px; }
+        
+        .step {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .command {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .warning {
+            background-color: #fcf8e3;
+            border: 1px solid #faebcc;
+            color: #8a6d3b;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .info {
+            background-color: #d9edf7;
+            border: 1px solid #bce8f1;
+            color: #31708f;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Guía de Despliegue en Producción</h1>
+        <p>Pasos para subir FishPot a un dominio real (ej. www.tudominio.com)</p>
+    </header>
+
+    <section>
+        <h2>1. Requisitos Previos</h2>
+        <ul>
+            <li><strong>Dominio comprado:</strong> (ej. en Namecheap, GoDaddy, DonDominio).</li>
+            <li><strong>Servidor VPS:</strong> Un servidor virtual con Linux (Ubuntu 22.04 o 24.04 recomendado) en proveedores como DigitalOcean, Linode o Hetzner.</li>
+            <li><strong>Acceso SSH:</strong> Capacidad para entrar al servidor mediante consola.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>2. Configuración del Dominio (DNS)</h2>
+        <div class="step">
+            <p>Debes apuntar tu nombre de dominio a la dirección IP de tu servidor VPS.</p>
+            <ol>
+                <li>Entra al panel de tu registrador de dominios.</li>
+                <li>Busca la sección <strong>DNS Management</strong> o <strong>Registros DNS</strong>.</li>
+                <li>Crea un registro tipo <strong>A</strong>:
+                    <ul>
+                        <li>Host: <code>@</code></li>
+                        <li>Valor: <code>[Tu IP del Servidor]</code></li>
+                    </ul>
+                </li>
+                <li>Crea otro registro tipo <strong>CNAME</strong>:
+                    <ul>
+                        <li>Host: <code>www</code></li>
+                        <li>Valor: <code>tudominio.com</code></li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section>
+        <h2>3. Preparación del Servidor (Stack LEMP)</h2>
+        <p>Ejecuta estos comandos en la consola de tu servidor para instalar lo necesario:</p>
+        <div class="command">
+            sudo apt update && sudo apt upgrade -y<br>
+            # Instalar Nginx, MySQL y PHP 8.2+<br>
+            sudo apt install nginx mysql-server php-fpm php-mysql php-xml php-curl php-gd php-zip unzip -y
+        </div>
+    </section>
+
+    <section>
+        <h2>4. Clonar el Proyecto y Configurar</h2>
+        <div class="step">
+            <h3>Descargar código:</h3>
+            <div class="command">
+                cd /var/www<br>
+                sudo git clone https://github.com/tu-usuario/FishPot.git<br>
+                sudo chown -R $USER:$USER /var/www/FishPot
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>Instalar dependencias y generar claves:</h3>
+            <div class="command">
+                cd /var/www/FishPot<br>
+                composer install --optimize-autoloader --no-dev<br>
+                cp .env.example .env<br>
+                php artisan key:generate
+            </div>
+            <div class="warning">
+                <strong>IMPORTANTE:</strong> Edita el archivo <code>.env</code> con <code>nano .env</code> y cambia <code>APP_ENV=production</code>, <code>APP_DEBUG=false</code> y pon la <code>APP_URL=https://tudominio.com</code>. También configura las credenciales de la base de datos de producción.
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>Compilar el Frontend (Vue.js):</h3>
+            <p>Esto generará los archivos finales en la carpeta <code>public/build</code>.</p>
+            <div class="command">
+                npm install<br>
+                npm run build
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>5. Configuración de Nginx</h2>
+        <p>Debes decirle a Nginx cómo servir tu aplicación Laravel.</p>
+        <div class="command">
+            sudo nano /etc/nginx/sites-available/fishpot
+        </div>
+        <p>Pega este contenido (ajustando el dominio):</p>
+        <pre style="background: #f4f4f4; padding: 10px; border: 1px solid #ddd;">
+server {
+    listen 80;
+    server_name tudominio.com www.tudominio.com;
+    root /var/www/FishPot/public;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php;
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+        </pre>
+        <div class="command">
+            # Activar el sitio y reiniciar Nginx<br>
+            sudo ln -s /etc/nginx/sites-available/fishpot /etc/nginx/sites-enabled/<br>
+            sudo nginx -t && sudo systemctl restart nginx
+        </div>
+    </section>
+
+    <section>
+        <h2>6. Permisos de Carpetas</h2>
+        <p>Laravel necesita escribir en ciertas carpetas:</p>
+        <div class="command">
+            sudo chown -R www-data:www-data /var/www/FishPot/storage<br>
+            sudo chown -R www-data:www-data /var/www/FishPot/bootstrap/cache
+        </div>
+    </section>
+
+    <section>
+        <h2>7. Seguridad SSL (HTTPS Gratis)</h2>
+        <p>Usa Certbot para instalar un certificado SSL de Let's Encrypt:</p>
+        <div class="command">
+            sudo apt install certbot python3-certbot-nginx -y<br>
+            sudo certbot --nginx -d tudominio.com -d www.tudominio.com
+        </div>
+        <p>Sigue las instrucciones y elige la opción de <strong>Redirigir todo el tráfico a HTTPS</strong>.</p>
+    </section>
+
+    <section>
+        <h2>8. Tareas de Optimización Final</h2>
+        <div class="command">
+            php artisan migrate --force<br>
+            php artisan config:cache<br>
+            php artisan route:cache<br>
+            php artisan view:cache
+        </div>
+    </section>
+
+    <div class="info">
+        <strong>¡Listo!</strong> Tu aplicación FishPot ahora debería ser accesible desde tu dominio con conexión segura HTTPS.
+    </div>
+
+    <footer>
+        <p>© 2026 Guía de Despliegue FishPot - Lanzarote</p>
+    </footer>
+</div>
+
+</body>
+</html>

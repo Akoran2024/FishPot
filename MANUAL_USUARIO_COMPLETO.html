@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario Extendido - FishPot</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #28a745;
+            --dark-color: #343a40;
+            --light-color: #f8f9fa;
+            --accent-color: #ffc107;
+            --text-color: #212529;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        h1 { color: var(--primary-color); font-size: 2.5em; margin-bottom: 10px; }
+        h2 { color: var(--primary-color); border-left: 5px solid var(--primary-color); padding-left: 15px; margin-top: 40px; }
+        h3 { color: var(--secondary-color); margin-top: 25px; }
+
+        .toc {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border: 1px solid #dee2e6;
+        }
+
+        .toc h2 { border: none; padding: 0; margin-top: 0; font-size: 1.5em; }
+        .toc ul { list-style: none; padding-left: 0; }
+        .toc ul li { margin-bottom: 8px; }
+        .toc ul li a { text-decoration: none; color: var(--primary-color); font-weight: 500; }
+        .toc ul li a:hover { text-decoration: underline; }
+
+        .step {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .info-box {
+            background-color: #d1ecf1;
+            border-left: 5px solid #0c5460;
+            color: #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 5px solid #856404;
+            color: #856404;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .admin-section {
+            border: 2px dashed var(--accent-color);
+            padding: 25px;
+            margin-top: 30px;
+            background-color: #fffdf5;
+        }
+
+        code {
+            background: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+            padding-top: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.4em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+            color: #fff;
+            background-color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px; margin: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Manual de Usuario FishPot</h1>
+        <p>Guía Completa de Operación y Administración del Sistema</p>
+        <p><strong>Versión 1.0.0</strong> | Fecha: Mayo 2026</p>
+    </header>
+
+    <div class="toc">
+        <h2>Índice de Contenidos</h2>
+        <ul>
+            <li>1. <a href="#introduccion">Introducción a FishPot</a></li>
+            <li>2. <a href="#acceso">Acceso y Gestión de Cuentas</a></li>
+            <li>3. <a href="#navegacion">Navegación y Catálogo de Productos</a></li>
+            <li>4. <a href="#mareas">Sistema de Previsión de Mareas</a></li>
+            <li>5. <a href="#compras">Guía Detallada de Compras (Ciclo Completo)</a></li>
+            <li>6. <a href="#perfil">Mi Panel de Usuario y Facturación</a></li>
+            <li>7. <a href="#administracion">Panel de Administración (Solo Personal Autorizado)</a>
+                <ul>
+                    <li>7.1 <a href="#admin-users">Gestión de Usuarios</a></li>
+                    <li>7.2 <a href="#admin-products">Control de Inventario y Productos</a></li>
+                    <li>7.3 <a href="#admin-orders">Logística y Gestión de Pedidos</a></li>
+                </ul>
+            </li>
+            <li>8. <a href="#faq">Preguntas Frecuentes y Soporte</a></li>
+        </ul>
+    </div>
+
+    <section id="introduccion">
+        <h2>1. Introducción a FishPot</h2>
+        <p>FishPot es una solución integral de comercio electrónico diseñada específicamente para el sector de la pesca deportiva. No es solo una tienda; es una herramienta que combina la venta de material especializado con información técnica vital para el pescador, como el estado de las mareas en tiempo real.</p>
+        <p>La plataforma utiliza tecnologías de vanguardia (Laravel, Vue.js y Stripe) para garantizar una experiencia rápida, segura y fluida tanto en computadoras de escritorio como en dispositivos móviles.</p>
+    </section>
+
+    <section id="acceso">
+        <h2>2. Acceso y Gestión de Cuentas</h2>
+        <h3>2.1 Registro de Nuevos Usuarios</h3>
+        <div class="step">
+            <span class="step-number">1</span> Localice el botón <strong>"Registrarse"</strong> en la cabecera del sitio.
+        </div>
+        <div class="step">
+            <span class="step-number">2</span> Complete los campos obligatorios:
+            <ul>
+                <li><strong>Nombre Completo:</strong> Cómo desea que le llamemos.</li>
+                <li><strong>Email:</strong> Su dirección de correo principal (servirá para recibir facturas).</li>
+                <li><strong>Contraseña:</strong> Debe ser segura y tener al menos 8 caracteres.</li>
+            </ul>
+        </div>
+        <div class="step">
+            <span class="step-number">3</span> Tras pulsar en "Registrarse", el sistema creará su sesión automáticamente.
+        </div>
+
+        <h3>2.2 Inicio de Sesión (Acceso Privado)</h3>
+        <p>El acceso a la zona de gestión se realiza a través de la ruta segura denominada <strong>"Gestor Privado"</strong>. Ingrese sus credenciales para acceder a su carrito guardado y su historial de compras.</p>
+        <div class="info-box">
+            <strong>Nota de Seguridad:</strong> Si utiliza un equipo público, asegúrese siempre de cerrar sesión al finalizar para proteger sus datos de pago y dirección.
+        </div>
+    </section>
+
+    <section id="navegacion">
+        <h2>3. Navegación y Catálogo de Productos</h2>
+        <p>El catálogo de FishPot está organizado de forma intuitiva para encontrar lo que necesita en segundos:</p>
+        <ul>
+            <li><strong>Buscador:</strong> Utilice la barra de búsqueda superior para encontrar marcas o modelos específicos.</li>
+            <li><strong>Categorías:</strong> Filtre por Cañas, Carretes, Hilos, Señuelos o Accesorios.</li>
+            <li><strong>Detalle de Producto:</strong> Al hacer clic en una imagen, accederá a la ficha técnica donde podrá ver imágenes en alta resolución, descripción extendida, precio con IVA y stock disponible.</li>
+        </ul>
+    </section>
+
+    <section id="mareas">
+        <h2>4. Sistema de Previsión de Mareas</h2>
+        <p>Una funcionalidad única de FishPot es su integración con servicios meteorológicos y oceanográficos:</p>
+        <div class="step">
+            Acceda a la sección <strong>"Mareas"</strong> desde el menú principal.
+        </div>
+        <div class="step">
+            Visualice los datos de pleamar y bajamar calculados específicamente para la costa de <strong>Lanzarote</strong>.
+        </div>
+        <div class="info-box">
+            Esta información se actualiza automáticamente cada hora a través de una API externa, permitiéndole comprar el aparejo adecuado justo antes de salir a pescar según las condiciones del mar.
+        </div>
+    </section>
+
+    <section id="compras">
+        <h2>5. Guía Detallada de Compras</h2>
+        <p>Siga estos pasos para completar una compra exitosa:</p>
+        <div class="step">
+            <span class="step-number">1</span> <strong>Selección:</strong> Añada los productos al carrito pulsando el botón azul "Añadir al Carrito". Verá que el contador en el icono superior aumenta.
+        </div>
+        <div class="step">
+            <span class="step-number">2</span> <strong>Revisión:</strong> Haga clic en el icono del carrito. Verifique que las cantidades son las correctas. Puede aumentar o disminuir el número de unidades aquí mismo.
+        </div>
+        <div class="step">
+            <span class="step-number">3</span> <strong>Checkout:</strong> Pulse en "Tramitar Pedido". El sistema le pedirá confirmar su dirección de envío.
+        </div>
+        <div class="step">
+            <span class="step-number">4</span> <strong>Pasarela Stripe:</strong> Se abrirá la ventana segura de pago. Introduzca los datos de su tarjeta. FishPot <strong>no almacena</strong> sus números de tarjeta; todo el proceso ocurre en los servidores cifrados de Stripe.
+        </div>
+        <div class="step">
+            <span class="step-number">5</span> <strong>Finalización:</strong> Una vez aprobado el pago, el sistema le devolverá a FishPot con un mensaje de "Pedido Realizado Correctamente".
+        </div>
+    </section>
+
+    <section id="perfil">
+        <h2>6. Mi Panel de Usuario y Facturación</h2>
+        <p>Desde su perfil personal, usted tiene el control total:</p>
+        <h3>6.1 Seguimiento de Pedidos</h3>
+        <p>Consulte el estado de sus pedidos en tiempo real:</p>
+        <ul>
+            <li><span class="badge" style="background-color: #ffc107;">Pendiente:</span> Pago recibido, esperando revisión.</li>
+            <li><span class="badge" style="background-color: #17a2b8;">Aceptado:</span> Su pedido está siendo preparado en nuestro almacén.</li>
+            <li><span class="badge" style="background-color: #28a745;">Enviado:</span> El paquete ya está en camino (se incluye enlace de seguimiento).</li>
+        </ul>
+        <h3>6.2 Descarga de Facturas</h3>
+        <p>En el listado de pedidos, verá un botón de <strong>"Descargar PDF"</strong>. Al pulsarlo, el sistema generará instantáneamente una factura legal con todos los datos de su compra.</p>
+    </section>
+
+    <section id="administracion" class="admin-section">
+        <h2>7. Panel de Administración</h2>
+        <p>Esta sección es exclusiva para el personal de la tienda FishPot con privilegios de <code>Admin</code>.</p>
+        
+        <h3 id="admin-users">7.1 Gestión de Usuarios</h3>
+        <p>Permite mantener la base de datos de clientes limpia y segura:</p>
+        <ul>
+            <li><strong>Listado Global:</strong> Vista de todos los usuarios, su fecha de registro y rol.</li>
+            <li><strong>Cambio de Rango:</strong> Posibilidad de otorgar permisos de administrador a nuevos empleados.</li>
+            <li><strong>Acciones de Seguridad:</strong> Bloqueo o eliminación de cuentas que infrinjan las normas de la comunidad.</li>
+        </ul>
+
+        <h3 id="admin-products">7.2 Control de Inventario y Productos</h3>
+        <p>Es el corazón de la tienda. El administrador puede:</p>
+        <div class="step">
+            <strong>Añadir Stock:</strong> Subir nuevos productos completando el formulario (Nombre, Precio, Categoría, Stock e Imagen).
+        </div>
+        <div class="step">
+            <strong>Editor Visual:</strong> Modificar descripciones o actualizar precios según las ofertas de temporada.
+        </div>
+        <div class="warning-box">
+            <strong>Importante:</strong> Al eliminar un producto, este desaparecerá del catálogo público inmediatamente. Se recomienda usar la edición de stock para poner a "0" si es una falta temporal.
+        </div>
+
+        <h3 id="admin-orders">7.3 Logística y Gestión de Pedidos</h3>
+        <p>Flujo de trabajo recomendado para el administrador:</p>
+        <ol>
+            <li>Revisar los pedidos en estado "Pendiente".</li>
+            <li>Tras comprobar el material físico, marcar como <strong>"Aceptar"</strong>.</li>
+            <li>Una vez entregado a la empresa de mensajería, pulsar en <strong>"Enviar"</strong>. Aquí podrá añadir notas adicionales para el cliente.</li>
+        </ol>
+    </section>
+
+    <section id="faq">
+        <h2>8. Preguntas Frecuentes (FAQ)</h2>
+        <p><strong>¿Es seguro pagar en FishPot?</strong><br>
+        Sí, utilizamos Stripe, el estándar mundial en pagos electrónicos, cumpliendo con la normativa PCI-DSS.</p>
+        
+        <p><strong>¿Cómo recibo mi factura?</strong><br>
+        Se envía automáticamente a su email tras la compra y siempre está disponible para descarga en su panel de usuario.</p>
+        
+        <p><strong>¿Puedo cancelar un pedido?</strong><br>
+        Solo mientras el estado sea "Pendiente". Una vez "Enviado", deberá seguir el proceso de devolución estándar.</p>
+    </section>
+
+    <footer>
+        <p>© 2026 FishPot S.L. - Sistema de Gestión de Pesca Deportiva</p>
+        <p>Desarrollado para la excelencia en el servicio al pescador.</p>
+    </footer>
+</div>
+
+</body>
+</html>

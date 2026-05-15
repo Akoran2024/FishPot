@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-[80vh] flex items-center justify-center px-4 relative z-10 bg-nautical-100">
+  <div class="min-h-[80vh] flex items-center justify-center px-4 relative z-10">
     <div class="max-w-md w-full bg-white border-4 border-double border-nautical-200 p-12 shadow-2xl relative overflow-hidden">
       <!-- Subtle Texture -->
       <div class="absolute inset-0 pointer-events-none opacity-[0.03]" style="background-image: url('https://www.transparenttextures.com/patterns/canvas-orange.png')"></div>
@@ -33,7 +33,7 @@
           <div class="space-y-2">
             <div class="flex justify-between items-center px-1">
               <label for="password" class="block text-[10px] font-bold text-nautical-400 uppercase tracking-[0.2em] italic">Contraseña</label>
-              <a href="#" class="text-[9px] font-bold text-primary-700 hover:text-primary-900 uppercase tracking-widest italic transition">¿Olvidó su clave?</a>
+              <router-link to="/forgot-password" class="text-[9px] font-bold text-primary-700 hover:text-primary-900 uppercase tracking-widest italic transition">¿Olvidó su clave?</router-link>
             </div>
             <input 
               id="password" 

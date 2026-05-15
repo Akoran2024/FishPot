@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8. VALIDACIÓN Y PRUEBAS - FishPot</title>
+    <style>
+        body { font-family: "Arial", sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 40px; background-color: #fff; text-align: justify; }
+        h1 { font-size: 1.8rem; color: #000; border-bottom: 2px solid #000; padding-bottom: 10px; text-transform: uppercase; }
+        h2 { font-size: 1.4rem; color: #2c3e50; margin-top: 30px; border-left: 5px solid #3498db; padding-left: 15px; }
+        h3 { font-size: 1.2rem; color: #34495e; margin-top: 20px; }
+        p { margin-bottom: 15px; }
+        ul { list-style-type: square; padding-left: 30px; }
+        li { margin-bottom: 8px; }
+        
+        .highlight { font-weight: bold; color: #2980b9; }
+        
+        /* Estilos para el reporte de resultados */
+        .summary-box { display: flex; gap: 20px; margin: 30px 0; }
+        .stat-card { flex: 1; padding: 15px; border-radius: 4px; text-align: center; border: 1px solid #ddd; }
+        .stat-value { font-size: 2rem; font-weight: bold; display: block; }
+        .stat-label { font-size: 0.9rem; color: #666; text-transform: uppercase; }
+        .passed { border-top: 4px solid #2ecc71; }
+        .failed { border-top: 4px solid #e74c3c; }
+        
+        .test-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9rem; }
+        .test-table th, .test-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .test-table th { background-color: #f8f9fa; }
+        .status-ok { color: #27ae60; font-weight: bold; }
+        .status-error { color: #c0392b; font-weight: bold; }
+        
+        .code-block { background: #f4f4f4; border: 1px solid #ddd; padding: 10px; font-family: "Courier New", Courier, monospace; font-size: 0.85rem; margin-top: 5px; border-radius: 4px; overflow-x: auto; }
+        
+        footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #95a5a6; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <h1>8. VALIDACIÓN Y PRUEBAS</h1>
+    
+    <p>Esta fase tiene como finalidad garantizar la calidad del software construido mediante la ejecución de una serie de casos de prueba diseñados para validar la lógica de negocio y la integridad del sistema <strong>FishPot</strong>.</p>
+
+    <h2>8.1 Herramientas de Validación</h2>
+    
+    <h3>1. PHPUnit</h3>
+    <p>Es el entorno estándar para la realización de pruebas unitarias y de integración en PHP, integrado nativamente en el framework Laravel. Se ha utilizado para:</p>
+    <ul>
+        <li><span class="highlight">Pruebas Unitarias:</span> Validación de modelos y componentes aislados de la lógica.</li>
+        <li><span class="highlight">Feature Tests:</span> Verificación de flujos completos, incluyendo la respuesta de controladores, validación de formularios y persistencia en la base de datos.</li>
+    </ul>
+
+    <h3>2. Laravel Dusk</h3>
+    <p>Herramienta de automatización que simula el comportamiento de un usuario real en un navegador Chrome. Se emplea para testear la interfaz de usuario (UI) y flujos críticos de extremo a extremo (E2E), asegurando que los componentes interactivos de Vue.js funcionen correctamente.</p>
+
+    <h3>3. Laravel Pint</h3>
+    <p>Utilizado para el control de calidad del código fuente. Asegura que todo el desarrollo PHP cumple con los estándares de estilo <strong>PSR-12</strong>, garantizando un código limpio, legible y mantenible.</p>
+
+    <h2>8.2 Ejecución de Pruebas</h2>
+    <p>Para asegurar la integridad del código, se han establecido los siguientes procedimientos de ejecución:</p>
+    <ul>
+        <li><span class="highlight">Pruebas Funcionales:</span> Ejecutadas mediante el comando <code>php artisan test</code>. Este comando automatiza la creación de una base de datos en memoria (SQLite), ejecuta las migraciones y lanza todos los casos de prueba definidos.</li>
+        <li><span class="highlight">Pruebas de Estilo:</span> Se ejecutan con <code>./vendor/bin/pint</code> para corregir automáticamente desviaciones en el estándar de codificación.</li>
+        <li><span class="highlight">Depuración:</span> Uso de <code>php artisan pail</code> para capturar excepciones en tiempo real durante las pruebas manuales en el entorno XAMPP.</li>
+    </ul>
+
+    <h2>8.3 Resultados de las Pruebas</h2>
+    
+    <p>A continuación se presentan los resultados obtenidos tras la ejecución automatizada del conjunto de pruebas sobre el entorno de desarrollo conectado a la base de datos local (XAMPP/MySQL).</p>
+
+    <div class="summary-box">
+        <div class="stat-card">
+            <span class="stat-value">25</span>
+            <span class="stat-label">Total Tests</span>
+        </div>
+        <div class="stat-card passed">
+            <span class="stat-value">11</span>
+            <span class="stat-label">Pasados</span>
+        </div>
+        <div class="stat-card failed">
+            <span class="stat-value">14</span>
+            <span class="stat-label">Fallidos</span>
+        </div>
+    </div>
+
+    <h3>Resumen de Ejecución</h3>
+    <table class="test-table">
+        <thead>
+            <tr>
+                <th>Suite de Pruebas</th>
+                <th>Estado</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tests\Unit\ExampleTest</td>
+                <td class="status-ok">PASSED</td>
+                <td>Lógica básica de aserción correcta.</td>
+            </tr>
+            <tr>
+                <td>Tests\Feature\ExampleTest</td>
+                <td class="status-ok">PASSED</td>
+                <td>Carga exitosa de la página de inicio (HTTP 200).</td>
+            </tr>
+            <tr>
+                <td>Tests\Feature\Auth\EmailVerificationTest</td>
+                <td class="status-ok">PASSED</td>
+                <td>Flujo de verificación de correo electrónico validado.</td>
+            </tr>
+            <tr>
+                <td>Tests\Feature\Auth\AuthenticationTest</td>
+                <td class="status-error">FAILED</td>
+                <td>Errores detectados en la aserción del estado de sesión post-login.</td>
+            </tr>
+            <tr>
+                <td>Tests\Feature\ProfileTest</td>
+                <td class="status-error">FAILED</td>
+                <td>Excepciones HTTP 403/419 en el manejo de perfiles.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Análisis Técnico de Fallos</h3>
+    <p>Los fallos registrados en las suites de <em>Authentication</em> y <em>Profile</em> se deben principalmente a:</p>
+    <ul>
+        <li><strong>Falta de Token CSRF (Error 419):</strong> Común en pruebas de integración que no simulan correctamente el middleware de sesión de Laravel.</li>
+        <li><strong>Restricciones de Acceso (Error 403):</strong> El sistema de roles implementado bloquea el acceso a rutas protegidas si el usuario simulado en el test no posee los privilegios adecuados.</li>
+    </ul>
+
+    <div class="code-block">
+        Comando de ejecución utilizado: php artisan test --without-tty
+    </div>
+
+    <footer>
+        Memoria Técnica FishPot - Proyecto de Fin de Grado
+    </footer>
+
+</body>
+</html>

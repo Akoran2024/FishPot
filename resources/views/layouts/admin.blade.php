@@ -33,23 +33,41 @@
         ::-webkit-scrollbar-track { background: #f7f5f2; }
         ::-webkit-scrollbar-thumb { background: #0c3f6e; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #08294a; }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="antialiased flex min-h-screen overflow-x-hidden">
+<body class="antialiased flex min-h-screen bg-nautical-50 overflow-x-hidden" x-data="{ mobileMenuOpen: false }">
     <!-- Subtle Paper Texture Overlay -->
     <div class="fixed inset-0 pointer-events-none z-0 opacity-[0.03]" 
          style="background-image: url('https://www.transparenttextures.com/patterns/canvas-orange.png')"></div>
 
-    <!-- Sidebar -->
-    @include('layouts.sidebar')
+    <!-- Sidebar Wrapper -->
+    <div 
+        :class="mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'" 
+        class="fixed inset-y-0 left-0 w-64 bg-primary-950 text-nautical-100 transition-transform duration-300 transform z-50 lg:static lg:inset-auto lg:translate-x-0 shadow-2xl flex-shrink-0"
+    >
+        @include('layouts.sidebar')
+    </div>
 
-    <div class="flex-1 flex flex-col min-h-screen transition-all duration-300 ml-64 relative z-10">
+    <!-- Mobile Overlay -->
+    <div 
+        x-show="mobileMenuOpen" 
+        x-cloak
+        @click="mobileMenuOpen = false" 
+        class="fixed inset-0 bg-black/60 z-40 lg:hidden transition-opacity duration-300"
+        x-transition:enter="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="opacity-100"
+        x-transition:leave-end="opacity-0"
+    ></div>
+
+    <div class="flex-1 flex flex-col min-h-screen min-w-0 relative z-10">
         <!-- Navbar -->
         @include('layouts.navbar')
 
         <!-- Page Content -->
-        <main class="flex-1 p-10">
-            <div class="animate-fade-in">
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 w-full overflow-x-hidden">
+            <div class="max-w-6xl mx-auto w-full animate-fade-in">
                 @yield('content')
             </div>
         </main>

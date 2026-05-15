@@ -51,6 +51,16 @@ export const useAuthStore = defineStore('auth', {
       } finally {
         this.user = null
       }
+    },
+
+    async forgotPassword(email) {
+      await axios.get('/sanctum/csrf-cookie')
+      return await axios.post('/forgot-password', { email })
+    },
+
+    async resetPassword(data) {
+      await axios.get('/sanctum/csrf-cookie')
+      return await axios.post('/reset-password', data)
     }
   }
 })

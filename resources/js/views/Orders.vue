@@ -117,6 +117,9 @@
               </td>
               <td class="px-8 py-6 text-right">
                 <div class="flex justify-end space-x-3">
+                  <button @click="openDetailsModal(order)" class="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all" title="Ver Bitácora">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
+                  </button>
                   <template v-if="order.status === 'pending'">
                     <button @click="updateStatus(order.id, 'accept')" class="px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded text-[9px] font-black uppercase tracking-widest hover:bg-emerald-600 hover:text-white transition-all shadow-sm">Aceptar</button>
                     <button @click="updateStatus(order.id, 'cancel')" class="px-3 py-1.5 bg-red-50 text-red-700 border border-red-200 rounded text-[9px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all shadow-sm">Rechazar</button>
@@ -315,7 +318,9 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import { useToastStore } from '../stores/toast'
 
+const toastStore = useToastStore()
 const orders = ref([])
 const showShipModal = ref(false)
 const showDetailsModal = ref(false)
@@ -397,9 +402,9 @@ const confirmShip = async () => {
     }
     
     showShipModal.value = false
-    alert('¡Despacho confirmado! El pedido ya está en ruta.')
+    toastStore.add('¡Despacho confirmado! El pedido ya está en ruta.')
   } catch (error) {
-    alert('Error al procesar el envío.')
+    toastStore.add('Error al procesar el envío.', 'error')
   }
 }
 
@@ -413,9 +418,9 @@ const updateStatus = async (orderId, action) => {
     if (index !== -1) {
       orders.value[index] = res.data.order
     }
-    alert(res.data.message)
+    toastStore.add(res.data.message)
   } catch (error) {
-    alert('Error al actualizar el estado del pedido.')
+    toastStore.add('Error al actualizar el estado del pedido.', 'error')
   }
 }
 

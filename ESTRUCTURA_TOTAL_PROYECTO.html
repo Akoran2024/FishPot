@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación Técnica: Estructura de FishPot</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        h1 { margin: 0; font-size: 2.5rem; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 2rem; }
+        h3 { color: #2980b9; margin-top: 1.5rem; }
+        .tree {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .description-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .description-table th, .description-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .description-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        .description-table tr:nth-child(even) { background-color: #f9f9f9; }
+        .folder-tag {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        .file-tag {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>FishPot: Estructura Integral del Proyecto</h1>
+    <p>Documentación técnica para el Trabajo de Fin de Grado</p>
+</header>
+
+<section>
+    <h2>1. Arquitectura del Sistema</h2>
+    <p>FishPot es una aplicación robusta construida con una arquitectura de desacoplamiento total entre el cliente y el servidor. Se utiliza <strong>Laravel 12</strong> para la gestión de la lógica de negocio y persistencia de datos, y <strong>Vue.js 3</strong> para una interfaz de usuario reactiva y fluida.</p>
+</section>
+
+<section>
+    <h2>2. Árbol Completo de Directorios (Código Fuente)</h2>
+    <div class="tree">
+        FishPot/<br>
+        ├── <span class="folder-tag">app/</span> (Backend - Lógica de Negocio)<br>
+        │   ├── Http/Controllers/ (Gestiona peticiones API)<br>
+        │   │   ├── Admin/ (Panel de administración)<br>
+        │   │   ├── Auth/ (Registro y Autenticación)<br>
+        │   │   ├── ClientController.php<br>
+        │   │   ├── OrderController.php<br>
+        │   │   ├── ProductController.php<br>
+        │   │   ├── StripeController.php (Pasarela de pagos)<br>
+        │   │   └── TideController.php (Mareas)<br>
+        │   ├── Models/ (Entidades de Base de Datos)<br>
+        │   │   ├── Client.php, Order.php, Product.php, User.php...<br>
+        │   ├── Mail/ (Notificaciones por correo)<br>
+        │   └── Providers/ (Servicios del Framework)<br>
+        ├── <span class="folder-tag">config/</span> (Configuración global del servidor)<br>
+        ├── <span class="folder-tag">database/</span> (Persistencia y Datos)<br>
+        │   ├── migrations/ (Esquema de tablas)<br>
+        │   ├── seeders/ (Carga de datos iniciales)<br>
+        │   └── factories/ (Generación de datos de prueba)<br>
+        ├── <span class="folder-tag">public/</span> (Archivos estáticos y entrada web)<br>
+        │   └── imagenes/ (Recursos multimedia: aligote, vieja, mero, etc.)<br>
+        ├── <span class="folder-tag">resources/</span> (Frontend - Vue.js & Estilos)<br>
+        │   ├── js/ (JavaScript & Vue)<br>
+        │   │   ├── components/ (UI reutilizable: Toast.vue)<br>
+        │   │   ├── stores/ (Estado global Pinia: cart.js, auth.js)<br>
+        │   │   ├── views/ (Páginas principales: Home, Shop, Cart, MyOrders...)<br>
+        │   │   └── router/ (Navegación SPA)<br>
+        │   ├── css/ (Estilos TailwindCSS)<br>
+        │   └── views/ (Blade y plantillas PDF)<br>
+        ├── <span class="folder-tag">routes/</span> (Definición de Endpoints)<br>
+        ├── <span class="folder-tag">tests/</span> (Pruebas unitarias y de integración)<br>
+        ├── Dockerfile & docker-compose.yml (Contenedores)<br>
+        ├── composer.json & package.json (Dependencias)<br>
+        └── vite.config.js (Compilación Frontend)
+    </div>
+</section>
+
+<section>
+    <h2>3. Descripción Detallada de Archivos</h2>
+
+    <h3>3.1 Núcleo de la Aplicación (Directorio <code>app/</code>)</h3>
+    <table class="description-table">
+        <thead>
+            <tr>
+                <th>Archivo/Carpeta</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>app/Http/Controllers/StripeController.php</code></td>
+                <td>Punto clave de la lógica comercial. Gestiona la creación de sesiones de pago y procesa el éxito de los pedidos, actualizando el stock automáticamente.</td>
+            </tr>
+            <tr>
+                <td><code>app/Http/Controllers/TideController.php</code></td>
+                <td>Controlador especializado que interactúa con APIs externas para obtener mareas de Lanzarote, con lógica de respaldo si falla el servicio.</td>
+            </tr>
+            <tr>
+                <td><code>app/Models/Order.php</code></td>
+                <td>Representa la entidad Pedido, relacionando usuarios con productos y detalles de envío.</td>
+            </tr>
+            <tr>
+                <td><code>app/Http/Middleware/AdminMiddleware.php</code></td>
+                <td>Filtro de seguridad que valida privilegios de administrador para proteger el acceso al panel CRUD.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>3.2 Interfaz de Usuario (Directorio <code>resources/js/</code>)</h3>
+    <table class="description-table">
+        <thead>
+            <tr>
+                <th>Archivo/Carpeta</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>views/Shop.vue</code></td>
+                <td>Página principal de comercio electrónico. Implementa filtros reactivos por categoría de productos.</td>
+            </tr>
+            <tr>
+                <td><code>views/Cart.vue</code></td>
+                <td>Gestión del proceso de compra. Permite modificar cantidades y calcular gastos de envío en tiempo real.</td>
+            </tr>
+            <tr>
+                <td><code>stores/cart.js</code></td>
+                <td>Almacén central de datos del carrito (Pinia). Mantiene la persistencia incluso si el usuario refresca la página.</td>
+            </tr>
+            <tr>
+                <td><code>views/Tides.vue</code></td>
+                <td>Componente visual que muestra gráficos e información sobre las mareas para la planificación de la pesca.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>3.3 Configuración y Base de Datos</h3>
+    <table class="description-table">
+        <thead>
+            <tr>
+                <th>Archivo/Carpeta</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>database/migrations/</code></td>
+                <td>Colección de archivos que definen la estructura SQL. Incluye campos para imágenes, precios y detalles de pago.</td>
+            </tr>
+            <tr>
+                <td><code>database/seeders/ProductSeeder.php</code></td>
+                <td>Guion que carga el catálogo real de productos y especies de Lanzarote en el sistema.</td>
+            </tr>
+            <tr>
+                <td><code>public/imagenes/</code></td>
+                <td>Repositorio de imágenes de alta calidad para cada especie y producto (mero, vieja, sargo, etc.).</td>
+            </tr>
+            <tr>
+                <td><code>docker-compose.yml</code></td>
+                <td>Orquestación de servicios: Servidor PHP 8.2, Base de Datos MySQL y Servidor Web Nginx.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<footer>
+    <p>&copy; 2026 FishPot - Documentación Generada para TFG</p>
+</footer>
+
+</body>
+</html>

@@ -87,7 +87,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useToastStore } from '../stores/toast'
 
+const toastStore = useToastStore()
 const clients = ref([])
 const showModal = ref(false)
 const editingId = ref(null)
@@ -118,20 +120,27 @@ const saveClient = async () => {
   try {
     if (editingId.value) {
       await axios.put(`/clients/${editingId.value}`, form.value)
+      toastStore.add('Cliente actualizado con éxito.')
     } else {
       await axios.post('/clients', form.value)
+      toastStore.add('Cliente registrado con éxito.')
     }
     showModal.value = false
     fetchClients()
   } catch (error) {
-    alert('Error al guardar el cliente. Verifique los datos.')
+    toastStore.add('Error al guardar el cliente. Verifique los datos.', 'error')
   }
 }
 
 const deleteClient = async (id) => {
   if (confirm('¿Estás seguro de eliminar este cliente?')) {
-    await axios.delete(`/clients/${id}`)
-    fetchClients()
+    try {
+      await axios.delete(`/clients/${id}`)
+      toastStore.add('Cliente eliminado.')
+      fetchClients()
+    } catch (error) {
+      toastStore.add('Error al eliminar el cliente.', 'error')
+    }
   }
 }
 

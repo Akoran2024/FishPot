@@ -1,19 +1,19 @@
 <template>
   <div class="min-h-screen text-nautical-900 selection:bg-primary-200">
     <!-- Hero Tradicional (Transparente para ver el fondo) -->
-    <section class="relative min-h-[85vh] flex items-center overflow-hidden border-b border-nautical-200/50">
+    <section class="relative min-h-[85vh] flex items-center overflow-hidden border-b border-nautical-200/50 dark:border-white/5">
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div class="max-w-3xl">
-          <div class="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-nautical-200 mb-8 shadow-sm">
-            <span class="text-primary-800 font-serif italic text-xs tracking-wide">Tradición pesquera en Lanzarote</span>
+          <div class="inline-flex items-center space-x-2 bg-white/80 dark:bg-primary-900/50 backdrop-blur-sm px-4 py-1.5 rounded-full border border-nautical-200 dark:border-white/10 mb-8 shadow-sm">
+            <span class="text-primary-800 dark:text-primary-300 font-serif italic text-xs tracking-wide">Tradición pesquera en Lanzarote</span>
           </div>
           
-          <h1 class="text-6xl md:text-8xl font-serif font-black leading-[1.1] tracking-tight text-primary-950 mb-8">
+          <h1 class="text-6xl md:text-8xl font-serif font-black leading-[1.1] tracking-tight text-primary-950 dark:text-white mb-8">
             El Arte de la <br/>
-            <span class="italic text-primary-700">Buena Pesca</span>
+            <span class="italic text-primary-700 dark:text-primary-400 drop-shadow-sm">Buena Pesca</span>
           </h1>
           
-          <p class="text-xl text-nautical-700 mb-12 leading-relaxed font-serif italic max-w-xl">
+          <p class="text-xl text-nautical-700 dark:text-nautical-200 mb-12 leading-relaxed font-serif italic max-w-xl">
             Siente el pulso del Atlántico. Consulta las mareas, conoce nuestras especies y equípate con lo mejor para tu próxima jornada en la costa.
           </p>
           
@@ -21,7 +21,7 @@
             <router-link to="/tienda" class="nautical-btn">
               Visitar Tienda
             </router-link>
-            <router-link to="/mareas" class="px-8 py-3 bg-white text-primary-900 border border-nautical-300 font-serif italic text-lg hover:bg-nautical-50 transition-all shadow-sm">
+            <router-link to="/mareas" class="px-8 py-3 bg-white dark:bg-primary-900/50 text-primary-900 dark:text-white border border-nautical-300 dark:border-white/10 font-serif italic text-lg hover:bg-nautical-50 dark:hover:bg-primary-800 transition-all shadow-sm backdrop-blur-sm">
               Tablas de Mareas
             </router-link>
           </div>
@@ -33,9 +33,9 @@
     <section class="py-12 -mt-16 relative z-20">
       <div class="max-w-7xl mx-auto px-4">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div v-for="(stat, i) in stats" :key="i" class="nautical-card p-6 text-center border-b-2 border-b-primary-200">
-            <p class="text-nautical-400 font-serif italic text-xs uppercase tracking-widest mb-1">{{ stat.label }}</p>
-            <p class="text-3xl font-black text-primary-950">{{ stat.value }}</p>
+          <div v-for="(stat, i) in stats" :key="i" class="nautical-card p-6 text-center border-b-2 border-b-primary-200 dark:border-b-primary-500/50">
+            <p class="text-nautical-400 dark:text-primary-300/60 font-serif italic text-xs uppercase tracking-widest mb-1">{{ stat.label }}</p>
+            <p class="text-3xl font-black text-primary-950 dark:text-white">{{ stat.value }}</p>
           </div>
         </div>
       </div>
@@ -45,21 +45,21 @@
     <section class="py-24 relative">
       <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-20">
-          <h2 class="text-4xl md:text-5xl font-serif font-black text-primary-950 mb-4 tracking-tight">Todo para el Pescador</h2>
-          <div class="w-24 h-1 bg-primary-700 mx-auto opacity-30"></div>
+          <h2 class="text-4xl md:text-5xl font-serif font-black text-primary-950 dark:text-white mb-4 tracking-tight">Todo para el Pescador</h2>
+          <div class="w-24 h-1 bg-primary-700 dark:bg-primary-500 mx-auto opacity-30"></div>
         </div>
         
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div v-for="(feature, index) in features" :key="index" 
-               class="nautical-card p-10 group hover:border-primary-400 transition-all duration-500">
-            <div class="w-16 h-16 bg-nautical-50 rounded-full flex items-center justify-center text-primary-700 mb-8 border border-nautical-200 group-hover:bg-primary-950 group-hover:text-white transition-all duration-500">
+               class="nautical-card p-10 group hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-500">
+            <div class="w-16 h-16 bg-nautical-50 dark:bg-primary-800/50 rounded-full flex items-center justify-center text-primary-700 dark:text-primary-400 mb-8 border border-nautical-200 dark:border-white/10 group-hover:bg-primary-950 dark:group-hover:bg-primary-500 group-hover:text-white dark:group-hover:text-primary-950 transition-all duration-500">
                  <div v-html="feature.icon" class="w-8 h-8"></div>
             </div>
             
-            <h3 class="text-2xl font-serif font-black mb-4 text-primary-950 italic">{{ feature.title }}</h3>
-            <p class="text-nautical-600 leading-relaxed text-sm mb-8 font-serif">{{ feature.description }}</p>
+            <h3 class="text-2xl font-serif font-black mb-4 text-primary-950 dark:text-white italic">{{ feature.title }}</h3>
+            <p class="text-nautical-600 dark:text-nautical-300 leading-relaxed text-sm mb-8 font-serif italic">{{ feature.description }}</p>
             
-            <router-link :to="feature.link" class="text-primary-800 font-serif font-bold italic text-sm hover:text-primary-600 transition-colors flex items-center">
+            <router-link :to="feature.link" class="text-primary-800 dark:text-primary-400 font-serif font-bold italic text-sm hover:text-primary-600 dark:hover:text-primary-300 transition-colors flex items-center">
               Saber más <span class="ml-2">→</span>
             </router-link>
           </div>
@@ -68,16 +68,16 @@
     </section>
 
     <!-- Newsletter / CTA Tradicional -->
-    <section class="py-32 px-4 bg-primary-950 relative overflow-hidden text-center">
+    <section class="py-32 px-4 bg-primary-950 dark:bg-black/80 relative overflow-hidden text-center border-t border-white/5">
        <div class="absolute inset-0 opacity-10 pointer-events-none" 
             style="background-image: url('https://www.transparenttextures.com/patterns/pinstripe-dark.png')"></div>
        
        <div class="relative z-10 max-w-4xl mx-auto">
           <h2 class="text-4xl md:text-6xl font-serif font-black text-white mb-8 leading-tight tracking-tight italic">Únete a nuestra Cofradía</h2>
-          <p class="text-primary-100 text-xl mb-12 max-w-2xl mx-auto font-serif italic">Recibe en tu correo las mejores ofertas, noticias de pesca y el estado de la mar en Lanzarote.</p>
+          <p class="text-primary-100 dark:text-primary-300 text-xl mb-12 max-w-2xl mx-auto font-serif italic">Recibe en tu correo las mejores ofertas, noticias de pesca y el estado de la mar en Lanzarote.</p>
           
           <div v-if="!authStore.user">
-            <router-link to="/login" class="px-12 py-4 bg-white text-primary-950 font-serif italic text-xl hover:bg-primary-50 transition-all shadow-xl inline-block">
+            <router-link to="/login" class="px-12 py-4 bg-white dark:bg-primary-500 text-primary-950 font-serif italic text-xl hover:bg-primary-50 dark:hover:bg-primary-400 transition-all shadow-xl inline-block">
                Registrarse ahora
             </router-link>
           </div>

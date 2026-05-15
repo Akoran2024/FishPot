@@ -11,7 +11,7 @@ use App\Http\Requests\ProductUpdateRequest;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra un listado del recurso.
      */
     public function index()
     {
@@ -23,7 +23,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un nuevo recurso.
      */
     public function create()
     {
@@ -31,7 +31,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un recurso recién creado en el almacenamiento.
      */
     public function store(ProductStoreRequest $request)
     {
@@ -45,16 +45,15 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(Product $product)
     {
- 
         return response()->json($product);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar el recurso especificado.
      */
     public function edit(Product $product)
     {
@@ -62,7 +61,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en el almacenamiento.
      */
     public function update(ProductUpdateRequest $request, Product $product)
     {
@@ -76,7 +75,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina el recurso especificado del almacenamiento.
      */
     public function destroy(Product $product)
     {
@@ -90,7 +89,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Display a listing of the resource for API consumption.
+     * Muestra un listado del recurso para consumo de la API.
      */
     public function apiIndex()
     {

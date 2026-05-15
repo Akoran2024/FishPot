@@ -28,7 +28,7 @@ class NewPasswordController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): \Illuminate\Http\JsonResponse|RedirectResponse
     {
         $request->validate([
             'token' => ['required'],
@@ -50,6 +50,12 @@ class NewPasswordController extends Controller
                 event(new PasswordReset($user));
             }
         );
+
+        if ($request->wantsJson()) {
+            return $status == Password::PASSWORD_RESET
+                ? response()->json(['status' => __($status)])
+                : response()->json(['errors' => ['email' => [__($status)]]], 422);
+        }
 
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can

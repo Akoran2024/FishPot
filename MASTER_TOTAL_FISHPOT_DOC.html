@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASTER DOCUMENTATION FISHPOT - LA GUÍA DEFINITIVA</title>
+    <style>
+        :root {
+            --primary: #002b5b;
+            --secondary: #0081cb;
+            --accent: #ffcc00;
+            --success: #28a745;
+            --danger: #dc3545;
+            --bg: #f0f4f8;
+            --text: #2d3436;
+            --code-bg: #1e1e1e;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            display: flex;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Side Navigation */
+        #sidebar {
+            width: 320px;
+            height: 100vh;
+            background: var(--primary);
+            color: white;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 5px solid var(--secondary);
+            padding: 20px 0;
+        }
+
+        #sidebar h2 {
+            padding: 0 25px;
+            font-size: 1.1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #sidebar ul { list-style: none; padding: 0; }
+        #sidebar li a {
+            display: block;
+            padding: 12px 25px;
+            color: #d1d1d1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: 0.2s;
+        }
+
+        #sidebar li a:hover {
+            background: var(--secondary);
+            color: white;
+            padding-left: 35px;
+        }
+
+        #sidebar .active { background: var(--secondary); color: white; border-left: 5px solid var(--accent); }
+
+        /* Main Content */
+        #content {
+            margin-left: 320px;
+            padding: 60px;
+            flex-grow: 1;
+            max-width: 1200px;
+        }
+
+        section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--secondary);
+        }
+
+        h1 { font-size: 3.5rem; color: var(--primary); margin-top: 0; letter-spacing: -1px; }
+        h2 { font-size: 2rem; color: var(--primary); margin-top: 40px; display: flex; align-items: center; }
+        h2::before { content: '⚓'; margin-right: 15px; font-size: 1.5rem; }
+        h3 { font-size: 1.5rem; color: var(--secondary); margin-top: 30px; }
+        h4 { background: #eef2f7; padding: 10px; border-radius: 5px; color: var(--primary); }
+
+        /* Technical Components */
+        code { background: #eee; padding: 3px 6px; border-radius: 4px; font-family: 'Fira Code', monospace; }
+        pre {
+            background: var(--code-bg);
+            color: #dcdcaa;
+            padding: 25px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            margin: 20px 0;
+        }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: var(--primary); color: white; }
+        tr:hover { background: #f9f9f9; }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: white;
+        }
+        .badge-get { background: #61affe; }
+        .badge-post { background: #49cc90; }
+        .badge-patch { background: #50e3c2; }
+        .badge-delete { background: #f93e3e; }
+
+        .terminal {
+            background: #2d3436;
+            color: #fab1a0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 15px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #636e72;
+            font-size: 0.8rem;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 900px) {
+            #sidebar { display: none; }
+            #content { margin-left: 0; padding: 20px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="sidebar">
+    <h2>FishPot Master Wiki</h2>
+    <ul>
+        <li><a href="#intro">0. Visión General</a></li>
+        <li><a href="#deploy">1. Despliegue & Docker</a></li>
+        <li><a href="#env">2. Variables de Entorno</a></li>
+        <li><a href="#db">3. Base de Datos Profunda</a></li>
+        <li><a href="#api">4. Catálogo de APIs</a></li>
+        <li><a href="#frontend">5. Frontend & Router</a></li>
+        <li><a href="#stores">6. Gestión de Estado (Pinia)</a></li>
+        <li><a href="#integrations">7. Integraciones Externas</a></li>
+        <li><a href="#user-manual">8. Manual del Usuario</a></li>
+        <li><a href="#admin-manual">9. Manual del Administrador</a></li>
+        <li><a href="#maintenance">10. Mantenimiento & CLI</a></li>
+        <li><a href="#security">11. Seguridad & Optimización</a></li>
+        <li><a href="#history">12. Historial de Versiones</a></li>
+    </ul>
+</nav>
+
+<main id="content">
+    <header>
+        <h1>Master Documentation FishPot</h1>
+        <p style="font-size: 1.2rem; color: var(--secondary);">La fuente de verdad absoluta: Técnica, Funcional y de Usuario.</p>
+    </header>
+
+    <section id="intro">
+        <h2>0. Visión General del Proyecto</h2>
+        <p>FishPot es una plataforma de comercio electrónico <strong>End-to-End</strong> para el sector pesquero. No solo digitaliza la venta de productos, sino que actúa como un centro de información para el pescador, integrando datos oceanográficos dinámicos y herramientas administrativas de nivel empresarial.</p>
+        <div class="grid">
+            <div>
+                <h4>Propósito Comercial</h4>
+                <ul>
+                    <li>Venta de artículos de pesca (Canarias y Península).</li>
+                    <li>Gestión de clientes y fidelización.</li>
+                    <li>Automatización de facturación legal.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Propósito Técnico</h4>
+                <ul>
+                    <li>Demostración de arquitectura SPA moderna.</li>
+                    <li>Integración de pagos seguros (PCI Compliance).</li>
+                    <li>Visualización de datos en tiempo real (APIs).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="deploy">
+        <h2>1. Despliegue y Arquitectura Docker</h2>
+        <p>El sistema está completamente containerizado para garantizar paridad entre entornos.</p>
+        
+        <h3>Contenedores</h3>
+        <table>
+            <tr><th>Servicio</th><th>Imagen</th><th>Puerto</th><th>Misión</th></tr>
+            <tr><td><code>laravel-app</code></td><td>PHP 8.4 FPM</td><td>9000</td><td>Procesamiento de lógica PHP y Laravel.</td></tr>
+            <tr><td><code>laravel-web</code></td><td>Nginx Alpine</td><td>8005</td><td>Servidor web y proxy inverso para FPM.</td></tr>
+            <tr><td><code>laravel-db</code></td><td>MySQL 8.0</td><td>3307</td><td>Persistencia de datos relacionales.</td></tr>
+        </table>
+
+        <h3>Comandos de Inicio Rápido</h3>
+        <div class="terminal">
+            docker-compose up -d --build<br>
+            docker exec -it laravel-app composer install<br>
+            docker exec -it laravel-app php artisan migrate --seed
+        </div>
+    </section>
+
+    <section id="env">
+        <h2>2. Diccionario de Variables de Entorno (.env)</h2>
+        <p>El archivo <code>.env</code> es el corazón de la configuración. A continuación, el detalle de las claves críticas:</p>
+        <pre>
+# Conexión Base de Datos
+DB_CONNECTION=mysql
+DB_HOST=db (nombre del servicio en docker)
+DB_DATABASE=laravel
+DB_USERNAME=akoran
+
+# Integración Stripe
+STRIPE_KEY=pk_test_... (Clave pública para el frontend)
+STRIPE_SECRET=sk_test_... (Clave secreta para el backend)
+
+# API Mareas
+WORLD_TIDES_API_KEY=... (Obtenida de worldtides.info)
+        </pre>
+    </section>
+
+    <section id="db">
+        <h2>3. Base de Datos: Esquema y Relaciones</h2>
+        <p>FishPot utiliza un motor relacional MySQL con una estructura de 3ª forma normal.</p>
+        
+        <h3>Entidades Principales</h3>
+        <ul>
+            <li><strong>Users:</strong> Soporta múltiples roles (<code>user</code>, <code>admin</code>).</li>
+            <li><strong>Products:</strong> Incluye control de inventario y categorización.</li>
+            <li><strong>Orders:</strong> Registra la transacción, el <code>payment_intent</code> de Stripe y el estado logístico.</li>
+            <li><strong>OrderItems:</strong> Tabla pivote que registra el precio histórico al momento de la compra (crucial para auditoría).</li>
+        </ul>
+
+        <h3>Relaciones (ORM Eloquent)</h3>
+        <pre>
+User --(1:N)--> Order
+Order --(1:N)--> OrderItem
+Product --(1:N)--> OrderItem
+        </pre>
+    </section>
+
+    <section id="api">
+        <h2>4. Catálogo de APIs (Endpoints)</h2>
+        <p>Endpoints disponibles consumidos por el cliente Vue.js:</p>
+        <table>
+            <tr><th>Método</th><th>Ruta</th><th>Descripción</th><th>Acceso</th></tr>
+            <tr><td><span class="badge badge-get">GET</span></td><td><code>/api/tides</code></td><td>Previsión de mareas 7 días.</td><td>Público</td></tr>
+            <tr><td><span class="badge badge-get">GET</span></td><td><code>/api/products-list</code></td><td>Lista filtrable de productos.</td><td>Público</td></tr>
+            <tr><td><span class="badge badge-post">POST</span></td><td><code>/api/stripe/checkout</code></td><td>Crea sesión de pago.</td><td>Auth</td></tr>
+            <tr><td><span class="badge badge-patch">PATCH</span></td><td><code>/admin/api/orders/{id}/ship</code></td><td>Marca pedido como enviado.</td><td>Admin</td></tr>
+        </table>
+    </section>
+
+    <section id="frontend">
+        <h2>5. Frontend: Navegación y Vistas (Vue Router)</h2>
+        <p>La navegación es instantánea gracias a <strong>Vue Router</strong>. Rutas registradas:</p>
+        <div class="grid">
+            <div>
+                <h4>Públicas</h4>
+                <ul>
+                    <li><code>/</code>: Home / Dashboard visual.</li>
+                    <li><code>/tienda</code>: Catálogo interactivo.</li>
+                    <li><code>/mareas</code>: Gráficos y tablas de mareas.</li>
+                    <li><code>/especies</code>: Enciclopedia de peces de Canarias.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Protegidas</h4>
+                <ul>
+                    <li><code>/carrito</code>: Gestión de cesta.</li>
+                    <li><code>/mis-pedidos</code>: Historial y facturas PDF.</li>
+                    <li><code>/admin/*</code>: Suite completa de gestión.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="stores">
+        <h2>6. Gestión de Estado Global (Pinia)</h2>
+        <p>FishPot utiliza Pinia para centralizar la verdad de la aplicación.</p>
+        <h4>authStore</h4>
+        <p>Maneja el ciclo de vida de la sesión, persistencia del token y roles de usuario.</p>
+        <h4>cartStore</h4>
+        <p>Lógica compleja de carrito:
+            <ul>
+                <li>Validación de stock en tiempo real.</li>
+                <li>Cálculo automático de impuestos e IVA.</li>
+                <li>Persistencia en <code>localStorage</code> para recuperación tras cierre de navegador.</li>
+            </ul>
+        </p>
+    </section>
+
+    <section id="integrations">
+        <h2>7. Integraciones Maestras</h2>
+        <h3>Stripe Payment Gateway</h3>
+        <p>Flujo de seguridad: El cliente nunca maneja datos sensibles de tarjeta. Se usa <strong>Server-side Redirection</strong> para evitar ataques Man-in-the-Middle.</p>
+        <h3>World Tides API</h3>
+        <p>Localización configurada: <strong>Puerto de Arrecife / Famara</strong>.
+           Parámetros: <code>datum=LAT</code> (Bajamar astronómica mínima), <code>days=7</code>.</p>
+    </section>
+
+    <section id="user-manual">
+        <h2>8. Manual del Usuario: Guía de Uso Final</h2>
+        <p>Bienvenido a tu tienda de confianza. Sigue estos pasos para una experiencia óptima:</p>
+        <div class="terminal">
+            1. Regístrate -> 2. Elige tu equipo -> 3. Consulta las mareas -> 4. Paga -> 5. Recibe tu factura PDF
+        </div>
+        <h4>Gestión de Perfil</h4>
+        <p>Desde "Mi Perfil" puedes cambiar tu dirección predeterminada de envío para agilizar compras futuras.</p>
+    </section>
+
+    <section id="admin-manual">
+        <h2>9. Manual del Administrador: Control Total</h2>
+        <p>Como administrador, eres responsable del flujo de caja y logística.</p>
+        <h4>Gestión de Pedidos</h4>
+        <p>Cuando un pedido entra, revisa el stock físico. Si todo es correcto, pulsa <strong>"Aceptar"</strong>. Esto generará la orden de preparación en almacén.</p>
+        <h4>Alertas de Stock</h4>
+        <p>El sistema resaltará en rojo cualquier producto con menos de 5 unidades. Es tu señal para realizar pedidos a proveedores.</p>
+    </section>
+
+    <section id="maintenance">
+        <h2>10. Mantenimiento y Operaciones CLI</h2>
+        <p>Comandos vitales de mantenimiento para el administrador de sistemas:</p>
+        <ul>
+            <li><code>php artisan cache:clear</code>: Resuelve problemas de visualización tras actualizaciones.</li>
+            <li><code>php artisan queue:work</code>: Procesa el envío de correos electrónicos en segundo plano.</li>
+            <li><code>php artisan route:list</code>: Auditoría de todos los accesos al sistema.</li>
+        </ul>
+    </section>
+
+    <section id="security">
+        <h2>11. Seguridad y Optimización</h2>
+        <ul>
+            <li><strong>Protección CSRF:</strong> Laravel protege cada formulario contra peticiones maliciosas externas.</li>
+            <li><strong>Hashing Bcrypt:</strong> Las contraseñas nunca se guardan en texto plano.</li>
+            <li><strong>Rate Limiting:</strong> Evita ataques de fuerza bruta en el login.</li>
+            <li><strong>Lazy Loading:</strong> Las imágenes del catálogo se cargan solo cuando son visibles para el usuario, ahorrando datos.</li>
+        </ul>
+    </section>
+
+    <section id="history">
+        <h2>12. Historial de Versiones e Hitos</h2>
+        <ul>
+            <li><strong>v0.1:</strong> Definición de modelos y migraciones base.</li>
+            <li><strong>v0.5:</strong> Integración de Stripe y Carrito reactivo.</li>
+            <li><strong>v1.0:</strong> Lanzamiento final con módulo de mareas y facturación PDF.</li>
+        </ul>
+    </section>
+
+    <div class="footer">
+        <p>Documento generado dinámicamente para el ecosistema FishPot.</p>
+        <p>Lanzarote, Islas Canarias - 2026</p>
+    </div>
+</main>
+
+<script>
+    // Simple script to highlight active section in sidebar
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('#sidebar li a');
+        
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

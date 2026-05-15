@@ -1,13 +1,18 @@
 <template>
-  <div class="min-h-screen flex flex-col relative text-nautical-900 selection:bg-primary-200">
+  <div class="min-h-screen flex flex-col relative text-nautical-900 dark:text-nautical-100 selection:bg-primary-200 selection:text-primary-900">
+    <!-- Barra de Marea (Progreso de Scroll) -->
+    <div class="fixed top-0 left-0 w-full h-1 z-[60] pointer-events-none">
+      <div class="h-full bg-gradient-to-r from-primary-400 via-sea-400 to-primary-400 transition-all duration-150 ease-out shadow-[0_0_10px_rgba(56,169,248,0.5)]" :style="{ width: scrollProgress + '%' }"></div>
+    </div>
+
     <!-- IMAGEN DE FONDO GENERAL (FIJA) -->
-    <div class="fixed inset-0 z-0 pointer-events-none">
-      <img :src="'/imagenes/Tinajo-LaSanta-LR-1.jpg'" class="w-full h-full object-cover opacity-30" alt="Fondo La Santa">
-      <div class="absolute inset-0 bg-gradient-to-b from-primary-950/20 via-transparent to-primary-950/20"></div>
+    <div class="fixed inset-0 z-0 pointer-events-none transition-opacity duration-1000">
+      <img :src="'/imagenes/Tinajo-LaSanta-LR-1.jpg'" class="w-full h-full object-cover opacity-20 dark:opacity-[0.07]" alt="Fondo La Santa">
+      <div class="absolute inset-0 bg-gradient-to-b from-primary-950/20 via-transparent to-primary-950/20 dark:from-black/40 dark:to-black/40"></div>
     </div>
 
     <!-- Navbar Administrador Mejorado -->
-    <nav v-if="isAdminRoute" class="sticky top-0 z-50 w-full bg-primary-950/95 backdrop-blur-md text-nautical-100 shadow-2xl border-b border-white/5 transition-all duration-500">
+    <nav v-if="isAdminRoute" class="sticky top-0 z-50 w-full bg-primary-950/95 dark:bg-black/95 backdrop-blur-md text-nautical-100 shadow-2xl border-b border-white/5 transition-all duration-500">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div :class="['flex justify-between items-center transition-all duration-500', isScrolled ? 'h-16' : 'h-24']">
           <div class="flex items-center space-x-8">
@@ -33,6 +38,11 @@
           </div>
 
           <div class="flex items-center space-x-6">
+            <button @click="toggleDarkMode" class="p-2 rounded-full hover:bg-white/10 transition-colors text-primary-300">
+              <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1m-16 0H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M7.757 6.343l.707-.707ZM8 12a4 4 0 118 0 4 4 0 01-8 0z" /></svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </button>
+
             <router-link to="/" class="text-[10px] font-black uppercase tracking-[0.2em] text-primary-400 hover:text-white transition-all italic border-b border-primary-800/50 hover:border-primary-400 pb-1">
                 Volver a la Web
             </router-link>
@@ -47,7 +57,7 @@
     </nav>
 
     <!-- Navbar Principal Mejorado -->
-    <nav v-if="!isAdminRoute" class="sticky top-0 z-50 w-full bg-primary-950/95 backdrop-blur-md text-nautical-100 shadow-2xl border-b border-white/5 transition-all duration-500">
+    <nav v-if="!isAdminRoute" class="sticky top-0 z-50 w-full bg-primary-950/95 dark:bg-black/95 backdrop-blur-md text-nautical-100 shadow-2xl border-b border-white/5 transition-all duration-500">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div :class="['flex justify-between items-center transition-all duration-500', isScrolled ? 'h-16' : 'h-24']">
           <router-link to="/" class="flex items-center space-x-4 group">
@@ -74,6 +84,11 @@
 
             <!-- Auth & Carrito -->
             <div class="flex items-center space-x-6">
+              <button @click="toggleDarkMode" class="p-2 rounded-full hover:bg-white/10 transition-colors text-primary-300">
+                <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1m-16 0H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M7.757 6.343l.707-.707ZM8 12a4 4 0 118 0 4 4 0 01-8 0z" /></svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+              </button>
+
               <router-link to="/carrito" class="relative group p-2 transition-all">
                 <div class="absolute inset-0 bg-white/5 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-200 group-hover:text-white relative z-10 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
@@ -104,7 +119,11 @@
           </div>
 
           <!-- Mobile Toggle -->
-          <div class="lg:hidden flex items-center">
+          <div class="lg:hidden flex items-center space-x-4">
+            <button @click="toggleDarkMode" class="p-2 text-primary-300">
+                <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1m-16 0H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M7.757 6.343l.707-.707ZM8 12a4 4 0 118 0 4 4 0 01-8 0z" /></svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </button>
             <button @click="isMenuOpen = !isMenuOpen" class="p-3 text-white bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
               <svg v-if="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
               <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -122,7 +141,7 @@
         leave-from-class="opacity-100 translate-y-0"
         leave-to-class="opacity-0 -translate-y-4"
       >
-        <div v-show="isMenuOpen" class="lg:hidden bg-primary-950/98 backdrop-blur-xl border-t border-white/5 px-6 py-10 space-y-6">
+        <div v-show="isMenuOpen" class="lg:hidden bg-primary-950/98 dark:bg-black/98 backdrop-blur-xl border-t border-white/5 px-6 py-10 space-y-6">
             <div class="grid grid-cols-1 gap-4">
                 <router-link @click="isMenuOpen = false" to="/mareas" class="mobile-nav-link">Mareas</router-link>
                 <router-link @click="isMenuOpen = false" to="/especies" class="mobile-nav-link">Especies</router-link>
@@ -160,11 +179,15 @@
     </nav>
 
     <main class="flex-grow relative z-10">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition name="page-fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </main>
 
     <!-- Footer Mejorado -->
-    <footer v-if="!isAdminRoute" class="bg-primary-950 text-nautical-100 relative z-10 overflow-hidden">
+    <footer v-if="!isAdminRoute" class="bg-primary-950 dark:bg-black text-nautical-100 relative z-10 overflow-hidden transition-colors duration-500">
       <!-- Decoración Superior -->
       <div class="h-2 w-full bg-gradient-to-r from-primary-600 via-sea-400 to-primary-600"></div>
       
@@ -265,7 +288,29 @@ const route = useRoute()
 
 const isMenuOpen = ref(false)
 const isScrolled = ref(false)
+const isDark = ref(false)
+const scrollProgress = ref(0)
 const cartCount = computed(() => cartStore.totalItems)
+
+const updateScrollProgress = () => {
+  const h = document.documentElement, 
+        b = document.body,
+        st = 'scrollTop',
+        sh = 'scrollHeight';
+  const percent = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+  scrollProgress.value = percent;
+}
+
+const toggleDarkMode = () => {
+  isDark.value = !isDark.value
+  if (isDark.value) {
+    document.documentElement.classList.add('dark')
+    localStorage.theme = 'dark'
+  } else {
+    document.documentElement.classList.remove('dark')
+    localStorage.theme = 'light'
+  }
+}
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 50
@@ -273,10 +318,20 @@ const handleScroll = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+  window.addEventListener('scroll', updateScrollProgress)
+  
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    isDark.value = true
+    document.documentElement.classList.add('dark')
+  } else {
+    isDark.value = false
+    document.documentElement.classList.remove('dark')
+  }
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('scroll', updateScrollProgress)
 })
 
 const isAdminRoute = computed(() => {
@@ -316,6 +371,22 @@ const logout = async () => {
 }
 .animate-bounce-subtle {
     animation: bounce-subtle 2s infinite ease-in-out;
+}
+
+/* Transiciones de Página PRO */
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 /* Skeleton Effect */

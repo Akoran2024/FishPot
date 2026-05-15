@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 5: Implementación - FishPot TFG</title>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --secondary: #0284c7;
+            --accent: #38bdf8;
+            --text: #334155;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --code-bg: #0f172a;
+            --code-text: #e2e8f0;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        header {
+            border-bottom: 4px solid var(--secondary);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-top: 40px;
+            border-left: 5px solid var(--secondary);
+            padding-left: 15px;
+        }
+
+        h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-top: 30px;
+            background: #f1f5f9;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+
+        .directory-tree {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 25px;
+            border-radius: 8px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin: 20px 0;
+            border: 1px solid #334155;
+        }
+
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .file-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .file-item:hover {
+            border-color: var(--accent);
+            background-color: #f0f9ff;
+        }
+
+        .file-name {
+            font-family: 'Fira Code', monospace;
+            font-weight: bold;
+            color: var(--secondary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .file-desc {
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-right: 10px;
+            background: #e2e8f0;
+        }
+
+        .tag-logic { background: #dcfce7; color: #166534; }
+        .tag-ui { background: #e0f2fe; color: #075985; }
+        .tag-data { background: #fef3c7; color: #92400e; }
+        .tag-sec { background: #fee2e2; color: #991b1b; }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>5. IMPLEMENTACIÓN</h1>
+        <p>Estructura de Directorios y Descripción Técnica de FishPot</p>
+    </header>
+
+    <section>
+        <h2>5.1 Estructura de Directorios</h2>
+        <p>A continuación se presenta el mapa jerárquico del proyecto, organizando los componentes según su responsabilidad dentro de la arquitectura de la aplicación.</p>
+        
+        <div class="directory-tree">
+FishPot/
+├── app/                        <span style="color: #94a3b8;"># Capa de Aplicación (Backend)</span>
+│   ├── Http/
+│   │   ├── Controllers/        <span style="color: #94a3b8;"># Controladores de la API</span>
+│   │   ├── Middleware/         <span style="color: #94a3b8;"># Seguridad y Filtros</span>
+│   │   └── Requests/           <span style="color: #94a3b8;"># Validaciones</span>
+│   ├── Models/                 <span style="color: #94a3b8;"># Modelado de Datos (Eloquent)</span>
+│   └── Mail/                   <span style="color: #94a3b8;"># Notificaciones por Correo</span>
+├── database/                   <span style="color: #94a3b8;"># Ciclo de Vida de Base de Datos</span>
+│   ├── migrations/             <span style="color: #94a3b8;"># Esquema SQL</span>
+│   └── seeders/                <span style="color: #94a3b8;"># Datos de Prueba</span>
+├── resources/                  <span style="color: #94a3b8;"># Capa de Presentación (Frontend)</span>
+│   ├── js/                     <span style="color: #94a3b8;"># SPA (Vue.js 3)</span>
+│   │   ├── components/         <span style="color: #94a3b8;"># Bloques Reutilizables</span>
+│   │   ├── stores/             <span style="color: #94a3b8;"># Estado con Pinia</span>
+│   │   └── views/              <span style="color: #94a3b8;"># Páginas del Sistema</span>
+│   └── css/                    <span style="color: #94a3b8;"># Estilos (TailwindCSS)</span>
+├── routes/                     <span style="color: #94a3b8;"># Definición de Endpoints</span>
+└── docker-compose.yml          <span style="color: #94a3b8;"># Orquestación de Servicios</span></div>
+    </section>
+
+    <section>
+        <h2>5.2 Descripción de Ficheros Clave</h2>
+
+        <h3>5.2.1 Controladores y Lógica de Servidor (PHP)</h3>
+        <div class="file-list">
+            <div class="file-item">
+                <span class="tag tag-logic">Lógica</span>
+                <span class="file-name">app/Http/Controllers/TideController.php</span>
+                <span class="file-desc">Encargado de la comunicación con WorldTides API. Procesa las coordenadas de Lanzarote y formatea los datos de pleamar/bajamar para el frontend.</span>
+            </div>
+            <div class="file-item">
+                <span class="tag tag-logic">Lógica</span>
+                <span class="file-name">app/Http/Controllers/OrderController.php</span>
+                <span class="file-desc">Gestiona el flujo transaccional. Valida el stock antes de confirmar una compra y genera el evento de facturación.</span>
+            </div>
+            <div class="file-item">
+                <span class="tag tag-sec">Seguridad</span>
+                <span class="file-name">app/Http/Middleware/AdminMiddleware.php</span>
+                <span class="file-desc">Verifica el rol de administrador en las peticiones HTTP. Es la barrera de seguridad para el panel de gestión.</span>
+            </div>
+        </div>
+
+        <h3>5.2.2 Interfaz y Experiencia de Usuario (Vue.js)</h3>
+        <div class="file-list">
+            <div class="file-item">
+                <span class="tag tag-ui">UI</span>
+                <span class="file-name">resources/js/views/Shop.vue</span>
+                <span class="file-desc">Página principal de comercio electrónico. Implementa filtros reactivos por categoría y búsqueda de productos en tiempo real.</span>
+            </div>
+            <div class="file-item">
+                <span class="tag tag-data">Estado</span>
+                <span class="file-name">resources/js/stores/cart.js</span>
+                <span class="file-desc">Almacén centralizado del carrito de compras mediante Pinia. Persiste los artículos seleccionados durante la navegación del usuario.</span>
+            </div>
+            <div class="file-item">
+                <span class="tag tag-ui">UI</span>
+                <span class="file-name">resources/js/components/Toast.vue</span>
+                <span class="file-desc">Componente de notificación global. Muestra avisos visuales (éxito/error) tras acciones como añadir al carrito o login.</span>
+            </div>
+        </div>
+
+        <h3>5.2.3 Persistencia y Configuración</h3>
+        <div class="file-list">
+            <div class="file-item">
+                <span class="tag tag-data">Datos</span>
+                <span class="file-name">database/migrations/2026_02_13_091935_create_orders_table.php</span>
+                <span class="file-desc">Define la estructura relacional de los pedidos, incluyendo claves foráneas con usuarios y estados de transacción.</span>
+            </div>
+            <div class="file-item">
+                <span class="tag tag-logic">Rutas</span>
+                <span class="file-name">routes/web.php</span>
+                <span class="file-desc">Archivo de configuración de rutas que orquesta la carga de la SPA y los endpoints de la API administrativa.</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        Documentación Técnica Generada para TFG - Proyecto FishPot &copy; 2026
+    </footer>
+</div>
+
+</body>
+</html>

@@ -107,6 +107,9 @@
               </td>
               <td class="px-8 py-6 text-right">
                 <div class="flex justify-end space-x-2">
+                  <button @click="openViewModal(product)" class="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Ver Detalles">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
+                  </button>
                   <button @click="openModal(product)" class="p-2 text-primary-700 hover:bg-primary-100 rounded-lg transition-colors" title="Editar">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
                   </button>
@@ -125,6 +128,77 @@
         <p class="text-nautical-400 font-serif italic text-lg">No se han encontrado aparejos con ese nombre.</p>
       </div>
     </div>
+
+    <!-- View Modal -->
+    <transition name="modal">
+      <div v-if="showViewModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-primary-950/80 backdrop-blur-md p-4 overflow-y-auto">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl overflow-hidden border-4 border-white transform transition-all my-8">
+          <div class="p-8 border-b border-nautical-100 flex justify-between items-center bg-nautical-50">
+            <div>
+              <h2 class="text-3xl font-serif font-black text-primary-950 italic">Detalles del Aparejo</h2>
+              <p class="text-xs text-nautical-500 font-serif italic uppercase tracking-widest mt-1">ID de Producto: #{{ selectedProduct.id }}</p>
+            </div>
+            <button @click="showViewModal = false" class="p-2 bg-white rounded-full text-primary-900 shadow-md hover:scale-110 transition-transform border border-nautical-100">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          </div>
+          
+          <div class="p-8 lg:p-12">
+            <div class="flex flex-col md:flex-row gap-10">
+              <!-- Image -->
+              <div class="w-full md:w-1/2 aspect-square bg-white rounded-xl shadow-inner border border-nautical-200 overflow-hidden">
+                <img v-if="selectedProduct.image" :src="formatImagePath(selectedProduct.image)" class="w-full h-full object-cover">
+                <div v-else class="w-full h-full flex items-center justify-center text-nautical-200">
+                  <svg class="h-20 w-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                </div>
+              </div>
+
+              <!-- Details -->
+              <div class="w-full md:w-1/2 space-y-6">
+                <div>
+                  <p class="text-[10px] font-black text-primary-800 uppercase tracking-widest mb-1">Nombre Comercial</p>
+                  <h3 class="text-2xl font-serif font-black text-primary-950 italic">{{ selectedProduct.name }}</h3>
+                </div>
+
+                <div>
+                  <p class="text-[10px] font-black text-primary-800 uppercase tracking-widest mb-1">Categoría</p>
+                  <span class="px-3 py-1 rounded-full text-[9px] font-bold text-primary-900 bg-primary-100 border border-primary-200 uppercase tracking-widest inline-block">
+                    {{ selectedProduct.category || 'Sin Categoría' }}
+                  </span>
+                </div>
+
+                <div>
+                  <p class="text-[10px] font-black text-primary-800 uppercase tracking-widest mb-1">Descripción</p>
+                  <p class="text-sm text-nautical-700 font-serif italic leading-relaxed">{{ selectedProduct.description || 'Sin descripción disponible.' }}</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-nautical-100">
+                  <div>
+                    <p class="text-[10px] font-black text-primary-800 uppercase tracking-widest mb-1">Precio</p>
+                    <p class="text-2xl font-serif font-black text-primary-950 italic">{{ selectedProduct.price }}€</p>
+                  </div>
+                  <div>
+                    <p class="text-[10px] font-black text-primary-800 uppercase tracking-widest mb-1">Stock</p>
+                    <div class="flex flex-col">
+                      <span :class="getStockClass(selectedProduct.stock)" class="px-3 py-1 rounded-full text-[10px] font-black border uppercase tracking-tighter inline-block text-center max-w-max">      
+                        {{ selectedProduct.stock }} uds
+                      </span>
+                      <span class="text-[8px] mt-1 font-bold text-nautical-400 uppercase">{{ getStockLabel(selectedProduct.stock) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-nautical-100 flex justify-end">
+              <button @click="showViewModal = false" class="px-8 py-3 bg-primary-950 text-white rounded font-serif italic font-black uppercase text-xs tracking-[0.2em] hover:bg-primary-800 transition-all shadow-xl">
+                Cerrar Ficha
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
 
     <!-- Enhanced Modal -->
     <transition name="modal">
@@ -223,10 +297,14 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import { useToastStore } from '../stores/toast'
 
+const toastStore = useToastStore()
 const products = ref([])
 const showModal = ref(false)
+const showViewModal = ref(false)
 const editingId = ref(null)
+const selectedProduct = ref(null)
 const search = ref('')
 const reposeLoading = ref(null)
 const form = ref({ name: '', description: '', price: 0, stock: 0, category: '', image: '' })
@@ -275,6 +353,11 @@ const getStockLabel = (stock) => {
   return 'Óptimo'
 }
 
+const openViewModal = (product) => {
+  selectedProduct.value = product
+  showViewModal.value = true
+}
+
 const openModal = (product = null) => {
   if (product) {
     editingId.value = product.id
@@ -295,9 +378,10 @@ const reposeStock = async (product) => {
       stock: newStock
     })
     product.stock = newStock
+    toastStore.add(`Stock de ${product.name} actualizado correctamente.`)
   } catch (error) {
     console.error('Error reponiendo stock:', error)
-    alert('No se pudo actualizar el stock.')
+    toastStore.add('No se pudo actualizar el stock.', 'error')
   } finally {
     reposeLoading.value = null
   }
@@ -307,13 +391,15 @@ const saveProduct = async () => {
   try {
     if (editingId.value) {
       await axios.put(`/products/${editingId.value}`, form.value)
+      toastStore.add('Producto actualizado con éxito.')
     } else {
       await axios.post('/products', form.value)
+      toastStore.add('Producto creado con éxito.')
     }
     showModal.value = false
     fetchProducts()
   } catch (error) {
-    alert('Error al guardar el producto.')
+    toastStore.add('Error al guardar el producto.', 'error')
   }
 }
 
@@ -321,9 +407,10 @@ const deleteProduct = async (id) => {
   if (confirm('¿Está seguro de que desea eliminar este aparejo del inventario? Esta acción no se puede deshacer.')) {
     try {
       await axios.delete(`/products/${id}`)
+      toastStore.add('Producto eliminado del inventario.')
       fetchProducts()
     } catch (error) {
-      alert('Error al eliminar el producto.')
+      toastStore.add('Error al eliminar el producto.', 'error')
     }
   }
 }

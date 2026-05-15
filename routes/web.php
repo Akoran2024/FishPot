@@ -5,6 +5,7 @@ use App\Http\Controllers\TideController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -19,7 +20,12 @@ Route::middleware('auth')->group(function () {
     });
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/my-orders', [OrderController::class, 'userOrders']);
+
+    // Stripe Routes
+    Route::post('/stripe/checkout', [StripeController::class, 'checkout']);
 });
+
+Route::get('/stripe/success', [StripeController::class, 'success']);
 
 Route::get('/dashboard', function () {
     return redirect('/');

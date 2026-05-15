@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estructura Completa del Proyecto - FishPot</title>
+    <style>
+        body { font-family: monospace; background-color: #1e1e1e; color: #d4d4d4; padding: 20px; line-height: 1.2; }
+        .header { color: #569cd6; font-size: 1.5rem; border-bottom: 1px solid #3e3e3e; margin-bottom: 20px; padding-bottom: 10px; }
+        .folder { color: #ce9178; font-weight: bold; }
+        .file { color: #9cdcfe; }
+        .comment { color: #6a9955; font-style: italic; }
+        pre { white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
+<body>
+    <div class="header">Estructura Completa de Archivos: Proyecto FishPot (TFG)</div>
+    <div class="comment">// Nota: Se excluyen carpetas de dependencias externas (node_modules, vendor) para facilitar la lectura del código fuente original.</div>
+    <pre>
+FishPot/
+├── <span class="folder">app/</span>
+│   ├── <span class="folder">Http/</span>
+│   │   ├── <span class="folder">Controllers/</span>
+│   │   │   ├── <span class="folder">Admin/</span>
+│   │   │   │   └── UserController.php
+│   │   │   ├── <span class="folder">Auth/</span>
+│   │   │   │   ├── AuthenticatedSessionController.php
+│   │   │   │   ├── ConfirmablePasswordController.php
+│   │   │   │   ├── EmailVerificationNotificationController.php
+│   │   │   │   ├── EmailVerificationPromptController.php
+│   │   │   │   ├── NewPasswordController.php
+│   │   │   │   ├── PasswordController.php
+│   │   │   │   ├── PasswordResetLinkController.php
+│   │   │   │   ├── RegisteredUserController.php
+│   │   │   │   └── VerifyEmailController.php
+│   │   │   ├── ClientController.php
+│   │   │   ├── Controller.php
+│   │   │   ├── OrderController.php
+│   │   │   ├── ProductController.php
+│   │   │   ├── ProfileController.php
+│   │   │   ├── StripeController.php
+│   │   │   └── TideController.php
+│   │   ├── <span class="folder">Middleware/</span>
+│   │   │   └── AdminMiddleware.php
+│   │   └── <span class="folder">Requests/</span>
+│   │       ├── <span class="folder">Auth/</span>
+│   │       │   └── LoginRequest.php
+│   │       ├── OrderStoreRequest.php
+│   │       ├── OrderUpdateRequest.php
+│   │       ├── ProductStoreRequest.php
+│   │       ├── ProductUpdateRequest.php
+│   │       └── ProfileUpdateRequest.php
+│   ├── <span class="folder">Mail/</span>
+│   │   └── InvoiceMail.php
+│   ├── <span class="folder">Models/</span>
+│   │   ├── Client.php
+│   │   ├── Order.php
+│   │   ├── OrderItem.php
+│   │   ├── Product.php
+│   │   └── User.php
+│   ├── <span class="folder">Providers/</span>
+│   │   └── AppServiceProvider.php
+│   └── <span class="folder">View/</span>
+│       └── <span class="folder">Components/</span>
+│           └── GuestLayout.php
+├── <span class="folder">bootstrap/</span>
+│   ├── <span class="folder">cache/</span>
+│   ├── app.php
+│   └── providers.php
+├── <span class="folder">config/</span>
+│   ├── app.php
+│   ├── auth.php
+│   ├── cache.php
+│   ├── database.php
+│   ├── filesystems.php
+│   ├── logging.php
+│   ├── mail.php
+│   ├── queue.php
+│   ├── services.php
+│   └── session.php
+├── <span class="folder">database/</span>
+│   ├── <span class="folder">factories/</span>
+│   │   └── UserFactory.php
+│   ├── <span class="folder">migrations/</span>
+│   │   ├── 0001_01_01_000000_create_users_table.php
+│   │   ├── 0001_01_01_000001_create_cache_table.php
+│   │   ├── 0001_01_01_000002_create_jobs_table.php
+│   │   ├── 2026_02_11_113134_create_clients_table.php
+│   │   ├── 2026_02_11_123333_add_role_to_users_table.php
+│   │   ├── 2026_02_12_102212_create_products_table.php
+│   │   ├── 2026_02_13_091935_create_orders_table.php
+│   │   ├── 2026_02_19_160735_add_shipping_details_to_orders_table.php
+│   │   ├── 2026_02_19_161049_add_payment_method_to_orders_table.php
+│   │   └── 2026_04_30_115136_add_payment_intent_to_orders_table.php
+│   ├── <span class="folder">seeders/</span>
+│   │   ├── DatabaseSeeder.php
+│   │   └── ProductSeeder.php
+│   └── database.sqlite
+├── <span class="folder">nginx/</span>
+│   └── default.conf
+├── <span class="folder">public/</span>
+│   ├── <span class="folder">imagenes/</span>
+│   │   ├── aligote.jpg
+│   │   ├── anzuelos.png
+│   │   ├── barco.jpg
+│   │   ├── burgados.jpg
+│   │   ├── cangrejoblanco.jpg
+│   │   ├── ... (Resto de imágenes de especies)
+│   ├── favicon.ico
+│   ├── index.php
+│   └── robots.txt
+├── <span class="folder">resources/</span>
+│   ├── <span class="folder">css/</span>
+│   │   └── app.css
+│   ├── <span class="folder">js/</span>
+│   │   ├── <span class="folder">components/</span>
+│   │   │   └── Toast.vue
+│   │   ├── <span class="folder">router/</span>
+│   │   │   └── index.js
+│   │   ├── <span class="folder">stores/</span>
+│   │   │   ├── auth.js
+│   │   │   ├── cart.js
+│   │   │   └── toast.js
+│   │   ├── <span class="folder">views/</span>
+│   │   │   ├── Home.vue
+│   │   │   ├── Shop.vue
+│   │   │   ├── Cart.vue
+│   │   │   ├── Tides.vue
+│   │   │   ├── Species.vue
+│   │   │   ├── Locations.vue
+│   │   │   ├── MyOrders.vue
+│   │   │   ├── Login.vue
+│   │   │   ├── Register.vue
+│   │   │   ├── License.vue
+│   │   │   ├── Orders.vue (Admin)
+│   │   │   ├── Products.vue (Admin)
+│   │   │   ├── Clients.vue (Admin)
+│   │   │   └── UserCreate.vue (Admin)
+│   │   ├── app.js
+│   │   ├── App.vue
+│   │   └── bootstrap.js
+│   └── <span class="folder">views/</span>
+│       ├── <span class="folder">emails/</span>
+│       │   └── invoice.blade.php
+│       ├── <span class="folder">pdf/</span>
+│       │   └── invoice.blade.php
+│       └── app.blade.php
+├── <span class="folder">routes/</span>
+│   ├── api.php
+│   ├── auth.php
+│   ├── console.php
+│   └── web.php
+├── <span class="folder">storage/</span> (Estructura interna gestionada por Laravel)
+├── <span class="folder">tests/</span>
+│   ├── <span class="folder">Feature/</span>
+│   │   ├── Auth/
+│   │   ├── ExampleTest.php
+│   │   └── ProfileTest.php
+│   ├── <span class="folder">Unit/</span>
+│   │   └── ExampleTest.php
+│   └── TestCase.php
+├── .editorconfig
+├── .env
+├── .env.example
+├── artisan
+├── composer.json
+├── docker-compose.yml
+├── Dockerfile
+├── package.json
+├── phpunit.xml
+├── postcss.config.js
+├── tailwind.config.js
+├── vite.config.js
+└── README.md
+    </pre>
+</body>
+</html>

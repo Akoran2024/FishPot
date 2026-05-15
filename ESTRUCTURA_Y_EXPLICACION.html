@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estructura y Explicación del Proyecto - FishPot</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            line-height: 1.5;
+            color: #000;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            text-align: justify;
+        }
+        h1 { font-size: 1.8rem; text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 30px; }
+        .directory-box {
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: #fcfcfc;
+        }
+        .folder-name {
+            font-family: "Consolas", monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #0366d6;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .explanation {
+            font-size: 1rem;
+            margin-left: 20px;
+            position: relative;
+        }
+        .explanation::before {
+            content: "➔";
+            position: absolute;
+            left: -20px;
+            color: #666;
+        }
+        footer { margin-top: 50px; text-align: center; font-size: 0.8rem; color: #777; border-top: 1px dotted #ccc; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>Estructura General y Funcional del Proyecto</h1>
+
+    <p>A continuación se describe la organización jerárquica del proyecto <strong>FishPot</strong>, detallando el propósito funcional de cada directorio principal dentro de la arquitectura del sistema.</p>
+
+    <div class="directory-box">
+        <span class="folder-name">app/</span>
+        <p class="explanation">Es el directorio principal del backend. Contiene toda la lógica de negocio, los controladores que gestionan las peticiones, los modelos que interactúan con la base de datos y los middlewares de seguridad.</p>
+    </div>
+
+    <div class="directory-box">
+        <span class="folder-name">bootstrap/</span>
+        <p class="explanation">Contiene los archivos necesarios para el arranque (bootstrapping) del framework Laravel y la configuración de la caché de servicios para optimizar el rendimiento.</p>
+    </div>
+
+    <div class="directory-box">
+        <span class="folder-name">config/</span>
+        <p class="explanation">Almacena todos los archivos de configuración global del sistema, como los parámetros de autenticación, la conexión a la base de datos, el sistema de correos y los servicios de terceros como Stripe.</p>
+    </div>
+
+    <div class="directory-box">
+        <span class="folder-name">database/</span>
+        <p class="explanation">Gestión de la persistencia de datos. Incluye las migraciones para crear las tablas, los seeders para cargar el catálogo inicial de productos y las factorías para generar datos de prueba.</p>
+    </div>
+
+    <div class="directory-box">
+        <span class="folder-name">public/</span>
+        <p class="explanation">Es el único directorio accesible públicamente desde la web. Contiene el punto de entrada <code>index.php</code>, las imágenes de los productos y especies, y los archivos CSS/JS ya compilados para producción.</p>
+    </div>
+
+    <div class="directory-box">
+        <span class="folder-name">resources/</span>
+        <p class="explanation">Contiene los archivos fuente del frontend. Aquí se encuentra todo el código de Vue.js 3 (vistas, componentes y estados de Pinia) y las plantillas Blade del servidor.</p>
+    </div>
+
+    <div class="directory-box">
+        <span class="folder-name">routes/</span>
+        <p class="explanation">Define todos los puntos de acceso o rutas del sistema. Se divide en rutas web para la interfaz de usuario y rutas API para la comunicación de datos entre el frontend y el backend.</p>
+    </div>
+
+    <div class="directory-box">
+        <span class="folder-name">storage/</span>
+        <p class="explanation">Directorio de almacenamiento interno. Aquí se guardan los logs del sistema, las sesiones de usuario y los documentos generados dinámicamente, como las facturas en PDF.</p>
+    </div>
+
+    <div class="directory-box">
+        <span class="folder-name">tests/</span>
+        <p class="explanation">Contiene las pruebas automatizadas del sistema, incluyendo pruebas unitarias para lógica aislada y pruebas de integración para flujos completos como el proceso de pago.</p>
+    </div>
+
+    <footer>
+        <p>Memoria de Implementación Técnica - FishPot 2026</p>
+    </footer>
+
+</body>
+</html>

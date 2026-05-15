@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enciclopedia Total FishPot - Documentación Maestra</title>
+    <style>
+        :root {
+            --primary: #0a4275;
+            --secondary: #17a2b8;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --text: #2c3e50;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            background: #f4f7f6;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: 300px;
+            height: 100vh;
+            background: var(--primary);
+            color: white;
+            position: fixed;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        nav h2 {
+            padding: 0 20px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        nav ul { list-style: none; padding: 0; }
+        nav ul li a {
+            display: block;
+            padding: 10px 20px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav ul li a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding-left: 30px;
+        }
+
+        nav .sub-menu { padding-left: 20px; font-size: 0.85rem; }
+
+        /* Main Content */
+        main {
+            margin-left: 300px;
+            padding: 50px;
+            flex-grow: 1;
+            max-width: 1000px;
+        }
+
+        section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h1 { font-size: 3rem; color: var(--primary); margin-top: 0; }
+        h2 { font-size: 2rem; color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 50px; }
+        h3 { font-size: 1.5rem; color: var(--secondary); margin-top: 30px; }
+        h4 { font-size: 1.2rem; color: var(--dark); border-left: 4px solid var(--secondary); padding-left: 10px; }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .badge-laravel { background: #ff2d20; }
+        .badge-vue { background: #42b883; }
+        .badge-db { background: #4479a1; }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            border-left: 5px solid var(--secondary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        table th { background: #f8f9fa; color: var(--primary); }
+
+        .directory-tree {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .info-panel {
+            background: #e7f3ff;
+            border-left: 6px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning-panel {
+            background: #fff4e5;
+            border-left: 6px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        footer {
+            margin-top: 100px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        @media (max-width: 1000px) {
+            nav { width: 100%; height: auto; position: relative; }
+            main { margin-left: 0; padding: 20px; }
+            body { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <h2>FishPot Wiki</h2>
+    <ul>
+        <li><a href="#vol-1">Vol 1: Arquitectura y Sistema</a></li>
+        <li class="sub-menu"><a href="#stack">- Stack Tecnológico</a></li>
+        <li class="sub-menu"><a href="#files">- Estructura de Ficheros</a></li>
+        <li><a href="#vol-2">Vol 2: Base de Datos</a></li>
+        <li class="sub-menu"><a href="#tables">- Esquema de Tablas</a></li>
+        <li class="sub-menu"><a href="#relations">- Relaciones ER</a></li>
+        <li><a href="#vol-3">Vol 3: Backend & API</a></li>
+        <li class="sub-menu"><a href="#controllers">- Controladores</a></li>
+        <li class="sub-menu"><a href="#auth">- Autenticación</a></li>
+        <li><a href="#vol-4">Vol 4: Frontend (Vue.js)</a></li>
+        <li class="sub-menu"><a href="#components">- Componentes y Router</a></li>
+        <li class="sub-menu"><a href="#state">- Gestión de Estado (Pinia)</a></li>
+        <li><a href="#vol-5">Vol 5: Integraciones</a></li>
+        <li class="sub-menu"><a href="#stripe">- Pasarela Stripe</a></li>
+        <li class="sub-menu"><a href="#tides">- API de Mareas</a></li>
+        <li><a href="#vol-6">Vol 6: Manual de Usuario</a></li>
+        <li><a href="#vol-7">Vol 7: Manual Admin</a></li>
+    </ul>
+</nav>
+
+<main>
+    <header>
+        <h1>La Enciclopedia Total de FishPot</h1>
+        <p>Documentación exhaustiva técnica, funcional y de usuario para el sistema de gestión y venta de artículos de pesca.</p>
+    </header>
+
+    <section id="vol-1">
+        <h2>Vol 1: Arquitectura y Sistema</h2>
+        <p>FishPot es una aplicación de tipo <strong>Single Page Application (SPA)</strong> que utiliza un motor de backend robusto y un frontend reactivo moderno.</p>
+        
+        <h3 id="stack">Stack Tecnológico</h3>
+        <p>
+            <span class="badge badge-laravel">Laravel 12.0</span> 
+            <span class="badge badge-vue">Vue.js 3.5</span>
+            <span class="badge" style="background: #38b2ac;">Tailwind CSS</span>
+            <span class="badge" style="background: #646cff;">Vite 7.0</span>
+            <span class="badge" style="background: #0081cb;">Stripe API</span>
+        </p>
+
+        <h3 id="files">Estructura de Ficheros Analizada</h3>
+        <div class="directory-tree">
+            app/<br>
+            ├── Http/Controllers/ &nbsp;&nbsp;&nbsp;&nbsp; # Lógica de negocio (Stripe, Tides, Orders)<br>
+            ├── Models/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Eloquent Models (User, Product, Order)<br>
+            ├── Mail/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Notificaciones de factura por email<br>
+            resources/js/<br>
+            ├── views/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Páginas Vue (Home, Admin, Checkout)<br>
+            ├── router/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Navegación SPA<br>
+            ├── stores/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Estado global (Carrito, Auth)<br>
+            database/<br>
+            ├── migrations/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Definición de tablas SQL<br>
+            └── seeders/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Datos iniciales de productos y admins
+        </div>
+    </section>
+
+    <section id="vol-2">
+        <h2>Vol 2: Base de Datos y Modelo ER</h2>
+        <p>El sistema utiliza una base de datos relacional (MySQL/MariaDB) con las siguientes entidades principales:</p>
+        
+        <h3 id="tables">Esquema de Tablas</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tabla</th>
+                    <th>Campos Clave</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>users</code></td>
+                    <td>id, name, email, password, role</td>
+                    <td>Usuarios del sistema (Admin/User).</td>
+                </tr>
+                <tr>
+                    <td><code>products</code></td>
+                    <td>id, name, description, price, stock, image</td>
+                    <td>Catálogo de artículos de pesca.</td>
+                </tr>
+                <tr>
+                    <td><code>orders</code></td>
+                    <td>id, user_id, total, status, payment_intent</td>
+                    <td>Cabecera de pedidos y pagos.</td>
+                </tr>
+                <tr>
+                    <td><code>order_items</code></td>
+                    <td>id, order_id, product_id, quantity, price</td>
+                    <td>Detalle de productos en cada pedido.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-panel">
+            <strong>Lógica de Stock:</strong> El sistema implementa un disparador de decremento en <code>StripeController::success</code> que reduce el <code>stock</code> de la tabla <code>products</code> solo tras la confirmación exitosa del pago.
+        </div>
+    </section>
+
+    <section id="vol-3">
+        <h2>Vol 3: Backend & API</h2>
+        <h3 id="controllers">Controladores Críticos</h3>
+        <ul>
+            <li><strong>OrderController:</strong> Gestiona la creación de pedidos y la generación de facturas PDF usando <code>laravel-dompdf</code>.</li>
+            <li><strong>TideController:</strong> Interactúa con la API WorldTides para obtener datos de Lanzarote. Si falla la API, tiene un sistema de <code>Fallback</code> con datos simulados dinámicos.</li>
+            <li><strong>StripeController:</strong> Maneja sesiones de Checkout y Webhooks de éxito.</li>
+        </ul>
+
+        <h3 id="auth">Autenticación y Seguridad</h3>
+        <p>Se utiliza <strong>Laravel Breeze</strong> para la autenticación base. Se han añadido middlewares personalizados:</p>
+        <pre>
+// app/Http/Middleware/AdminMiddleware.php
+public function handle($request, Closure $next) {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        return $next($request);
+    }
+    return redirect('/');
+}
+        </pre>
+    </section>
+
+    <section id="vol-4">
+        <h2>Vol 4: Frontend (Vue.js 3)</h2>
+        <p>El frontend es una aplicación reactiva que se comunica con el backend mediante <code>Axios</code>.</p>
+        
+        <h3 id="components">Arquitectura de Componentes</h3>
+        <p>La vista principal está en <code>resources/views/app.blade.php</code>, la cual carga el punto de entrada <code>App.vue</code>.</p>
+        
+        <h3 id="state">Gestión de Estado (Pinia)</h3>
+        <p>Se utilizan dos "Stores" principales:</p>
+        <ul>
+            <li><strong>authStore:</strong> Mantiene la información del usuario logueado y sus permisos.</li>
+            <li><strong>cartStore:</strong> Muestra los productos seleccionados, calcula totales en tiempo real y persiste datos en el <code>localStorage</code> para no perder el carrito al refrescar.</li>
+        </ul>
+    </section>
+
+    <section id="vol-5">
+        <h2>Vol 5: Integraciones de Terceros</h2>
+        
+        <h3 id="stripe">Pasarela de Pagos Stripe</h3>
+        <p>FishPot implementa <strong>Stripe Checkout</strong> para máxima seguridad. El flujo es:</p>
+        <ol>
+            <li>El usuario pulsa "Pagar".</li>
+            <li>El backend crea una <code>Checkout Session</code> con los items y metadatos.</li>
+            <li>Redirección a Stripe.com.</li>
+            <li>Tras el pago, Stripe redirige a <code>/stripe/success</code>.</li>
+            <li>El servidor verifica el <code>payment_intent</code> y crea el registro oficial del pedido.</li>
+        </ol>
+
+        <h3 id="tides">API de Mareas (World Tides)</h3>
+        <p>Configurada para las coordenadas exactas de Lanzarote:</p>
+        <ul>
+            <li><strong>Latitud:</strong> 29.035</li>
+            <li><strong>Longitud:</strong> -13.633</li>
+            <li><strong>API:</strong> v3 (extremes)</li>
+        </ul>
+    </section>
+
+    <section id="vol-6">
+        <h2>Vol 6: Manual de Usuario Completo</h2>
+        <h4>Cómo comprar en 5 minutos:</h4>
+        <div class="step">1. Regístrate con un email válido.</div>
+        <div class="step">2. Añade productos al carrito (fíjate en el stock disponible).</div>
+        <div class="step">3. Ve al carrito y pulsa "Tramitar Pedido".</div>
+        <div class="step">4. Introduce tu dirección. El sistema calculará gastos de envío si estás fuera de Canarias (9.50€).</div>
+        <div class="step">5. Paga de forma segura. Descarga tu factura PDF desde "Mis Pedidos".</div>
+    </section>
+
+    <section id="vol-7">
+        <h2>Vol 7: Manual del Administrador</h2>
+        <div class="warning-panel">
+            <strong>ADVERTENCIA:</strong> Las acciones en el panel de administración son irreversibles en la base de datos de producción.
+        </div>
+        <h4>Tareas diarias del Admin:</h4>
+        <ul>
+            <li><strong>Revisión de Ventas:</strong> Comprobar los pedidos "Aceptados" (pagados) para su preparación.</li>
+            <li><strong>Control de Stock:</strong> Si el stock de un producto llega a 5, aparecerá una alerta visual en el panel.</li>
+            <li><strong>Gestión de Usuarios:</strong> Supervisar altas y bajas, y asignar roles a nuevos empleados.</li>
+            <li><strong>Actualización de Precios:</strong> Cambiar precios según temporada desde el catálogo administrativo.</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>Generado por el Sistema de Documentación Inteligente de FishPot</p>
+        <p>© 2026 - Todos los derechos reservados</p>
+    </footer>
+</main>
+
+</body>
+</html>

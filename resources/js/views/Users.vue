@@ -14,7 +14,7 @@
         <p class="text-nautical-700 mt-4 font-serif italic text-lg leading-relaxed max-w-2xl">Administre los rangos, accesos y credenciales de la comunidad de pescadores de FishPot.</p>
       </div>
       
-      <router-link :to="{ name: 'admin.usuarios.create' }" class="group relative px-10 py-4 bg-primary-950 text-white font-serif italic text-lg hover:bg-primary-800 transition-all shadow-2xl font-black overflow-hidden flex items-center">
+      <router-link :to="{ name: 'admin.users.create' }" class="group relative px-10 py-4 bg-primary-950 text-white font-serif italic text-lg hover:bg-primary-800 transition-all shadow-2xl font-black overflow-hidden flex items-center">
         <span class="relative z-10 flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
           Reclutar Nuevo Marinero
@@ -90,6 +90,9 @@
               </td>
               <td class="px-8 py-6 text-right">
                 <div class="flex justify-end space-x-2">
+                  <button @click="openViewModal(user)" class="p-3 text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all group/btn" title="Ver Perfil">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover/btn:scale-110 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
+                  </button>
                   <button @click="openModal(user)" class="p-3 text-primary-700 hover:bg-primary-100 rounded-xl transition-all group/btn" title="Modificar Rango">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover/btn:scale-110 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
                   </button>
@@ -109,6 +112,63 @@
         <button @click="search = ''" class="mt-4 text-primary-800 font-serif font-black italic border-b border-primary-200 hover:border-primary-800 transition-all uppercase text-xs tracking-widest">Ver toda la tripulación</button>
       </div>
     </div>
+
+    <!-- View Modal -->
+    <transition name="modal">
+      <div v-if="showViewModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-primary-950/80 backdrop-blur-md p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border-4 border-white transform transition-all my-8">
+          <div class="p-8 border-b border-nautical-100 flex justify-between items-center bg-nautical-50">
+            <div>
+              <h2 class="text-3xl font-serif font-black text-primary-950 italic">Ficha del Marinero</h2>
+              <p class="text-[10px] font-black text-nautical-400 uppercase tracking-widest mt-1">ID de Usuario: #{{ selectedUser.id }}</p>
+            </div>
+            <button @click="showViewModal = false" class="p-2 bg-white rounded-full text-primary-900 shadow-md hover:scale-110 transition-transform border border-nautical-100">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          </div>
+          
+          <div class="p-10 space-y-10">
+            <div class="flex flex-col items-center text-center space-y-4">
+              <div class="w-24 h-24 bg-primary-50 rounded-full flex items-center justify-center text-primary-950 font-serif font-black italic text-5xl shadow-md border-4 border-white ring-2 ring-primary-100">
+                {{ selectedUser.name.charAt(0) }}
+              </div>
+              <div>
+                <h3 class="text-3xl font-serif font-black text-primary-950 italic">{{ selectedUser.name }}</h3>
+                <p class="text-primary-600 font-serif italic">{{ selectedUser.email }}</p>
+              </div>
+              <span :class="selectedUser.role === 'admin' ? 'bg-primary-950 text-white border-primary-950' : 'bg-primary-50 text-primary-800 border-primary-200'"
+                    class="px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest border shadow-sm"> 
+                {{ selectedUser.role === 'admin' ? 'Almirante de la Flota' : 'Marinero de Cubierta' }}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6 pt-6 border-t border-nautical-100">
+              <div class="flex justify-between items-center bg-nautical-50 p-4 rounded-xl">
+                <div>
+                  <p class="text-[10px] font-black text-nautical-400 uppercase tracking-widest">Fecha de Alistamiento</p>
+                  <p class="font-serif font-bold text-primary-950 italic">{{ formatDate(selectedUser.created_at) }}</p>
+                </div>
+                <svg class="h-6 w-6 text-nautical-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              </div>
+
+              <div class="flex justify-between items-center bg-nautical-50 p-4 rounded-xl">
+                <div>
+                  <p class="text-[10px] font-black text-nautical-400 uppercase tracking-widest">Estado de Cuenta</p>
+                  <p class="font-serif font-bold text-emerald-600 italic">Verificado y Activo</p>
+                </div>
+                <svg class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+            </div>
+
+            <div class="pt-4">
+              <button @click="showViewModal = false" class="w-full px-8 py-4 bg-primary-950 text-white rounded-xl font-serif italic text-lg hover:bg-primary-800 transition-all shadow-2xl font-black tracking-tight">
+                Cerrar Expediente
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
 
     <!-- Enhanced Modal -->
     <transition name="modal">
@@ -168,9 +228,12 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import { useToastStore } from '../stores/toast'
 
+const toastStore = useToastStore()
 const users = ref([])
 const showModal = ref(false)
+const showViewModal = ref(false)
 const selectedUser = ref(null)
 const search = ref('')
 const form = ref({ name: '', role: '' })
@@ -201,6 +264,11 @@ const recentUsersCount = computed(() => {
   return users.value.filter(u => new Date(u.created_at) > monthAgo).length
 })
 
+const openViewModal = (user) => {
+  selectedUser.value = user
+  showViewModal.value = true
+}
+
 const openModal = (user) => {
   selectedUser.value = user
   form.value = { name: user.name, role: user.role }
@@ -210,10 +278,11 @@ const openModal = (user) => {
 const saveUser = async () => {
   try {
     await axios.patch(`/admin/users/${selectedUser.value.id}/role`, { role: form.value.role })
+    toastStore.add('Rango de usuario actualizado correctamente.')
     showModal.value = false
     fetchUsers()
   } catch (error) {
-    alert('Error al actualizar el rol del usuario.')
+    toastStore.add('Error al actualizar el rol del usuario.', 'error')
   }
 }
 
@@ -221,10 +290,11 @@ const deleteUser = async (id) => {
   if (confirm('¿Está seguro de que desea eliminar a este miembro de la tripulación? Esta acción es irreversible y retirará todos sus permisos.')) {
     try {
       await axios.delete(`/admin/users/${id}`)
+      toastStore.add('Usuario eliminado del registro.')
       fetchUsers()
     } catch (error) {
       const message = error.response?.data?.message || 'Error al eliminar el usuario.'
-      alert(message)
+      toastStore.add(message, 'error')
     }
   }
 }

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 class OrderController extends Controller
 {
     /**
-     * Display a listing of the resource for the API.
+     * Muestra un listado de los recursos para la API.
      */
     public function apiIndex()
     {
@@ -25,7 +25,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Display a listing of the authenticated user's orders.
+     * Muestra un listado de los pedidos del usuario autenticado.
      */
     public function userOrders()
     {
@@ -37,7 +37,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Muestra un listado del recurso.
      */
     public function index()
     {
@@ -46,22 +46,22 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un nuevo recurso.
      */
     public function create()
     {
-        // You might want to pass products to the view for selection
-        $products = Product::all(); // Assuming you'd select products to create an order
+        // Se obtienen los productos para la selección en la vista
+        $products = Product::all(); 
         return view('admin.orders.create', compact('products'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un recurso recién creado en el almacenamiento.
      */
     public function store(OrderStoreRequest $request)
     {
         DB::transaction(function () use ($request) {
-            // Filter out simulated card details before creating the order
+            // Se eliminan los detalles simulados de la tarjeta antes de crear el pedido
             $validatedData = $request->validated();
             unset($validatedData['card_holder']);
             unset($validatedData['card_number']);
@@ -70,58 +70,55 @@ class OrderController extends Controller
 
             $order = Order::create($validatedData + [
                 'user_id' => Auth::id(),
-                'status' => 'pending', // Ensure status is set
+                'status' => 'pending', // Asegurar que el estado esté establecido
             ]);
 
             foreach ($request->validated('items') as $itemData) {
                 $product = Product::findOrFail($itemData['id']);
 
-                // Check stock availability
+                // Verificar disponibilidad de stock
                 if ($product->stock < $itemData['quantity']) {
                     throw new \Exception('Stock insuficiente para el producto: ' . $product->name);
                 }
 
-                // Decrement stock
+                // Decrementar stock
                 $product->stock -= $itemData['quantity'];
                 $product->save();
 
-                // Create OrderItem
+                // Crear el ítem del pedido (OrderItem)
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
                     'quantity' => $itemData['quantity'],
-                    'price' => $product->price, // Store the price at the time of purchase
+                    'price' => $product->price, // Almacenar el precio en el momento de la compra
                 ]);
             }
         });
 
-        // The Carrito.vue component expects a JSON response, not a redirect.
+        // El componente Carrito.vue espera una respuesta JSON, no una redirección.
         return response()->json(['message' => 'Pedido creado exitosamente y stock actualizado.'], 201);
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(Order $order)
     {
-        // This is typically not part of the basic web CRUD (index, create, edit)
-        // If a 'show' view is desired, it can be implemented.
-        // For this task, we focus on the basic CRUD operations (index, create, edit, store, update, destroy).
-        return view('admin.orders.show', compact('order')); // Assuming show.blade.php will be created if needed
+        return view('admin.orders.show', compact('order'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar el recurso especificado.
      */
     public function edit(Order $order)
     {
-        // You might want to pass products to the view for selection if order items are edited
-        $products = Product::all(); // Assuming you'd select products to create/edit an order
+        // Se pasan los productos por si se editan los ítems del pedido
+        $products = Product::all(); 
         return view('admin.orders.edit', compact('order', 'products'));
     }
 
     /**
-     * Show the form for shipping the specified order.
+     * Muestra el formulario para el envío del pedido especificado.
      */
     public function showShipForm(Order $order)
     {
@@ -129,16 +126,16 @@ class OrderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el recurso especificado en el almacenamiento.
      */
     public function update(OrderUpdateRequest $request, Order $order)
     {
         DB::transaction(function () use ($request, $order) {
             $order->update($request->validated());
 
-            // If items are provided in the request, update order items and stock
+            // Si se proporcionan ítems en la petición, actualizar ítems y stock
             if ($request->has('items')) {
-                // 1. Restore old stock
+                // 1. Restaurar stock antiguo
                 foreach ($order->items as $oldItem) {
                     $product = Product::find($oldItem->product_id);
                     if ($product) {
@@ -147,28 +144,28 @@ class OrderController extends Controller
                     }
                 }
 
-                // 2. Delete existing OrderItems
+                // 2. Eliminar ítems de pedido existentes
                 $order->items()->delete();
 
-                // 3. Process new Order Items (similar to store method)
+                // 3. Procesar nuevos ítems (similar al método store)
                 foreach ($request->validated('items') as $itemData) {
                     $product = Product::findOrFail($itemData['id']);
 
-                    // Check stock availability
+                    // Verificar disponibilidad de stock
                     if ($product->stock < $itemData['quantity']) {
                         throw new \Exception('Stock insuficiente para el producto: ' . $product->name);
                     }
 
-                    // Decrement stock
+                    // Decrementar stock
                     $product->stock -= $itemData['quantity'];
                     $product->save();
 
-                    // Create new OrderItem
+                    // Crear nuevo ítem de pedido
                     OrderItem::create([
                         'order_id' => $order->id,
                         'product_id' => $product->id,
                         'quantity' => $itemData['quantity'],
-                        'price' => $product->price, // Store the price at the time of purchase
+                        'price' => $product->price,
                     ]);
                 }
             }
@@ -178,12 +175,12 @@ class OrderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina el recurso especificado del almacenamiento.
      */
     public function destroy(Order $order)
     {
         DB::transaction(function () use ($order) {
-            // Restore stock for all items in the order
+            // Restaurar stock para todos los ítems del pedido
             foreach ($order->items as $item) {
                 $product = Product::find($item->product_id);
                 if ($product) {
@@ -192,14 +189,14 @@ class OrderController extends Controller
                 }
             }
 
-            $order->delete(); // This will also delete related order items via cascade delete
+            $order->delete(); // Esto también eliminará los ítems relacionados vía cascada
         });
         
         return redirect()->route('admin.orders.index')->with('success', 'Pedido eliminado exitosamente y stock restaurado.');
     }
 
     /**
-     * Accept the specified order (API).
+     * Acepta el pedido especificado (API).
      */
     public function apiAccept(Order $order)
     {
@@ -212,7 +209,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Ship the specified order (API).
+     * Envía el pedido especificado (API).
      */
     public function apiShip(Request $request, Order $order)
     {
@@ -241,10 +238,10 @@ class OrderController extends Controller
             try {
                 Mail::to($order->user->email)->send(new InvoiceMail($order));
             } catch (\Exception $e) {
-                // Loguear error pero no detener el proceso de respuesta
+                // Registrar error pero no detener el proceso de respuesta
                 \Log::error('Error enviando factura al pedido ' . $order->id . ': ' . $e->getMessage());
                 
-                // Si es un reintento y falla el correo, igual devolvemos éxito del pedido
+                // Si es un reintento y falla el correo, devolvemos éxito del pedido igualmente
                 return response()->json([
                     'message' => 'Pedido marcado como enviado, pero hubo un problema enviando el correo de la factura.', 
                     'order' => $order->load(['user', 'items.product']),
@@ -264,12 +261,12 @@ class OrderController extends Controller
     }
 
     /**
-     * Cancel/Reject the specified order (API).
+     * Cancela/Rechaza el pedido especificado (API).
      */
     public function apiCancel(Order $order)
     {
         DB::transaction(function () use ($order) {
-            // Restore stock
+            // Restaurar stock
             foreach ($order->items as $item) {
                 $product = Product::find($item->product_id);
                 if ($product) {
@@ -284,7 +281,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Accept the specified order.
+     * Acepta el pedido especificado.
      */
     public function accept(Order $order)
     {
@@ -297,13 +294,13 @@ class OrderController extends Controller
     }
 
     /**
-     * Ship the specified order.
+     * Envía el pedido especificado.
      */
-    public function ship(OrderUpdateRequest $request, Order $order) // Changed Request to OrderUpdateRequest
+    public function ship(OrderUpdateRequest $request, Order $order)
     {
         if ($order->status === 'accepted') {
-            $order->update($request->validated()); // Update the order with shipping details
-            $order->status = 'shipped'; // Explicitly set status to shipped
+            $order->update($request->validated()); // Actualiza el pedido con detalles de envío
+            $order->status = 'shipped'; // Establece el estado a enviado explícitamente
             $order->save();
 
             // Enviar factura por correo

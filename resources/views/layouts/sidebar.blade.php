@@ -1,4 +1,4 @@
-<aside class="fixed inset-y-0 left-0 w-64 bg-primary-950 text-nautical-100 transition-transform duration-300 transform z-30 overflow-y-auto shadow-2xl border-r border-primary-900">
+<aside class="w-64 h-full bg-primary-950 text-nautical-100 flex flex-col z-30 overflow-y-auto border-r border-primary-900">
     <div class="flex items-center justify-center h-20 border-b border-primary-900 bg-black/10 backdrop-blur-md">
         <a href="/" class="flex items-center space-x-3 group">
              <div class="bg-white p-1 rounded-lg w-8 h-8 flex items-center justify-center shadow-lg transform group-hover:rotate-3 transition-transform">

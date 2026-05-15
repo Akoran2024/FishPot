@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Árbol de Directorios - FishPot</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', SegoeUI, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            padding: 40px;
+        }
+        .tree-container {
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 20px;
+            background-color: #fafbfc;
+            display: inline-block;
+            min-width: 400px;
+        }
+        ul.tree, ul.tree ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        ul.tree ul {
+            margin-left: 20px;
+            border-left: 1px solid #ddd;
+        }
+        ul.tree li {
+            margin: 0;
+            padding: 5px 10px;
+            line-height: 20px;
+            position: relative;
+        }
+        ul.tree li::before {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 10px;
+            height: 1px;
+            background-color: #ddd;
+        }
+        .folder {
+            font-weight: bold;
+            color: #0366d6;
+        }
+        .folder::before {
+            content: "📁 ";
+        }
+        .file {
+            color: #24292e;
+        }
+        .file::before {
+            content: "📄 ";
+        }
+        .root {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="color: #2c3e50; margin-bottom: 20px;">Estructura de Directorios del Proyecto</h2>
+    
+    <div class="tree-container">
+        <span class="folder root">FishPot/</span>
+        <ul class="tree">
+            <li><span class="folder">app/</span>
+                <ul>
+                    <li><span class="folder">Http/</span>
+                        <ul>
+                            <li><span class="folder">Controllers/</span>
+                                <ul>
+                                    <li><span class="folder">Admin/</span>
+                                        <ul><li><span class="file">UserController.php</span></li></ul>
+                                    </li>
+                                    <li><span class="folder">Auth/</span>
+                                        <ul>
+                                            <li><span class="file">AuthenticatedSessionController.php</span></li>
+                                            <li><span class="file">RegisteredUserController.php</span></li>
+                                            <li><span class="file">...</span></li>
+                                        </ul>
+                                    </li>
+                                    <li><span class="file">ClientController.php</span></li>
+                                    <li><span class="file">OrderController.php</span></li>
+                                    <li><span class="file">ProductController.php</span></li>
+                                    <li><span class="file">StripeController.php</span></li>
+                                    <li><span class="file">TideController.php</span></li>
+                                </ul>
+                            </li>
+                            <li><span class="folder">Middleware/</span>
+                                <ul><li><span class="file">AdminMiddleware.php</span></li></ul>
+                            </li>
+                            <li><span class="folder">Requests/</span>
+                                <ul>
+                                    <li><span class="file">OrderStoreRequest.php</span></li>
+                                    <li><span class="file">ProductStoreRequest.php</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><span class="folder">Models/</span>
+                        <ul>
+                            <li><span class="file">Client.php</span></li>
+                            <li><span class="file">Order.php</span></li>
+                            <li><span class="file">Product.php</span></li>
+                            <li><span class="file">User.php</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="folder">config/</span>
+                <ul>
+                    <li><span class="file">app.php</span></li>
+                    <li><span class="file">database.php</span></li>
+                    <li><span class="file">services.php</span></li>
+                </ul>
+            </li>
+            <li><span class="folder">database/</span>
+                <ul>
+                    <li><span class="folder">migrations/</span>
+                        <ul>
+                            <li><span class="file">2026_02_11_create_products_table.php</span></li>
+                            <li><span class="file">2026_02_13_create_orders_table.php</span></li>
+                            <li><span class="file">...</span></li>
+                        </ul>
+                    </li>
+                    <li><span class="folder">seeders/</span>
+                        <ul><li><span class="file">ProductSeeder.php</span></li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="folder">public/</span>
+                <ul>
+                    <li><span class="folder">imagenes/</span>
+                        <ul>
+                            <li><span class="file">mero.jpg</span></li>
+                            <li><span class="file">vieja.jpg</span></li>
+                            <li><span class="file">...</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="folder">resources/</span>
+                <ul>
+                    <li><span class="folder">js/</span>
+                        <ul>
+                            <li><span class="folder">views/</span>
+                                <ul>
+                                    <li><span class="file">Home.vue</span></li>
+                                    <li><span class="file">Shop.vue</span></li>
+                                    <li><span class="file">Cart.vue</span></li>
+                                    <li><span class="file">Tides.vue</span></li>
+                                </ul>
+                            </li>
+                            <li><span class="folder">stores/</span>
+                                <ul>
+                                    <li><span class="file">cart.js</span></li>
+                                    <li><span class="file">auth.js</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><span class="folder">views/</span>
+                        <ul><li><span class="file">app.blade.php</span></li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="folder">routes/</span>
+                <ul>
+                    <li><span class="file">api.php</span></li>
+                    <li><span class="file">web.php</span></li>
+                </ul>
+            </li>
+            <li><span class="file">.env</span></li>
+            <li><span class="file">composer.json</span></li>
+            <li><span class="file">docker-compose.yml</span></li>
+            <li><span class="file">package.json</span></li>
+            <li><span class="file">vite.config.js</span></li>
+        </ul>
+    </div>
+
+</body>
+</html>
