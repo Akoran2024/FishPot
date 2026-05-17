@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/stripe/success', [StripeController::class, 'success']);
 
 Route::get('/dashboard', function () {
-    return redirect('/');
+    return redirect('/inicio');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';

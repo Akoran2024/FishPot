@@ -16,7 +16,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div :class="['flex justify-between items-center transition-all duration-500', isScrolled ? 'h-16' : 'h-24']">
           <div class="flex items-center space-x-8">
-            <router-link to="/" class="flex items-center space-x-4 group">
+            <router-link :to="homeLink" class="flex items-center space-x-4 group">
               <div class="relative">
                 <div class="absolute inset-0 bg-primary-400 blur-lg opacity-0 group-hover:opacity-20 transition-opacity rounded-full"></div>
                 <img :src="'/imagenes/Vieja.png'" alt="Logo" class="h-9 w-auto filter brightness-110 group-hover:-rotate-3 transition-transform duration-500 relative z-10" />
@@ -43,7 +43,7 @@
               <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
             </button>
 
-            <router-link to="/" class="text-[10px] font-black uppercase tracking-[0.2em] text-primary-400 hover:text-white transition-all italic border-b border-primary-800/50 hover:border-primary-400 pb-1">
+            <router-link :to="homeLink" class="text-[10px] font-black uppercase tracking-[0.2em] text-primary-400 hover:text-white transition-all italic border-b border-primary-800/50 hover:border-primary-400 pb-1">
                 Volver a la Web
             </router-link>
             
@@ -57,10 +57,10 @@
     </nav>
 
     <!-- Navbar Principal Mejorado -->
-    <nav v-if="!isAdminRoute" class="sticky top-0 z-50 w-full bg-primary-950/95 dark:bg-black/95 backdrop-blur-md text-nautical-100 shadow-2xl border-b border-white/5 transition-all duration-500">
+    <nav v-if="!isAdminRoute && !isLandingRoute" class="sticky top-0 z-50 w-full bg-primary-950/95 dark:bg-black/95 backdrop-blur-md text-nautical-100 shadow-2xl border-b border-white/5 transition-all duration-500">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div :class="['flex justify-between items-center transition-all duration-500', isScrolled ? 'h-16' : 'h-24']">
-          <router-link to="/" class="flex items-center space-x-4 group">
+          <router-link :to="homeLink" class="flex items-center space-x-4 group">
             <div class="relative">
                 <div class="absolute inset-0 bg-primary-400 blur-xl opacity-0 group-hover:opacity-20 transition-opacity rounded-full"></div>
                 <img :src="'/imagenes/Vieja.png'" alt="Logo" class="h-10 w-auto filter brightness-110 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500 relative z-10" />
@@ -187,7 +187,7 @@
     </main>
 
     <!-- Footer Mejorado -->
-    <footer v-if="!isAdminRoute" class="bg-primary-950 dark:bg-black text-nautical-100 relative z-10 overflow-hidden transition-colors duration-500">
+    <footer v-if="!isAdminRoute && !isLandingRoute" class="bg-primary-950 dark:bg-black text-nautical-100 relative z-10 overflow-hidden transition-colors duration-500">
       <!-- Decoración Superior -->
       <div class="h-2 w-full bg-gradient-to-r from-primary-600 via-sea-400 to-primary-600"></div>
       
@@ -336,6 +336,14 @@ onUnmounted(() => {
 
 const isAdminRoute = computed(() => {
   return route.path.startsWith('/admin')
+})
+
+const isLandingRoute = computed(() => {
+  return route.name === 'landing'
+})
+
+const homeLink = computed(() => {
+  return authStore.user ? '/inicio' : '/'
 })
 
 const logout = async () => {

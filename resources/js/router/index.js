@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import Home from '../views/Home.vue'
+import Landing from '../views/Landing.vue'
 import Tides from '../views/Tides.vue'
 import Species from '../views/Species.vue'
 import Shop from '../views/Shop.vue'
@@ -20,7 +21,8 @@ import MyOrders from '../views/MyOrders.vue'
 import AdminDashboard from '../views/admin/Dashboard.vue'
 
 const routes = [
-  { path: '/', name: 'home', component: Home },
+  { path: '/', name: 'landing', component: Landing },
+  { path: '/inicio', name: 'home', component: Home },
   { path: '/mareas', name: 'tides', component: Tides },
   { path: '/especies', name: 'species', component: Species },
   { path: '/lugares', name: 'locations', component: Locations },
@@ -58,7 +60,9 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 
-  if (to.meta.requiresAuth && !authStore.user) {
+  if (to.name === 'landing' && authStore.user) {
+    next('/inicio')
+  } else if (to.meta.requiresAuth && !authStore.user) {
     next('/login')
   } else {
     next()
